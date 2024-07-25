@@ -13,7 +13,7 @@ const BodyHome = () => {
     return branches[Math.floor(Math.random() * branches.length)];
   };
 
-  const listProduct = Array.from({ length: 50 }, (_, index) => ({
+  const listProduct = Array.from({ length: 21 }, (_, index) => ({
     id: index,
     product_name: `Tên product ${index}`,
     name: `Nguyễn Văn ${index}`,

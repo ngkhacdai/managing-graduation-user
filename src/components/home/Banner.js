@@ -1,9 +1,9 @@
 import React from "react";
-
+import banner from "@/assets/banner.jpg";
 const Banner = () => {
   return (
-    <div className="w-full h-56 overflow-hidden">
-      <img className="w-full h-full object-cover" src="" alt="no img" />
+    <div className="w-full h-96 overflow-hidden">
+      <img className="w-full h-96" src={banner.src} alt="no img" />
     </div>
   );
 };
