@@ -1,23 +1,19 @@
 import { NextResponse } from "next/server";
-import { jwtVerify } from "jose";
-
-const secretKey = new TextEncoder().encode("your-very-secure-secret-key");
 
 export async function middleware(req) {
   const path = req.nextUrl.pathname;
   const isAuth = ["/login", "/"];
   const token = req.cookies.get("token")?.value;
-
+  const role = req.cookies.get("role")?.value;
+  console.log(role);
   try {
-    if (!isAuth.includes(path) && !token) {
+    if (!isAuth.includes(path) && !token && !role) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    if (token) {
-      const { payload: decoded } = await jwtVerify(token, secretKey);
-      req.user = decoded;
+    if (token && role) {
       const headers = new Headers(req.headers);
-      headers.set("role", decoded.role);
+      headers.set("role", role);
       return NextResponse.next({
         request: {
           headers,
