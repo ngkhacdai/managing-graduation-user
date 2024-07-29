@@ -22,7 +22,7 @@ const LoginForm = ({ changeForm }) => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
-        className="lg:w-96"
+        className="xl:w-96"
       >
         <Form.Item
           label="Email"

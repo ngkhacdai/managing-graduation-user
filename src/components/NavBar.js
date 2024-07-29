@@ -3,7 +3,7 @@ import React from "react";
 import logo from "@/assets/logo.png";
 import { Button } from "antd";
 
-const TeacherNavBar = () => {
+const NavBarUser = () => {
   return (
     <div className="sticky top-0 z-10 border-b-2 border-inherit drop-shadow-lg bg-white opacity-85 flex justify-between items-center">
       <Link href="/">
@@ -14,4 +14,4 @@ const TeacherNavBar = () => {
   );
 };
 
-export default TeacherNavBar;
+export default NavBarUser;

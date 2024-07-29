@@ -1,0 +1,38 @@
+"use client";
+import React from "react";
+import { useRouter } from "next/navigation";
+import { Button, Popover } from "antd";
+import Link from "next/link";
+const SideBarScreen = ({ userData }) => {
+  const route = useRouter();
+
+  const goToPage = (page) => {
+    route.push(page);
+  };
+  return (
+    <div className="flex h-dvh flex-col pt-5 border-r-2 border-inherit items-center">
+      <Popover title={<p className="text-center">Show Profile</p>}>
+        <Link href={"/profile"}>
+          <img
+            className=" w-28 h-28 cursor-pointer"
+            src={userData.avatar}
+            alt="avatar"
+          />
+        </Link>
+      </Popover>
+      <div className="flex m-2">
+        <Button
+          onClick={() => {
+            goToPage("/project");
+          }}
+          className="mr-2"
+        >
+          Home
+        </Button>
+        <Button>Library</Button>
+      </div>
+    </div>
+  );
+};
+
+export default SideBarScreen;
