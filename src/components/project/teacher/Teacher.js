@@ -7,6 +7,7 @@ const TeacherComponent = () => {
     id: index,
     projectName: `project-${index}`,
     studentName: `student-${index}`,
+    teacherName: `teacher`,
     status: `Processing`,
   }));
 

@@ -5,7 +5,6 @@ export async function middleware(req) {
   const isAuth = ["/login", "/"];
   const token = req.cookies.get("token")?.value;
   const role = req.cookies.get("role")?.value;
-  console.log(role);
   try {
     if (!isAuth.includes(path) && !token && !role) {
       return NextResponse.redirect(new URL("/login", req.url));

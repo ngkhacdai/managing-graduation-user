@@ -20,16 +20,16 @@ const SideBarScreen = ({ userData }) => {
           />
         </Link>
       </Popover>
-      <div className="flex m-2">
+      <div className="flex m-2 flex-col lg:flex-row">
         <Button
           onClick={() => {
             goToPage("/project");
           }}
-          className="mr-2"
+          className="m-2"
         >
           Home
         </Button>
-        <Button>Library</Button>
+        <Button className="m-2">Library</Button>
       </div>
     </div>
   );

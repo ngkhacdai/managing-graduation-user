@@ -1,9 +1,11 @@
 "use client";
 import { Button, Table } from "antd";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { BiSolidUserDetail } from "react-icons/bi";
 
 const TeacherContent = ({ projectData }) => {
+  const route = useRouter();
   const columns = [
     {
       title: "No",
@@ -37,13 +39,26 @@ const TeacherContent = ({ projectData }) => {
       key: "detail",
       render: (record) => {
         return (
-          <Button type="primary">
+          <Button
+            onClick={() => {
+              handleDetailProject(record);
+            }}
+            type="primary"
+          >
             <BiSolidUserDetail />
           </Button>
         );
       },
     },
   ];
+  const handleDetailProject = (record) => {
+    const params = new URLSearchParams();
+    params.set("studentName", record.studentName);
+    params.set("teacherName", record.teacherName);
+    params.set("projectName", record.projectName);
+    params.set("projectId", record.id);
+    route.push(`/project/detail?${params.toString()}`);
+  };
   return (
     <div>
       <p className="font-bold text-xl pb-2">Your Project</p>
