@@ -4,18 +4,20 @@ import React, { useEffect, useState } from "react";
 import { FaUpload, FaLink, FaFileAlt } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 
-const CommentScreen = () => {
+const Comment = () => {
   const [showComment, setShowComment] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
   const [form] = Form.useForm();
   const handleComment = () => {
-    setShowComment(!showComment);
+    setShowComment(true);
   };
 
-  useEffect(() => {
-    console.log(fileList);
-  }, [fileList]);
+  const handleCancelComment = () => {
+    setShowComment(false);
+    setFileList([]);
+    form.resetFields();
+  };
 
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
@@ -39,12 +41,13 @@ const CommentScreen = () => {
   const handleAddLink = () => {
     const formValue = form.getFieldValue();
     console.log(formValue);
+    setFileList([...fileList, formValue]);
     setIsShowModal(false);
     form.resetFields(["link"]);
   };
 
   return (
-    <div className="w-11/12 min-h-14 mx-auto">
+    <div className="">
       {showComment ? (
         <div className="mt-2">
           <TextArea
@@ -59,20 +62,48 @@ const CommentScreen = () => {
                   className="flex justify-between items-center border-2 rounded-lg my-2 "
                 >
                   <div className="flex items-center">
-                    <div className="w-28 h-20 flex items-center justify-center border-r-2">
-                      {item.type.startsWith("image/") ? (
+                    <div className="w-28 h-20 flex items-center border-r-2">
+                      {item?.type?.startsWith("image/") ? (
                         <Image
-                          className="w-28 h-20 rounded-l-lg"
+                          className="min-w-28 max-w-28 max-h-20 rounded-l-lg"
                           src={URL.createObjectURL(item.originFileObj)}
                           alt={item.name}
                         />
+                      ) : item?.link ? (
+                        <div>
+                          <img
+                            src={`
+                        https://api.screenshotone.com/take?
+	access_key=VNLCZ-l26Dk-JA
+	&url=${encodeURIComponent(item.link)}
+	&full_page=false
+	&viewport_width=1920
+	&viewport_height=1080
+	&device_scale_factor=1
+	&format=jpg
+	&image_quality=80
+	&block_ads=true
+	&block_cookie_banners=true
+	&block_banners_by_heuristics=false
+	&block_trackers=true
+	&delay=0
+	&timeout=60`}
+                          />
+                        </div>
                       ) : (
                         <div className="text-center">
                           <FaFileAlt className="text-2xl" />
                         </div>
                       )}
                     </div>
-                    <p className="pl-2">{item.name}</p>
+                    <p className="pl-2">{item?.name}</p>
+                    <a
+                      style={{ display: "table-cell" }}
+                      href={item.link}
+                      target="_blank"
+                    >
+                      {item.link}
+                    </a>
                   </div>
                   <MdDeleteForever
                     onClick={() => {
@@ -100,7 +131,7 @@ const CommentScreen = () => {
               </Button>
             </div>
             <div>
-              <Button onClick={handleComment} className="mr-2">
+              <Button onClick={handleCancelComment} className="mr-2">
                 Cancel
               </Button>
               <Button type="primary">Post</Button>
@@ -133,4 +164,4 @@ const CommentScreen = () => {
   );
 };
 
-export default CommentScreen;
+export default Comment;

@@ -7,6 +7,16 @@ const ProjectDetailComponent = ({ searchParams }) => {
   const role = headList.get("role");
   const fakeData = {
     projectName: "project-0",
+    task: Array.from({ length: 10 }, (_, index) => ({
+      id: index,
+      taskName: `task-${index}`,
+      deadline: "2022-01-01 23:59",
+    })),
+    taskNotFinish: Array.from({ length: 3 }, (_, index) => ({
+      id: index,
+      taskName: `task-${index}`,
+      deadline: "2022-01-01 23:59",
+    })),
   };
   if (
     !searchParams.studentName ||

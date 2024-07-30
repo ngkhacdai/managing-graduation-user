@@ -10,7 +10,7 @@ const SideBarScreen = ({ userData }) => {
     route.push(page);
   };
   return (
-    <div className="flex h-dvh flex-col pt-5 border-r-2 border-inherit items-center">
+    <div className="flex h-full flex-col pt-5 border-r-2 border-inherit items-center">
       <Popover title={<p className="text-center">Show Profile</p>}>
         <Link href={"/profile"}>
           <img
