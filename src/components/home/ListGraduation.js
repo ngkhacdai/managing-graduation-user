@@ -1,4 +1,4 @@
-import { Card, Col, Row } from "antd";
+import { Card, Col, Pagination, Row } from "antd";
 import React from "react";
 
 const ListGraduation = ({ listProduct }) => {
@@ -19,6 +19,7 @@ const ListGraduation = ({ listProduct }) => {
                   xl={8}
                 >
                   <Card
+                    className="border-2 border-inherit border-solid"
                     title={<p className="line-clamp-1">{item.product_name}</p>}
                   >
                     <div className="flex items-center">
@@ -40,6 +41,9 @@ const ListGraduation = ({ listProduct }) => {
             <p>No product</p>
           )}
         </Row>
+        <div className="flex justify-center items-center my-2">
+          <Pagination responsive={true} total={500} pageSize={21} />
+        </div>
       </div>
     </div>
   );

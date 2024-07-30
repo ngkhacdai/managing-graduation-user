@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import LoginForm from "./LoginForm";
 import ForgotPasswordForm from "./ForgotPasswordForm";
-import loginBackgroubd from "@/assets/login_bg.png";
+import loginBackgroubd from "@/assets/login_bg.jpg";
+import logo from "@/assets/logo.png";
 const LoginScreen = () => {
   const [isLogin, setIsLogin] = useState(true);
   const changeForm = () => {
@@ -12,6 +13,9 @@ const LoginScreen = () => {
     <div className="w-screen h-screen flex">
       <div className="w-1/3 flex mx-auto  items-center justify-center">
         <div className="mx-auto">
+          <div className="flex justify-center items-center">
+            <img className="w-28 h-28" src={logo.src} />
+          </div>
           {isLogin ? (
             <LoginForm changeForm={changeForm} />
           ) : (
