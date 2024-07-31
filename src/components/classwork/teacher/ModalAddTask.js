@@ -57,6 +57,7 @@ const ModalAddTask = () => {
   return (
     <div>
       <Button
+        className="w-24 h-12 rounded-full"
         type="primary"
         onClick={() => {
           setIsShowModal(!isShowModal);
@@ -67,9 +68,8 @@ const ModalAddTask = () => {
       </Button>
       <Modal
         centered={true}
-        className=" w-full h-full"
-        width="100VW"
-        height="100VH"
+        className=""
+        width="7s0%"
         onCancel={handleCancel}
         open={isShowModal}
         closeIcon={false}
@@ -86,8 +86,8 @@ const ModalAddTask = () => {
           );
         }}
       >
-        <div className="min-h-[40.874rem] flex flex-col md:flex-row">
-          <div className="md:w-3/4 md:bg-gray-300 py-5 px-0 md:px-28">
+        <div className=" flex flex-col md:flex-row">
+          <div className="md:w-3/4 md:bg-gray-300 py-2 px-0 md:px-5">
             <TaskForm form={form} fileList={fileList} deleteFile={deleteFile} />
             <UploadSection props={props} showModalAddLink={showModalAddLink} />
           </div>

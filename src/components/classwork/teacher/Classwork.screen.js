@@ -5,7 +5,7 @@ import ListClasswork from "./ListClasswork";
 
 const ClassworkScreen = ({ listClasswork }) => {
   return (
-    <div>
+    <div className=" mx-auto w-full md:w-2/3">
       <ModalAddTask />
       <ListClasswork listClasswork={listClasswork} />
     </div>
