@@ -3,11 +3,11 @@ import ClassworkItem from "./ClassworkItem";
 
 const ListClasswork = ({ listClasswork }) => {
   return (
-    <div>
+    <div className="mt-2">
       {listClasswork?.length > 0 &&
         listClasswork?.map((classwork, index) => (
           <div key={`classwork item - ${index}`}>
-            <ClassworkItem classwork={classwork} />
+            <ClassworkItem classworkItem={classwork} />
           </div>
         ))}
     </div>

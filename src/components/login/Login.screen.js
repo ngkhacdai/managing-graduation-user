@@ -11,7 +11,7 @@ const LoginScreen = () => {
   };
   return (
     <div className="w-screen h-screen flex">
-      <div className="w-1/3 flex mx-auto  items-center justify-center">
+      <div className="w-full md:w-1/3 flex mx-auto  items-center justify-center">
         <div className="mx-auto">
           <div className="flex justify-center items-center">
             <img className="w-28 h-28" src={logo.src} />
