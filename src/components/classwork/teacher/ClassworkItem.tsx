@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { GoTasklist } from "react-icons/go";
 
@@ -16,9 +16,10 @@ interface ClassworkItemProps {
 
 const ClassworkItem: React.FC<ClassworkItemProps> = ({ classworkItem }) => {
   const [classworkDetail, setClassworkDetail] = useState(false);
+  const seachParam = useSearchParams();
   const route = useRouter();
   const viewDetailClasswork = () => {
-    route.push(`/project/detail/classwork/${classworkItem.id}`);
+    route.push(`/project/detail/classwork/${classworkItem.id}?${seachParam}`);
   };
   return (
     <div

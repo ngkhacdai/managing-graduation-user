@@ -69,7 +69,7 @@ const ModalAddTask = () => {
       <Modal
         centered={true}
         className=""
-        width="7s0%"
+        width="60%"
         onCancel={handleCancel}
         open={isShowModal}
         closeIcon={false}

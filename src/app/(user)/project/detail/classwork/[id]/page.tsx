@@ -4,7 +4,7 @@ import React from "react";
 const ClassworkDetailPage = ({ params }) => {
   return (
     <div>
-      <ClassworkDetail params={params} />
+      <ClassworkDetail searchParams={params} />
     </div>
   );
 };
