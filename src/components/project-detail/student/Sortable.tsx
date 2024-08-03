@@ -5,7 +5,7 @@ import Draggable from "./Draggable";
 
 const Sortable = ({ item }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item });
+    useSortable({ id: item.id });
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -19,7 +19,7 @@ const Sortable = ({ item }) => {
       {...listeners}
       style={style}
     >
-      <Draggable draggable={item} />
+      <Draggable draggable={item.title} />
     </div>
   );
 };

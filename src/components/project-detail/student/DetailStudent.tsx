@@ -4,20 +4,33 @@ import {
   DndContext,
   KeyboardSensor,
   PointerSensor,
-  rectIntersection,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import React, { useState } from "react";
 import Droppable from "./Droppable";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { Button } from "antd";
+import { FaPlus } from "react-icons/fa";
 
 const DetailStudent = () => {
-  const [items, setItems] = useState({
-    root: ["1", "2"],
-    container1: ["4", "5", "6"],
-    container2: ["7", "8", "9"],
-  });
+  const [items, setItems] = useState([
+    {
+      id: "todo",
+      title: "To do",
+      list: [
+        { id: 1, title: "Task 1" },
+        { id: 5, title: "Task 5" },
+        { id: 4, title: "Task 4" },
+      ],
+    },
+    {
+      id: "in-progress",
+      title: "In progress",
+      list: [{ id: 2, title: "Task 2" }],
+    },
+    { id: "done", title: "Done", list: [{ id: 3, title: "Task 3" }] },
+  ]);
   const [activeId, setActiveId] = useState();
 
   const sensors = useSensors(
@@ -28,17 +41,17 @@ const DetailStudent = () => {
   );
 
   const findContainer = (id) => {
-    if (id in items) {
-      return id;
+    for (const container of items) {
+      if (container.list.find((item) => item.id === id)) {
+        return container;
+      }
     }
-
-    return Object.keys(items).find((key) => items[key].includes(id));
+    return items.find((container) => container.id === id) || null;
   };
 
   const handleDragStart = (event) => {
     const { active } = event;
     const { id } = active;
-
     setActiveId(id);
   };
 
@@ -53,76 +66,87 @@ const DetailStudent = () => {
     if (
       !activeContainer ||
       !overContainer ||
-      activeContainer === overContainer
+      activeContainer.id === overContainer.id
     ) {
       return;
     }
 
     setItems((prev) => {
-      const activeItems = prev[activeContainer];
-      const overItems = prev[overContainer];
+      const activeItems = [...activeContainer.list];
+      const overItems = [...overContainer.list];
 
-      const activeIndex = activeItems.indexOf(id);
-      const overIndex = overItems.indexOf(overId);
-
+      const activeIndex = activeItems.findIndex((item) => item.id === id);
       let newIndex;
-      if (overId in prev) {
-        newIndex = overItems.length + 1;
+      if (overId == null) {
+        newIndex = overItems.length;
       } else {
+        const overIndex = overItems.findIndex((item) => item.id === overId);
         const isBelowLastItem =
           over &&
           overIndex === overItems.length - 1 &&
           draggingRect &&
           over.rect &&
           draggingRect.offsetTop > over.rect.offsetTop + over.rect.height;
-
         const modifier = isBelowLastItem ? 1 : 0;
-
-        newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
+        newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length;
       }
 
-      return {
-        ...prev,
-        [activeContainer]: activeItems.filter((item) => item !== id),
-        [overContainer]: [
-          ...overItems.slice(0, newIndex),
-          activeItems[activeIndex],
-          ...overItems.slice(newIndex),
-        ],
-      };
+      return prev.map((container) => {
+        if (container.id === activeContainer.id) {
+          return {
+            ...container,
+            list: activeItems.filter((item) => item.id !== id),
+          };
+        } else if (container.id === overContainer.id) {
+          return {
+            ...container,
+            list: [
+              ...overItems.slice(0, newIndex),
+              activeItems[activeIndex],
+              ...overItems.slice(newIndex),
+            ],
+          };
+        } else {
+          return container;
+        }
+      });
     });
   };
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
     const { id } = active;
-    const { id: overId } = over;
+    const { id: overId } = over || {};
 
     const activeContainer = findContainer(id);
     const overContainer = findContainer(overId);
-
     if (
       !activeContainer ||
       !overContainer ||
-      activeContainer !== overContainer
+      activeContainer.id !== overContainer.id
     ) {
       return;
     }
 
-    const activeIndex = items[activeContainer].indexOf(id);
-    const overIndex = items[overContainer].indexOf(overId);
+    const activeIndex = activeContainer.list.findIndex(
+      (item) => item.id === id
+    );
+    const overIndex = overContainer.list.findIndex(
+      (item) => item.id === overId
+    );
 
     if (activeIndex !== overIndex) {
-      setItems((items) => ({
-        ...items,
-        [overContainer]: arrayMove(
-          items[overContainer],
-          activeIndex,
-          overIndex
-        ),
-      }));
+      setItems((prev) =>
+        prev.map((container) =>
+          container.id === activeContainer.id
+            ? {
+                ...container,
+                list: arrayMove(container.list, activeIndex, overIndex),
+              }
+            : container
+        )
+      );
     }
-
     setActiveId(null);
   };
 
@@ -136,11 +160,13 @@ const DetailStudent = () => {
         onDragEnd={handleDragEnd}
       >
         <div className="flex">
-          {Object.keys(items).map((key) => (
-            <div key={key}>
-              <Droppable id={key} items={items[key]} />
-            </div>
+          {items.map((item, index) => (
+            <Droppable key={index} items={item} />
           ))}
+          <Button className="flex items-center m-2 w-72 h-14 justify-start rounded-xl">
+            <FaPlus />
+            <p>Add new board</p>
+          </Button>
         </div>
       </DndContext>
     </div>
