@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import TeacherProjectDetailScreen from "./teacher/TeacherProjectDetail.screen";
+import DetailStudent from "./student/DetailStudent";
 
 const ProjectDetailComponent = ({ searchParams }) => {
   const headList = headers();
@@ -18,15 +19,15 @@ const ProjectDetailComponent = ({ searchParams }) => {
       deadline: "2022-01-01 23:59",
     })),
   };
-  if (
-    !searchParams.studentName ||
-    !searchParams.teacherName ||
-    !searchParams.projectName ||
-    !searchParams.projectId
-  ) {
-    return redirect("/project");
-  }
-  return <TeacherProjectDetailScreen data={fakeData} />;
+  return (
+    <div>
+      {role === "teacher" ? (
+        <TeacherProjectDetailScreen data={fakeData} />
+      ) : (
+        <DetailStudent />
+      )}
+    </div>
+  );
 };
 
 export default ProjectDetailComponent;
