@@ -25,20 +25,28 @@ const DetailStudent = () => {
       id: "container-1",
       title: "To do",
       list: [
-        { id: "task-1", title: "Task 1", detail: [] },
-        { id: "task-5", title: "Task 5", detail: [] },
-        { id: "task-4", title: "Task 4", detail: [] },
+        {
+          id: "task-1",
+          title: "Task 1",
+          detail: { detail: "abc", comment: [] },
+        },
+        { id: "task-5", title: "Task 5", detail: { detail: "", comment: [] } },
+        { id: "task-4", title: "Task 4", detail: { detail: "", comment: [] } },
       ],
     },
     {
       id: "container-2",
       title: "In progress",
-      list: [{ id: "task-2", title: "Task 2", detail: [] }],
+      list: [
+        { id: "task-2", title: "Task 2", detail: { detail: "", comment: [] } },
+      ],
     },
     {
       id: "container-3",
       title: "Done",
-      list: [{ id: "task-3", title: "Task 3", detail: [] }],
+      list: [
+        { id: "task-3", title: "Task 3", detail: { detail: "", comment: [] } },
+      ],
     },
   ]);
   const [title, setTitle] = useState("");
@@ -159,7 +167,11 @@ const DetailStudent = () => {
     const taskId = `task-${(((1 + Math.random()) * 0x10000) | 0)
       .toString(16)
       .substring(1)}`;
-    items[findItem].list.push({ title, id: taskId, detail: [] });
+    items[findItem].list.push({
+      title,
+      id: taskId,
+      detail: { detail: "", comment: [] },
+    });
     setItems(copyItems);
   };
 
@@ -187,7 +199,16 @@ const DetailStudent = () => {
   const deleteBoard = (boardId) => {
     setItems(items.filter((item) => item.id !== boardId));
   };
-
+  const deleteTask = (containerId: string, taskId: string) => {
+    const newItems = [...items];
+    const findContainer = newItems.findIndex(
+      (container) => container.id === containerId
+    );
+    newItems[findContainer].list = newItems[findContainer].list.filter(
+      (task) => task.id !== taskId
+    );
+    setItems(newItems);
+  };
   const DraggableContainer = ({ container }) => (
     <div className="flex flex-col w-72 min-h-28 p-2 bg-gray-100 m-2 rounded-xl">
       <div className="flex justify-between mx-1 items-center">
@@ -212,10 +233,9 @@ const DetailStudent = () => {
   );
 
   return (
-    <div className="w-full overflow-auto h-[42rem] bg-blue-500 shadow-inner">
+    <div className="w-full overflow-auto h-[38.7rem] bg-blue-500 shadow-inner">
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCenter}
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
@@ -231,6 +251,9 @@ const DetailStudent = () => {
                   items={item}
                   deleteBoard={deleteBoard}
                   addItemInList={addItemInList}
+                  deleteTask={(containerId: string, taskId: string) => {
+                    deleteTask(containerId, taskId);
+                  }}
                 />
               </div>
             ))}
@@ -267,8 +290,7 @@ const DetailStudent = () => {
           {activeId ? (
             activeId.startsWith("container-") ? (
               <DraggableContainer container={findContainerById(activeId)} />
-            ) : // Check if findItemById returns null or undefined
-            findItemById(activeId)?.item ? (
+            ) : findItemById(activeId)?.item ? (
               <div className="w-full flex items-center justify-between bg-white py-2 border-inherit border-2 rounded-xl m-1">
                 <div className="px-2">{findItemById(activeId).item.title}</div>
               </div>

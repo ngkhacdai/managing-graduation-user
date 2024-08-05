@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import TeacherProjectDetailScreen from "./teacher/TeacherProjectDetail.screen";
 import DetailStudent from "./student/DetailStudent";
+import Navigation from "./Navigation";
 
 const ProjectDetailComponent = ({ searchParams }) => {
   const headList = headers();
@@ -21,6 +22,7 @@ const ProjectDetailComponent = ({ searchParams }) => {
   };
   return (
     <div>
+      <Navigation projectName={fakeData.projectName} />
       {role === "teacher" ? (
         <TeacherProjectDetailScreen data={fakeData} />
       ) : (

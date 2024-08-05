@@ -12,7 +12,7 @@ import { IoMdClose } from "react-icons/io";
 import { CSS } from "@dnd-kit/utilities";
 import { MdOutlineDragIndicator } from "react-icons/md";
 
-const Droppable = ({ items, addItemInList, deleteBoard }) => {
+const Droppable = ({ items, addItemInList, deleteBoard, deleteTask }) => {
   const [showNewCard, setShowNewCard] = useState(false);
   const [title, setTitle] = useState("");
   const [isShowModalDelete, setIsShowModalDelete] = useState(false);
@@ -64,7 +64,13 @@ const Droppable = ({ items, addItemInList, deleteBoard }) => {
       >
         {items.list.map((item) => (
           <div key={`task-${item.id}`}>
-            <Sortable containerId={items.id} item={item} />
+            <Sortable
+              deleteTask={(containerId: string, taskId: string) => {
+                deleteTask(containerId, taskId);
+              }}
+              containerId={items.id}
+              item={item}
+            />
           </div>
         ))}
       </SortableContext>
