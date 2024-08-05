@@ -4,8 +4,6 @@ import React from "react";
 import { BiSolidUserDetail } from "react-icons/bi";
 
 const TableProject = ({ projectData }) => {
-  console.log(projectData);
-
   const route = useRouter();
   const columns = [
     {
