@@ -1,9 +1,11 @@
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import TeacherProjectDetailScreen from "./teacher/TeacherProjectDetail.screen";
-import DetailStudent from "./student/DetailStudent";
 import Navigation from "./Navigation";
-
+import dynamic from "next/dynamic";
+const DetailStudent = dynamic(() => import("./student/DetailStudent"), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 const ProjectDetailComponent = ({ searchParams }) => {
   const headList = headers();
   const role = headList.get("role");
@@ -22,11 +24,13 @@ const ProjectDetailComponent = ({ searchParams }) => {
   };
   return (
     <div>
-      <Navigation projectName={fakeData.projectName} />
+      <Navigation />
       {role === "teacher" ? (
         <TeacherProjectDetailScreen data={fakeData} />
       ) : (
-        <DetailStudent />
+        <div className="bg-blue-500 h-[38.7rem] w-full">
+          <DetailStudent />
+        </div>
       )}
     </div>
   );

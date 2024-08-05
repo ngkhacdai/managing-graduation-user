@@ -1,4 +1,5 @@
 import "./globals.css";
+import StoreProvider from "./StoreProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -8,7 +9,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true}>{children}</body>
+      <StoreProvider>
+        <body suppressHydrationWarning={true}>{children}</body>
+      </StoreProvider>
     </html>
   );
 }

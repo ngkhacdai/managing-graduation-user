@@ -5,7 +5,7 @@ import { Button } from "antd";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import ModalDetailTask from "./ModalDetailTask";
 
-const Sortable = ({ containerId, item, deleteTask }) => {
+const Sortable = ({ containerId, item }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: item.id,
@@ -36,6 +36,7 @@ const Sortable = ({ containerId, item, deleteTask }) => {
       </div>
       {isShowModal && (
         <ModalDetailTask
+          containerId={containerId}
           setIsShowModal={(cancel) => {
             setIsShowModal(cancel);
           }}

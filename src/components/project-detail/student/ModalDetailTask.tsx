@@ -1,13 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { FaChalkboard, FaCommentAlt, FaFileAlt, FaLink } from "react-icons/fa";
+import {
+  FaChalkboard,
+  FaChalkboardTeacher,
+  FaCommentAlt,
+  FaFileAlt,
+  FaLink,
+} from "react-icons/fa";
 import { BiSolidDetail } from "react-icons/bi";
 import TextArea from "antd/es/input/TextArea";
 import { MdDeleteForever } from "react-icons/md";
-import { Button, Image, Modal, Upload } from "antd";
+import { Button, Image, message, Modal, Popover, Upload } from "antd";
+import { useDispatch } from "react-redux";
+import {
+  commentTask,
+  deleteImage,
+  deleteTask,
+  updateDescriptionTask,
+} from "@/redux/slices/ProjectDetailSlice";
+import { PiStudent } from "react-icons/pi";
 
-const ModalDetailTask = ({ item, setIsShowModal }) => {
-  const [detail, setDetail] = useState("");
-  const [command, setCommand] = useState("");
+const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
+  const dispatch = useDispatch();
+  const [messageApi, contextHolder] = message.useMessage();
+  const [detail, setDetail] = useState(item.detail.description);
+  const [open, setOpen] = useState(false);
+  const [comment, setComment] = useState("");
   const [fileList, setFileList] = useState([]);
   const [isShowModalDetail, setIsShowModalDetail] = useState(false);
   useEffect(() => {
@@ -17,7 +34,7 @@ const ModalDetailTask = ({ item, setIsShowModal }) => {
     setIsShowModalDetail(false);
     setTimeout(() => {
       setIsShowModal(false);
-    }, 700);
+    }, 300);
   };
   const deleteFile = (index) => {
     setFileList([...fileList.slice(0, index), ...fileList.slice(index + 1)]);
@@ -34,17 +51,46 @@ const ModalDetailTask = ({ item, setIsShowModal }) => {
     setDetail("");
     setFileList([]);
   };
+
   const onSaveDetail = () => {
-    clearFormDetail();
+    dispatch(
+      updateDescriptionTask({
+        containerId,
+        taskId: item.id,
+        description: detail,
+      })
+    );
+    messageApi.success("Save description successfully");
   };
+
   const clearFormComment = () => {
-    setCommand("");
+    setComment("");
+  };
+
+  const onDeleteTask = async () => {
+    dispatch(deleteTask({ containerId: containerId, taskId: item.id, detail }));
+  };
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
+  const deleteImageByUrl = (url) => {
+    dispatch(deleteImage({ url, containerId, taskId: item.id }));
   };
   const onSaveComment = () => {
+    dispatch(
+      commentTask({
+        containerId,
+        taskId: item.id,
+        comment,
+        role: "Student",
+      })
+    );
     clearFormComment();
+    messageApi.success("Save comment successfully");
   };
   return (
     <div>
+      {contextHolder}
       <Modal
         width={630}
         open={isShowModalDetail}
@@ -52,7 +98,31 @@ const ModalDetailTask = ({ item, setIsShowModal }) => {
         footer={() => {
           return (
             <div>
-              <Button>Delete Task</Button>
+              <Popover
+                arrow={false}
+                content={
+                  <div>
+                    <p className="text-red-500 font-semibold text-lg">
+                      You can not undo when delete this: {item.title}
+                    </p>
+                    <p>Do you still want to delele?</p>
+                    <div className="text-right">
+                      <Button
+                        className="!bg-red-500 hover:!bg-red-400"
+                        type="primary"
+                        onClick={onDeleteTask}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                }
+                trigger="click"
+                open={open}
+                onOpenChange={handleOpenChange}
+              >
+                <Button>Delete Task</Button>
+              </Popover>
             </div>
           );
         }}
@@ -81,11 +151,47 @@ const ModalDetailTask = ({ item, setIsShowModal }) => {
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="my-2">
+              {item.detail.fileList.map(
+                (items: { url: string; title: string }, index: number) => {
+                  return (
+                    <div
+                      key={`Url-Image-${index}`}
+                      className="flex justify-between items-center border-2 max-w-[34rem] rounded-lg my-2"
+                    >
+                      <div className="flex items-center">
+                        <div>
+                          {items.url.match(/\.(jpeg|jpg|gif|png)$/) != null ? (
+                            <Image
+                              className="min-w-28 max-w-28 max-h-20 rounded-l-lg"
+                              src={items.url}
+                              alt={item.title}
+                            />
+                          ) : (
+                            <div className="text-center">
+                              <FaFileAlt className="text-2xl" />
+                            </div>
+                          )}
+                        </div>
+                        <p className="pl-2 max-w-96 line-clamp-1">
+                          {item?.title}
+                        </p>
+                      </div>
+                      <MdDeleteForever
+                        onClick={() => {
+                          deleteImageByUrl(items.url);
+                        }}
+                        size={28}
+                        className="mr-5 cursor-pointer"
+                      />
+                    </div>
+                  );
+                }
+              )}
               {fileList.length > 0 &&
                 fileList.map((item, index) => (
                   <div
                     key={`file-${index}`}
-                    className="flex justify-between items-center border-2 max-w-[34rem] rounded-lg my-2 "
+                    className="flex justify-between items-center border-2 max-w-[34rem] rounded-lg my-2"
                   >
                     <div className="flex items-center">
                       <div className="w-28 h-20 flex items-center justify-center border-r-2">
@@ -115,7 +221,12 @@ const ModalDetailTask = ({ item, setIsShowModal }) => {
             </div>
             <div className="flex justify-between items-center mt-2">
               <div>
-                <Button type="primary" onClick={onSaveDetail}>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    onSaveDetail();
+                  }}
+                >
                   Save
                 </Button>
                 <Button className="mx-2" onClick={clearFormDetail}>
@@ -136,21 +247,40 @@ const ModalDetailTask = ({ item, setIsShowModal }) => {
             <p className="text-slate-600 font-semibold text-lg ">Comment</p>
             <TextArea
               autoSize={true}
-              value={command}
-              onChange={(e) => setCommand(e.target.value)}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               styles={{
                 textarea: {
                   width: "100%",
                   minHeight: 50,
                 },
               }}
-              placeholder="Task details"
+              placeholder="Comment"
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="flex justify-between items-center mt-2">
               <Button type="primary" onClick={onSaveComment}>
                 Save
               </Button>
+            </div>
+            <div className="mt-2">
+              {item.detail.comment.map((items, index) => {
+                return (
+                  <div key={`comment-${index}`}>
+                    <div className="flex items-center">
+                      <div className="border-2 p-2 bg-slate-400 rounded-full">
+                        {items.role === "Teacher" ? (
+                          <FaChalkboardTeacher size={24} />
+                        ) : (
+                          <PiStudent size={24} />
+                        )}
+                      </div>
+
+                      <p className="pl-2">{items.comment}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

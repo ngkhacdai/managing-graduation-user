@@ -11,30 +11,38 @@ import { FaPlus } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { CSS } from "@dnd-kit/utilities";
 import { MdOutlineDragIndicator } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { addItemInList, deleteBoard } from "@/redux/slices/ProjectDetailSlice";
 
-const Droppable = ({ items, addItemInList, deleteBoard, deleteTask }) => {
+const Droppable = ({ items }) => {
+  const dispatch = useDispatch();
   const [showNewCard, setShowNewCard] = useState(false);
   const [title, setTitle] = useState("");
   const [isShowModalDelete, setIsShowModalDelete] = useState(false);
 
   const { setNodeRef, attributes, listeners, transform, transition } =
     useSortable({ id: items.id });
+
   const cancelAddNewCard = () => {
     setShowNewCard(false);
     setTitle("");
   };
+
   const addNewCard = () => {
-    addItemInList(items.id, title);
+    dispatch(addItemInList({ items: items.id, title }));
     cancelAddNewCard();
   };
+
   const handleDeleteBoard = () => {
     setIsShowModalDelete(true);
   };
+
   const handleCancelDelete = () => {
     setIsShowModalDelete(false);
   };
+
   const onDeleteBoard = () => {
-    deleteBoard(items.id);
+    dispatch(deleteBoard({ boardId: items.id }));
   };
 
   return (
@@ -64,13 +72,7 @@ const Droppable = ({ items, addItemInList, deleteBoard, deleteTask }) => {
       >
         {items.list.map((item) => (
           <div key={`task-${item.id}`}>
-            <Sortable
-              deleteTask={(containerId: string, taskId: string) => {
-                deleteTask(containerId, taskId);
-              }}
-              containerId={items.id}
-              item={item}
-            />
+            <Sortable containerId={items.id} item={item} />
           </div>
         ))}
       </SortableContext>
