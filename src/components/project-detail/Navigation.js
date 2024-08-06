@@ -1,15 +1,18 @@
 "use client";
+import { Button } from "antd";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
-const Navigation = () => {
+const Navigation = ({ role }) => {
   const searchParams = useSearchParams();
   return (
-    <div className="py-3 px-7 bg-blue-700">
-      <p className="font-bold text-white text-lg">
-        Project: {searchParams.get("projectName")}
-      </p>
-    </div>
+    <>
+      <div className=" px-7 flex items-center justify-between bg-blue-700">
+        <p className="py-2 font-bold text-white text-lg">
+          Project: {searchParams.get("projectName")}
+        </p>
+      </div>
+    </>
   );
 };
 

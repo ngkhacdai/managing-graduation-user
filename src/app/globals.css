@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ant-layout-sider-trigger {
+  background-color: rgb(84, 170, 255) !important;
+  color: black !important;
+}

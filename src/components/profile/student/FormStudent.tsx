@@ -3,7 +3,7 @@ import { Button, Form, Input, Select, Image, Upload } from "antd";
 import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 
-const FormProfile = () => {
+const FormStudent = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState([]);
@@ -51,6 +51,18 @@ const FormProfile = () => {
           branch: "Computer Science",
         }}
       >
+        <Form.Item
+          label="Student code"
+          name="id"
+          rules={[
+            {
+              required: true,
+              message: "Please input your email!",
+            },
+          ]}
+        >
+          <Input disabled />
+        </Form.Item>
         <Form.Item
           label="Email"
           name="email"
@@ -113,32 +125,8 @@ const FormProfile = () => {
               message: "Please input your work place!",
             },
           ]}
-          label="Work Place"
-          name="workPlace"
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          rules={[
-            {
-              required: true,
-              message: "Please input your degree!",
-            },
-          ]}
-          label="Degree"
-          name="degree"
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          rules={[
-            {
-              required: true,
-              message: "Please input your academic rank!",
-            },
-          ]}
-          label="Academic Rank"
-          name="academicRank"
+          label="Year"
+          name="year"
         >
           <Input />
         </Form.Item>
@@ -149,7 +137,7 @@ const FormProfile = () => {
               message: "Please input your password!",
             },
           ]}
-          label="Password"
+          label="New Password"
           name="password"
         >
           <Input.Password />
@@ -200,4 +188,4 @@ const FormProfile = () => {
   );
 };
 
-export default FormProfile;
+export default FormStudent;
