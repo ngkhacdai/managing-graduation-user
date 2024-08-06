@@ -43,8 +43,10 @@ const FormProfile = () => {
   return (
     <div className="flex justify-center items-center text-center">
       <Form
-        layout="vertical"
-        className="w-2/3"
+        layout="horizontal"
+        className="md:w-1/2 w-full"
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 20 }}
         initialValues={{
           branch: "Computer Science",
         }}

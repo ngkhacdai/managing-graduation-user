@@ -24,11 +24,13 @@ const ProjectDetailComponent = ({ searchParams }) => {
   };
   return (
     <div>
-      <Navigation />
+      <Navigation role={role} />
       {role === "teacher" ? (
-        <DetailProject data={fakeData} />
+        <div className="bg-blue-500 h-[39.2rem] w-full">
+          <DetailProject data={fakeData} />
+        </div>
       ) : (
-        <div className="bg-blue-500 h-[38.7rem] w-full">
+        <div className="bg-blue-500 h-[39.2rem] w-full">
           <DetailStudent />
         </div>
       )}

@@ -70,7 +70,7 @@ const DetailProject = () => {
   );
 
   return (
-    <div className="w-full overflow-auto h-[38.7rem] bg-blue-500 shadow-inner">
+    <div className="w-full overflow-auto h-[39rem] bg-blue-500 shadow-inner">
       <DndContext
         sensors={sensors}
         onDragStart={(event) => dispatch(handleDragStart({ event }))}
