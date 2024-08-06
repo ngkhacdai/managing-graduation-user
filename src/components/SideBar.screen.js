@@ -50,11 +50,11 @@ const SideBarScreen = ({ children }) => {
               icon: <RiProfileLine />,
               label: <Link href={"/profile"}>Profile</Link>,
             },
-            {
-              key: "/instruct",
-              icon: <MdIntegrationInstructions />,
-              label: <Link href={"/project"}>Instruct</Link>,
-            },
+            // {
+            //   key: "/instruct",
+            //   icon: <MdIntegrationInstructions />,
+            //   label: <Link href={"/project"}>Instruct</Link>,
+            // },
           ]}
         />
       </Sider>

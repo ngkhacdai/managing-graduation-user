@@ -87,7 +87,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         })
       );
       clearFormComment();
-      messageApi.success("Save comment successfully");
+      return messageApi.success("Save comment successfully");
     }
     return messageApi.error("Comment is empty");
   };

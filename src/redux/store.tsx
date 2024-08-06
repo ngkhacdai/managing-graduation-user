@@ -1,8 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 import ProjectDetailReducer from "./slices/ProjectDetailSlice";
 export const makeStore = () => {
   return configureStore({
     reducer: { projectDetail: ProjectDetailReducer },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }),
   });
 };
 
