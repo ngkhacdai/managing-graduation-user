@@ -61,7 +61,7 @@ const TeacherContent = ({ projectData }) => {
   };
   return (
     <div>
-      <p className="font-bold text-xl pb-2">Your Project</p>
+      <p className="font-semibold text-xl text-zinc-500 m-2">Your Project</p>
       <Table dataSource={projectData} rowKey={"id"} columns={columns} />
     </div>
   );

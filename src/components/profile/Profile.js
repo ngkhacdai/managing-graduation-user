@@ -7,7 +7,7 @@ const ProfileComponent = () => {
   const role = headers().get("role");
   return (
     <div className="p-2">
-      <p className="text-xl font-bold">Your Profile</p>
+      <p className="font-semibold text-xl text-zinc-500 m-2">Your Profile</p>
       {role === "teacher" ? <FormProfile /> : <FormStudent />}
     </div>
   );

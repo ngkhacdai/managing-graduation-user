@@ -30,6 +30,9 @@ export async function middleware(req) {
     }
 
     if (token && role) {
+      if (path === "/login") {
+        return NextResponse.redirect(new URL("/project", req.url));
+      }
       if (role === "teacher" && ["/project/signup"].includes(path)) {
         return NextResponse.redirect(new URL("/project", req.url));
       }
