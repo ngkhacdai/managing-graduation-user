@@ -21,7 +21,9 @@ const FilterTeacher = ({ listBranch }) => {
         <div className="flex p-2 items-center">
           <p className="pr-2">Select branch</p>
           <Select
+            mode="tags"
             defaultValue="all"
+            maxCount={1}
             className="w-40"
             onChange={handleChangeBranch}
             options={options}

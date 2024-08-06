@@ -1,4 +1,5 @@
 import { Form, Input, Modal } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useState } from "react";
 
 const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, form }) => {
@@ -26,6 +27,9 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, form }) => {
         >
           <Form.Item label="Topic Name" name={"topicName"}>
             <Input />
+          </Form.Item>
+          <Form.Item label="Description" name={"description"}>
+            <TextArea />
           </Form.Item>
           <Form.Item label="Teacher Name" name={"teacherName"}>
             <Input disabled={true} />

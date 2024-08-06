@@ -18,7 +18,16 @@ const initialState = {
                 title: "Image 1",
               },
             ],
-            comment: [],
+            comment: [
+              {
+                role: "Student",
+                comment: "Student comment",
+              },
+              {
+                role: "Teacher",
+                comment: "Teacher comment",
+              },
+            ],
           },
         },
         {

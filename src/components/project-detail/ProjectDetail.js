@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
-import TeacherProjectDetailScreen from "./teacher/TeacherProjectDetail.screen";
 import Navigation from "./Navigation";
 import dynamic from "next/dynamic";
+import DetailProject from "./teacherv2/DetailStudent";
 const DetailStudent = dynamic(() => import("./student/DetailStudent"), {
   ssr: false,
   loading: () => <p>Loading...</p>,
@@ -26,7 +26,7 @@ const ProjectDetailComponent = ({ searchParams }) => {
     <div>
       <Navigation />
       {role === "teacher" ? (
-        <TeacherProjectDetailScreen data={fakeData} />
+        <DetailProject data={fakeData} />
       ) : (
         <div className="bg-blue-500 h-[38.7rem] w-full">
           <DetailStudent />
