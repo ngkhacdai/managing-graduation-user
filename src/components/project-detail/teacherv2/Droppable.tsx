@@ -58,12 +58,12 @@ const Droppable = ({ items }) => {
       <div className="flex justify-between mx-1 items-center">
         <p className="">{items.title}</p>
         <div className="flex">
-          <Button type="text" className="py-0 px-2" {...listeners}>
+          {/* <Button type="text" className="py-0 px-2" {...listeners}>
             <MdOutlineDragIndicator />
           </Button>
           <Button onClick={handleDeleteBoard} type="text">
             <IoMdClose />
-          </Button>
+          </Button> */}
         </div>
       </div>
       <SortableContext

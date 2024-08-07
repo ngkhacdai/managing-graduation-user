@@ -39,9 +39,9 @@ const Sortable = ({ containerId, item }) => {
               </div>
             )}
           </div>
-          <Button type="text" className="h-full" {...listeners}>
+          {/* <Button type="text" className="h-full" {...listeners}>
             <MdOutlineDragIndicator />
-          </Button>
+          </Button> */}
         </div>
       </div>
       {isShowModal && (

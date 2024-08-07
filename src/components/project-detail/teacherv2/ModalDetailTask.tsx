@@ -267,26 +267,28 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
                 Save
               </Button>
             </div>
-            <div className="mt-2">
-              {item.detail.comment.map((items, index) => {
-                return (
-                  <div key={`comment-${index}`}>
-                    <div className="flex items-center">
-                      <div className="border-2 p-2 bg-slate-400 rounded-full">
-                        {items.role === "Teacher" ? (
-                          <FaChalkboardTeacher size={24} />
-                        ) : (
-                          <PiStudent size={24} />
-                        )}
-                      </div>
-
-                      <p className="pl-2">{items.comment}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
           </div>
+        </div>
+        <div className="mt-2">
+          {item.detail.comment.map((items, index) => {
+            return (
+              <div key={`comment-${index}`}>
+                <div className="flex my-1">
+                  <div className="border-2 p-1 w-8 h-8 bg-slate-400 rounded-full flex items-center justify-between">
+                    {items.role === "Teacher" ? (
+                      <FaChalkboardTeacher size={16} />
+                    ) : (
+                      <PiStudent size={16} />
+                    )}
+                  </div>
+
+                  <p className="ml-1 p-2 w-full border-2 border-inherit rounded-lg">
+                    {items.comment}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </Modal>
     </div>
