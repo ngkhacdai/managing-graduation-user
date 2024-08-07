@@ -31,8 +31,8 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
     setIsShowModalDetail(true);
   }, []);
   const onCancelDetail = () => {
+    clearFormDetail();
     setIsShowModalDetail(false);
-    clearFormComment();
     setTimeout(() => {
       setIsShowModal(false);
     }, 300);

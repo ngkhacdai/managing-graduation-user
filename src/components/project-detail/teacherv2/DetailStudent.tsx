@@ -7,13 +7,14 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import React from "react";
+import React, { useCallback } from "react";
 import Droppable from "./Droppable";
 import {
   horizontalListSortingStrategy,
   SortableContext,
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
+import debounce from "lodash.debounce";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -68,13 +69,27 @@ const DetailProject = () => {
       </div>
     </div>
   );
+  const handleDragOverEvent = (event) => {
+    const { active, over } = event;
+    if (active.id.startsWith("task-") && over.id.startsWith("container-")) {
+      debouncedHandleDragOver(event);
+    } else {
+      dispatch(handleDragOver({ event }));
+    }
+  };
 
+  const debouncedHandleDragOver = useCallback(
+    debounce((event) => {
+      dispatch(handleDragOver({ event }));
+    }, 100),
+    [dispatch]
+  );
   return (
     <div className="w-full overflow-auto h-[39rem] bg-blue-500 shadow-inner">
       <DndContext
         sensors={sensors}
         onDragStart={(event) => dispatch(handleDragStart({ event }))}
-        onDragOver={(event) => dispatch(handleDragOver({ event }))}
+        onDragOver={handleDragOverEvent}
         onDragEnd={(event) => dispatch(handleDragEnd({ event }))}
       >
         <SortableContext

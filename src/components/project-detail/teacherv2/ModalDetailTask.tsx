@@ -32,6 +32,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
   }, []);
   const onCancelDetail = () => {
     setIsShowModalDetail(false);
+    clearFormDetail();
     setTimeout(() => {
       setIsShowModal(false);
     }, 300);
