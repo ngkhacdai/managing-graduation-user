@@ -71,6 +71,9 @@ const DetailProject = () => {
   );
   const handleDragOverEvent = (event) => {
     const { active, over } = event;
+    if (!over) {
+      return;
+    }
     if (active.id.startsWith("task-") && over.id.startsWith("container-")) {
       debouncedHandleDragOver(event);
     } else {
@@ -85,27 +88,27 @@ const DetailProject = () => {
     [dispatch]
   );
   return (
-    <div className="w-full overflow-auto h-[39rem] bg-blue-500 shadow-inner">
-      {/* <DndContext
+    <div className="w-full overflow-auto h-screen bg-blue-500 shadow-inner">
+      <DndContext
         sensors={sensors}
         onDragStart={(event) => dispatch(handleDragStart({ event }))}
         onDragOver={handleDragOverEvent}
         onDragEnd={(event) => dispatch(handleDragEnd({ event }))}
-      > */}
-      <SortableContext
-        items={items.map((item) => item.id)}
-        strategy={horizontalListSortingStrategy}
       >
-        <div className="flex">
-          {items.map((item) => (
-            <div key={item.id}>
-              <Droppable items={item} />
-            </div>
-          ))}
-          <AddNewBoard />
-        </div>
-      </SortableContext>
-      {/* <DragOverlay adjustScale={false}>
+        <SortableContext
+          items={items.map((item) => item.id)}
+          strategy={horizontalListSortingStrategy}
+        >
+          <div className="flex">
+            {items.map((item) => (
+              <div key={item.id}>
+                <Droppable items={item} />
+              </div>
+            ))}
+            <AddNewBoard />
+          </div>
+        </SortableContext>
+        <DragOverlay adjustScale={false}>
           {activeId ? (
             activeId.startsWith("container-") ? (
               <DraggableContainer container={findContainerById(activeId)} />
@@ -116,7 +119,7 @@ const DetailProject = () => {
             ) : null
           ) : null}
         </DragOverlay>
-      </DndContext> */}
+      </DndContext>
     </div>
   );
 };

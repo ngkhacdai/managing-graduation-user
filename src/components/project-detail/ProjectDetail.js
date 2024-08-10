@@ -9,28 +9,15 @@ const DetailStudent = dynamic(() => import("./student/DetailStudent"), {
 const ProjectDetailComponent = ({ searchParams }) => {
   const headList = headers();
   const role = headList.get("role");
-  const fakeData = {
-    projectName: "project-0",
-    task: Array.from({ length: 10 }, (_, index) => ({
-      id: index,
-      taskName: `task-${index}`,
-      deadline: "2022-01-01 23:59",
-    })),
-    taskNotFinish: Array.from({ length: 3 }, (_, index) => ({
-      id: index,
-      taskName: `task-${index}`,
-      deadline: "2022-01-01 23:59",
-    })),
-  };
   return (
-    <div>
+    <div className="min-h-screen bg-blue-500">
       <Navigation role={role} />
       {role === "teacher" ? (
-        <div className="bg-blue-500 h-[39.2rem] w-full">
-          <DetailProject data={fakeData} />
+        <div className=" w-full">
+          <DetailProject />
         </div>
       ) : (
-        <div className="bg-blue-500 h-[39.2rem] w-full">
+        <div className=" w-full">
           <DetailStudent />
         </div>
       )}

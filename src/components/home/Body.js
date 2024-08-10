@@ -25,8 +25,12 @@ const BodyHome = () => {
 
   return (
     <div className="flex w-full">
-      <NavFillter />
-      <ListGraduation listProduct={listProduct} />
+      <div className="w-1/4">
+        <NavFillter />
+      </div>
+      <div className="w-3/4">
+        <ListGraduation listProduct={listProduct} />
+      </div>
     </div>
   );
 };

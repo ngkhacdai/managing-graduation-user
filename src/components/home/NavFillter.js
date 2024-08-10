@@ -17,7 +17,7 @@ const NavFillter = ({ listCkb = [] }) => {
   };
 
   return (
-    <div className="w-1/4 p-2">
+    <div className="w-full p-2">
       <Search
         className="h-10"
         placeholder="input search text"
@@ -36,7 +36,10 @@ const NavFillter = ({ listCkb = [] }) => {
           { value: "Year", label: "Year" },
         ]}
       />
-      <Checkbox.Group className="w-full flex flex-col" onChange={onChange}>
+      <Checkbox.Group
+        className="w-full flex flex-col max-w-full"
+        onChange={onChange}
+      >
         {listCkb?.map((item) => {
           return (
             <Checkbox key={item.id} value={item.value}>
@@ -44,7 +47,9 @@ const NavFillter = ({ listCkb = [] }) => {
             </Checkbox>
           );
         })}
-        <Checkbox value="A">A</Checkbox>
+        <Checkbox className="line-clamp-1 flex max-w-56 container" value="A">
+          AAAAAAAAAAAAAAAAAAAAAAAA
+        </Checkbox>
         <Checkbox value="B">B</Checkbox>
         <Checkbox value="C">C</Checkbox>
         <Checkbox value="D">D</Checkbox>
