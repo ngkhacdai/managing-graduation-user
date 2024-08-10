@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { AudioOutlined } from "@ant-design/icons";
 import { Checkbox, Input, Select, Space } from "antd";
+import { useTranslations } from "next-intl";
 const { Search } = Input;
 
 const NavFillter = ({ listCkb = [] }) => {
+  const t = useTranslations("HomePage");
   const onSearch = (value, _e, info) => console.log(info?.source, value);
 
   const suffix = <AudioOutlined style={{ fontSize: 16, color: "#1677ff" }} />;
@@ -20,7 +22,7 @@ const NavFillter = ({ listCkb = [] }) => {
     <div className="w-full p-2">
       <Search
         className="h-10"
-        placeholder="input search text"
+        placeholder={`${t("search input")}`}
         size="middle"
         suffix={suffix}
         onSearch={onSearch}
