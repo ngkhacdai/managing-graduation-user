@@ -1,8 +1,9 @@
 "use client";
-import { Button, Table } from "antd";
+import { Button, Table, Tooltip } from "antd";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { BiSolidUserDetail } from "react-icons/bi";
+import { MdPublish } from "react-icons/md";
 
 const LibraryScreen = ({ projectData }) => {
   const route = useRouter();
@@ -35,18 +36,27 @@ const LibraryScreen = ({ projectData }) => {
       key: "status",
     },
     {
-      title: "Detail",
-      key: "detail",
+      title: "Action",
+      key: "action",
       render: (record) => {
         return (
-          <Button
-            onClick={() => {
-              handleDetailProject(record);
-            }}
-            type="primary"
-          >
-            <BiSolidUserDetail />
-          </Button>
+          <div className="flex ">
+            <Tooltip className="mx-2" title={"Detail"}>
+              <Button
+                onClick={() => {
+                  handleDetailProject(record);
+                }}
+                type="primary"
+              >
+                <BiSolidUserDetail />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Publish">
+              <Button>
+                <MdPublish />
+              </Button>
+            </Tooltip>
+          </div>
         );
       },
     },
@@ -62,7 +72,12 @@ const LibraryScreen = ({ projectData }) => {
   return (
     <div>
       <p className="font-semibold text-xl text-zinc-500 m-2">Your Library</p>
-      <Table dataSource={projectData} rowKey={"id"} columns={columns} />
+      <Table
+        scroll={{ x: 600 }}
+        dataSource={projectData}
+        rowKey={"id"}
+        columns={columns}
+      />
     </div>
   );
 };

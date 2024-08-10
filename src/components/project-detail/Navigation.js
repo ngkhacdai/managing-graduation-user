@@ -11,6 +11,12 @@ const Navigation = ({ role }) => {
         <p className="py-2 font-bold text-white text-lg">
           Project: {searchParams.get("projectName")}
         </p>
+        <p className="py-2 font-bold text-white text-lg">
+          Student Name: {searchParams.get("studentName")}
+        </p>
+        <p className="py-2 font-bold text-white text-lg">
+          Teacher Name: {searchParams.get("teacherName")}
+        </p>
       </div>
     </>
   );

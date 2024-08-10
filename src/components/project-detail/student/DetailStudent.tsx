@@ -71,6 +71,9 @@ const DetailProject = () => {
   );
   const handleDragOverEvent = (event) => {
     const { active, over } = event;
+    if (!over) {
+      return;
+    }
     if (active.id.startsWith("task-") && over.id.startsWith("container-")) {
       debouncedHandleDragOver(event);
     } else {
@@ -85,7 +88,7 @@ const DetailProject = () => {
     [dispatch]
   );
   return (
-    <div className="w-full overflow-auto h-[39rem] bg-blue-500 shadow-inner">
+    <div className="w-full overflow-auto h-[43rem] bg-blue-500 shadow-inner">
       <DndContext
         sensors={sensors}
         onDragStart={(event) => dispatch(handleDragStart({ event }))}

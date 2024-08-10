@@ -10,20 +10,25 @@ const LoginScreen = () => {
     setIsLogin(!isLogin);
   };
   return (
-    <div className="w-screen h-screen flex">
-      <div className="w-full md:w-1/3 flex mx-auto  items-center justify-center">
-        <div className="mx-auto">
-          <div className="flex justify-center items-center">
-            <img className="w-28 h-28" src={logo.src} />
+    <div className="w-5/6 h-screen flex mx-auto items-center justify-center">
+      <div className="flex border-2 h-5/6  border-inherit rounded-xl shadow-lg">
+        <div className="w-full md:w-1/3 flex mx-auto items-center justify-center">
+          <div className="mx-auto">
+            <div className="flex justify-center items-center">
+              <img className="w-16 h-16" src={logo.src} />
+            </div>
+            {isLogin ? (
+              <LoginForm changeForm={changeForm} />
+            ) : (
+              <ForgotPasswordForm changeForm={changeForm} />
+            )}
           </div>
-          {isLogin ? (
-            <LoginForm changeForm={changeForm} />
-          ) : (
-            <ForgotPasswordForm changeForm={changeForm} />
-          )}
         </div>
+        <img
+          className="w-2/3 md:block hidden rounded-r-xl"
+          src={loginBackgroubd.src}
+        />
       </div>
-      <img className="w-2/3 md:block hidden" src={loginBackgroubd.src} />
     </div>
   );
 };

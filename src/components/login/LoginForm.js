@@ -9,25 +9,24 @@ const LoginForm = ({ changeForm }) => {
   const router = useRouter();
   const [loadingButton, setLoadingButton] = useState(false);
   const onFinish = async (values) => {
-    if (values.email == "teacher" || values.email == "student") {
-      setLoadingButton(true);
-      const form = {
-        email: values.email,
-        password: values.password,
-      };
-      const result = await login(form);
-      console.log(result);
+    setLoadingButton(true);
+    const form = {
+      userName: values.email,
+      password: values.password,
+    };
+    console.log(form);
 
-      if (!result.success) {
-        messageApi.error("Login failed email or password is incorrect");
-        setLoadingButton(false);
-        return;
-      }
-      messageApi.success("Login success ❤❤");
-      router.push("/project");
+    const result = await login(form);
+    console.log(result);
+
+    if (!result.success) {
+      messageApi.error("Login failed email or password is incorrect");
+      setLoadingButton(false);
       return;
     }
-    return messageApi.error("Login failed email or password is incorrect");
+    messageApi.success("Login success ❤❤");
+    router.push("/project");
+    return;
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -47,15 +46,15 @@ const LoginForm = ({ changeForm }) => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
-        className="xl:w-[28rem] lg:w-[20rem] md:w-[15rem] md:px-0 px-5 w-screen"
+        className="xl:w-[21rem] lg:w-[17rem] md:w-[13rem] md:px-0 px-5 sm:w-[30rem] w-80"
       >
         <Form.Item
-          label="Email"
+          label="Username"
           name="email"
           rules={[
             {
               required: true,
-              message: "Please input your email!",
+              message: "Please input your username!",
             },
           ]}
         >

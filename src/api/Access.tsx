@@ -1,38 +1,51 @@
 "use server";
+import { fail } from "assert";
 import { cookies } from "next/headers";
 
 export const login = async (form) => {
   const cookie = cookies();
-  await cookie.set(
-    "token",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-    {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
+  try {
+    const res = await fetch(`${process.env.API_URL}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+
+    if (!res.ok) {
+      console.log(res);
+
+      throw new Error("Network response was not ok");
     }
-  );
 
-  if (form.email === "teacher") {
-    await cookie.set("role", "teacher", {
+    const data = await res.json();
+
+    await cookie.set("token", data.token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
     });
-  } else {
-    await cookie.set("role", "student", {
+
+    await cookie.set("role", data.role.toLowerCase(), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
     });
+
+    return {
+      success: true,
+      message: "Login successful",
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      success: false,
+      message: "Something went wrong, please try again.",
+    };
   }
-
-  return {
-    success: true,
-  };
 };
 
 export const logoutApi = async () => {

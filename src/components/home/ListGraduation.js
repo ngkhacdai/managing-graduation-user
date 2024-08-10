@@ -13,24 +13,34 @@ const ListGraduation = ({ listProduct }) => {
                 <Col
                   key={`graduation-${index}`}
                   xs={24}
-                  sm={12}
+                  sm={24}
                   md={12}
                   lg={8}
                   xl={8}
                 >
                   <Card
                     className="border-2 border-inherit border-solid"
-                    title={<p className="line-clamp-1">{item.product_name}</p>}
+                    title={<p className="truncate">{item.product_name}</p>}
                   >
                     <div className="flex items-center">
-                      <p className="w-10 mr-2 h-10 rounded-full bg-red-500 flex-shrink-0"></p>
+                      <div className="w-10 mr-2 h-10 rounded-full bg-red-500 flex-shrink-0"></div>
                       <div className="flex-grow w-full">
-                        <p className="truncate line-clamp-1">
-                          {item.name} - {item.msv}
+                        {item.name.length > 20 ? (
+                          <div>
+                            <p className="line-clamp-1">{item.name}</p>
+                            <p>{item.msv}</p>
+                          </div>
+                        ) : (
+                          <p className="truncate">
+                            {item.name} - {item.msv}
+                          </p>
+                        )}
+
+                        <p className="truncate">Ngành học: {item.branch}</p>
+                        <p className="truncate">GVHD: {item.instructors}</p>
+                        <p className="text-end truncate">
+                          Mark: {item.point}/10
                         </p>
-                        <p className="line-clamp-1">Ngành học: {item.branch}</p>
-                        <p className="line-clamp-1">GVHD: {item.instructors}</p>
-                        <p className="text-end line-clamp-1">{item.point}/10</p>
                       </div>
                     </div>
                   </Card>
