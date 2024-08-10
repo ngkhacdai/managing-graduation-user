@@ -15,7 +15,7 @@ const ListGraduation = ({ listProduct }) => {
                   xs={24}
                   sm={24}
                   md={12}
-                  lg={8}
+                  lg={12}
                   xl={8}
                 >
                   <Card
@@ -25,19 +25,12 @@ const ListGraduation = ({ listProduct }) => {
                     <div className="flex items-center">
                       <div className="w-10 mr-2 h-10 rounded-full bg-red-500 flex-shrink-0"></div>
                       <div className="flex-grow w-full">
-                        {item.name.length > 20 ? (
-                          <div>
-                            <p className="line-clamp-1">{item.name}</p>
-                            <p>{item.msv}</p>
-                          </div>
-                        ) : (
-                          <p className="truncate">
-                            {item.name} - {item.msv}
-                          </p>
-                        )}
-
-                        <p className="truncate">Ngành học: {item.branch}</p>
-                        <p className="truncate">GVHD: {item.instructors}</p>
+                        <div>
+                          <p className="line-clamp-1">{item.name}</p>
+                          <p>{item.msv}</p>
+                        </div>
+                        <p className="truncate">Major: {item.branch}</p>
+                        <p className="truncate">Teacher: {item.instructors}</p>
                         <p className="text-end truncate">
                           Mark: {item.point}/10
                         </p>
