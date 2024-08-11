@@ -1,5 +1,6 @@
 import { arrayMove } from "@dnd-kit/sortable";
 import { createSlice } from "@reduxjs/toolkit";
+import { saveAs } from "file-saver";
 
 const initialState = {
   projectDetail: [
@@ -258,6 +259,21 @@ const projectDetailSlice = createSlice({
       });
       state.projectDetail = copyProjectDetail;
     },
+    saveFile: (state) => {
+      const jsonData = JSON.stringify(state.projectDetail);
+      // Convert the JSON data to a Blob
+      const jsonBlob = new Blob([jsonData], {
+        type: "application/json",
+      });
+      // Create a FormData object and append the Blob as a file
+      const formData = new FormData();
+      formData.append(
+        "file",
+        jsonBlob,
+        `${state.projectName || "project"}.json`
+      );
+      console.log(formData.get("file"));
+    },
     //Call API to handle detail
     updateDescriptionTask: (state, action) => {
       const { containerId, taskId, description } = action.payload;
@@ -288,6 +304,7 @@ export const {
   updateDescriptionTask,
   deleteImage,
   commentTask,
+  saveFile,
 } = projectDetailSlice.actions;
 
 export default projectDetailSlice.reducer;
