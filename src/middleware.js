@@ -1,22 +1,36 @@
+import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
 
-export async function middleware(req) {
-  const path = req.nextUrl.pathname;
-  const isAuth = ["/login", "/"];
-  const token = req.cookies.get("token")?.value;
-  const role = req.cookies.get("role")?.value;
+const handleI18nRouting = createMiddleware({
+  locales: ["en", "vi"],
+  defaultLocale: "en",
+});
 
+export default async function middleware(req) {
   try {
-    if (!isAuth.includes(path) && (!token || !role)) {
-      return NextResponse.redirect(new URL("/login", req.url));
+    const supportedLocales = ["en", "vi"];
+
+    const { pathname } = req.nextUrl;
+    const lang = pathname.split("/")[1];
+    const localeResponse = handleI18nRouting(req);
+
+    if (!supportedLocales.includes(lang)) {
+      return localeResponse;
+    }
+    const isAuth = [`/${lang}/login`, `/${lang}`];
+    const token = req.cookies.get("token")?.value;
+    const role = req.cookies.get("role")?.value;
+
+    if (!isAuth.includes(pathname) && (!token || !role)) {
+      return NextResponse.redirect(new URL(`/${lang}`, req.url));
     }
 
     if (
       [
-        "/project/detail",
-        "/project/detail/classwork",
-        "/project/detail/classwork/[id]",
-      ].includes(path)
+        `/${lang}/project/detail`,
+        `/${lang}/project/detail/classwork`,
+        `/${lang}/project/detail/classwork/[id]`,
+      ].includes(pathname)
     ) {
       const searchParams = req.nextUrl.searchParams;
       if (
@@ -25,31 +39,35 @@ export async function middleware(req) {
         !searchParams.get("projectName") ||
         !searchParams.get("projectId")
       ) {
-        return NextResponse.redirect(new URL("/project", req.url));
+        return NextResponse.redirect(new URL(`/${lang}/project`, req.url));
       }
     }
 
     if (token && role) {
-      if (path === "/login") {
-        return NextResponse.redirect(new URL("/project", req.url));
+      if (pathname === `/${lang}/login`) {
+        return NextResponse.redirect(new URL(`/${lang}/project`, req.url));
       }
-      if (role === "teacher" && ["/project/signup"].includes(path)) {
-        return NextResponse.redirect(new URL("/project", req.url));
+      if (
+        role === "teacher" &&
+        [`/${lang}/project/signup`].includes(pathname)
+      ) {
+        return NextResponse.redirect(new URL(`/${lang}/project`, req.url));
       }
-      const headers = new Headers(req.headers);
-      headers.set("role", role);
-      return NextResponse.next({
-        request: {
-          headers,
-        },
-      });
+      localeResponse.headers.set("role", role);
     }
+
+    // Locale check
+    if (req.nextUrl.locale && !supportedLocales.includes(req.nextUrl.locale)) {
+      return NextResponse.redirect(new URL(`${lang}/`, req.url)); // Redirect to a 404 page if locale is not supported
+    }
+
+    return localeResponse;
   } catch (err) {
-    console.error("Token verification failed:", err);
+    console.error("Error handling locale or token verification:", err);
     return NextResponse.redirect(new URL("/login", req.url));
   }
 }
 
 export const config = {
-  matcher: "/((?!api|_next|static|public|favicon.ico).*)",
+  matcher: ["/((?!api|_next|static|public|favicon.ico).*)", "/(en|vi)/:path*"],
 };

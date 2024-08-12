@@ -10,7 +10,7 @@ const ProjectDetailComponent = ({ searchParams }) => {
   const headList = headers();
   const role = headList.get("role");
   return (
-    <div className="min-h-screen bg-blue-500">
+    <div className="min-h-[42.99rem] bg-blue-500">
       <Navigation role={role} />
       {role === "teacher" ? (
         <div className=" w-full">

@@ -1,0 +1,66 @@
+{
+  "HomePage": {
+    "Login": "Đăng Nhập",
+    "search input": "Ô tìm kiếm",
+    "description": "Dự án tốt nghiệp là một trang web nơi bạn có thể xem các dự án được sinh viên công bố và hoàn thành các nhiệm vụ do giáo viên giao, với điều kiện bạn đủ điều kiện cho dự án tốt nghiệp của riêng mình.",
+    "teacher": "Giáo Viên",
+    "major": "Ngành",
+    "year": "Năm",
+    "all": "Tất Cả",
+    "mark": "Điểm",
+    "titleListProduct": "Danh sách đồ án tốt nghiệp của sinh viên"
+  },
+  "Login": {
+    "login": "Đăng Nhập",
+    "username": "Tên Đăng Nhập",
+    "password": "Mật Khẩu",
+    "forgotPassword": "Quên Mật Khẩu",
+    "goToHomePage": "Trở Về Trang Chủ",
+    "resetPassword": "Đặt Lại Mật Khẩu",
+    "goToLoginPage": "Trở Về Trang Đăng Nhập",
+    "notiWrongPassword": "Đăng nhập thất bại, email hoặc mật khẩu không chính xác",
+    "notiLoginSuccess": "Đăng nhập thành công ❤❤",
+    "notiNotFillAllInput": "Vui lòng nhập đầy đủ tài khoản và mật khẩu!!",
+    "messageNotFillUsername": "Vui lòng nhập tên đăng nhập của bạn!",
+    "messageNotFillPassword": "Vui lòng nhập mật khẩu của bạn!",
+    "messageNotFillEmail": "Vui lòng nhập email của bạn!"
+  },
+  "SideBar": {
+    "project": "Dự Án",
+    "library": "Thư Viện",
+    "profile": "Hồ Sơ",
+    "logout": "Đăng Xuất",
+    "English": "Tiếng Anh",
+    "Vietnamese": "Tiếng Việt"
+  },
+  "Project": {
+    "yourProject": "Dự Án Của Bạn",
+    "No": "STT",
+    "projectName": "Tên Dự Án",
+    "studentName": "Tên Sinh Viên",
+    "status": "Trạng Thái",
+    "detail": "Chi Tiết",
+    "action": "Hành động"
+  },
+  "Profile": {
+    "yourProfile": "Hồ sơ của tôi",
+    "avatar": "Ảnh đại diện",
+    "studenCode": "Mã sinh viên",
+    "fullName": "Họ và tên",
+    "Phone": "Số điện thoại",
+    "Major": "Chuyên ngành",
+    "Degree": "Bằng cấp",
+    "Department": "Phòng ban",
+    "beginYear": "Năm bắt đầu",
+    "notFillAvatar": "Hãy chọn ảnh đại diện!",
+    "notFillEmail": "Hãy điền địa chỉ email!",
+    "wrongEmailType": "Địa chỉ email không đúng định dạng!",
+    "notFillPhoneNumber": "Hãy điền số điện thoại!",
+    "notFillDegree": "Hãy điền bằng cấp!",
+    "wrongPhoneNumber": "Số điện thoại phải có ít nhất 9 ký tự!",
+    "updateProfile": "Cập nhật hồ sơ",
+    "notiUpdateSuccess": "Cập nhật hồ sơ thành công!",
+    "notiUpdateFailed": "Cập nhật hồ sơ thất bại!",
+    "notFillDepartment": "Hãy điền phòng ban!"
+  }
+}

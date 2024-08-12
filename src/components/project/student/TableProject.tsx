@@ -1,13 +1,16 @@
-import { Button, Table } from "antd";
-import { useRouter } from "next/navigation";
+import { Button, Table, Tooltip } from "antd";
+import { useTranslations } from "next-intl";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { BiSolidUserDetail } from "react-icons/bi";
 
 const TableProject = ({ projectData }) => {
+  const t = useTranslations("Project");
+  const pathName = usePathname();
   const route = useRouter();
   const columns = [
     {
-      title: "No",
+      title: t("No"),
       key: "no",
       render: (record, text, index) => {
         return index + 1;
@@ -19,33 +22,35 @@ const TableProject = ({ projectData }) => {
       key: "id",
     },
     {
-      title: "Project Name",
+      title: t("projectName"),
       dataIndex: "projectName",
       key: "projectName",
     },
     {
-      title: "Student Name",
+      title: t("studentName"),
       dataIndex: "studentName",
       key: "studentName",
     },
     {
-      title: "Status",
+      title: t("status"),
       dataIndex: "status",
       key: "status",
     },
     {
-      title: "Detail",
+      title: t("action"),
       key: "detail",
       render: (record) => {
         return (
-          <Button
-            onClick={() => {
-              handleDetailProject(record);
-            }}
-            type="primary"
-          >
-            <BiSolidUserDetail />
-          </Button>
+          <Tooltip title={t("detail")}>
+            <Button
+              onClick={() => {
+                handleDetailProject(record);
+              }}
+              type="primary"
+            >
+              <BiSolidUserDetail />
+            </Button>
+          </Tooltip>
         );
       },
     },
@@ -56,15 +61,19 @@ const TableProject = ({ projectData }) => {
     params.set("teacherName", record.teacherName);
     params.set("projectName", record.projectName);
     params.set("projectId", record.id);
-    route.push(`/project/detail?${params.toString()}`);
+    route.push(
+      `/${pathName.split("/")[1]}/project/detail?${params.toString()}`
+    );
   };
   const signUpProject = () => {
-    route.push(`/project/signup`);
+    route.push(`/${pathName.split("/")[1]}/project/signup`);
   };
   return (
     <div>
       <div className="flex justify-between items-center m-2">
-        <p className="font-semibold text-xl text-zinc-500">Your Project</p>
+        <p className="font-semibold text-xl text-zinc-500">
+          {t("yourProject")}
+        </p>
         <Button
           onClick={signUpProject}
           disabled={
@@ -79,7 +88,12 @@ const TableProject = ({ projectData }) => {
           Sign up Project
         </Button>
       </div>
-      <Table dataSource={projectData} rowKey={"id"} columns={columns} />
+      <Table
+        dataSource={projectData}
+        rowKey={"id"}
+        columns={columns}
+        scroll={{ x: 600 }}
+      />
     </div>
   );
 };

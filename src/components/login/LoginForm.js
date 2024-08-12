@@ -3,8 +3,10 @@ import { Button, Checkbox, Form, Input, message } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login } from "@/api/Access";
+import { useTranslations } from "next-intl";
 
 const LoginForm = ({ changeForm }) => {
+  const t = useTranslations("Login");
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
   const [loadingButton, setLoadingButton] = useState(false);
@@ -20,17 +22,17 @@ const LoginForm = ({ changeForm }) => {
     console.log(result);
 
     if (!result.success) {
-      messageApi.error("Login failed email or password is incorrect");
+      messageApi.error(t("notiWrongPassword"));
       setLoadingButton(false);
       return;
     }
-    messageApi.success("Login success ❤❤");
+    messageApi.success(t("notiLoginSuccess"));
     router.push("/project");
     return;
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-    messageApi.error("Please fill in your account and password!!");
+    messageApi.error(t("notiNotFillAllInput"));
   };
   return (
     <div className="w-full text-center">
@@ -49,12 +51,12 @@ const LoginForm = ({ changeForm }) => {
         className="xl:w-[21rem] lg:w-[17rem] md:w-[13rem] md:px-0 px-5 sm:w-[30rem] w-80"
       >
         <Form.Item
-          label="Username"
+          label={t("username")}
           name="email"
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: t(`messageNotFillUsername`),
             },
           ]}
         >
@@ -62,12 +64,12 @@ const LoginForm = ({ changeForm }) => {
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label={t("password")}
           name="password"
           rules={[
             {
               required: true,
-              message: "Please input your password!",
+              message: t("messageNotFillPassword"),
             },
           ]}
         >
@@ -79,7 +81,7 @@ const LoginForm = ({ changeForm }) => {
             onClick={changeForm}
             className=" hover:text-blue-700 cursor-pointer"
           >
-            Forgot password?
+            {t("forgotPassword")}
           </p>
         </div>
 
@@ -89,11 +91,11 @@ const LoginForm = ({ changeForm }) => {
           type="primary"
           htmlType="submit"
         >
-          Login
+          {t("login")}
         </Button>
       </Form>
       <Link href={"/"} className=" hover:text-blue-700 cursor-pointer mt-2">
-        Go to home page
+        {t("goToHomePage")}
       </Link>
     </div>
   );

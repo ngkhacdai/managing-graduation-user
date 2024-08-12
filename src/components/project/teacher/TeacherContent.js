@@ -1,14 +1,16 @@
 "use client";
-import { Button, Table } from "antd";
+import { Button, Table, Tooltip } from "antd";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { BiSolidUserDetail } from "react-icons/bi";
 
 const TeacherContent = ({ projectData }) => {
+  const t = useTranslations("Project");
   const route = useRouter();
   const columns = [
     {
-      title: "No",
+      title: t("No"),
       key: "no",
       render: (record, text, index) => {
         return index + 1;
@@ -20,33 +22,35 @@ const TeacherContent = ({ projectData }) => {
       key: "id",
     },
     {
-      title: "Project Name",
+      title: t("projectName"),
       dataIndex: "projectName",
       key: "projectName",
     },
     {
-      title: "Student Name",
+      title: t("studentName"),
       dataIndex: "studentName",
       key: "studentName",
     },
     {
-      title: "Status",
+      title: t("status"),
       dataIndex: "status",
       key: "status",
     },
     {
-      title: "Detail",
+      title: t("action"),
       key: "detail",
       render: (record) => {
         return (
-          <Button
-            onClick={() => {
-              handleDetailProject(record);
-            }}
-            type="primary"
-          >
-            <BiSolidUserDetail />
-          </Button>
+          <Tooltip title={t("detail")}>
+            <Button
+              onClick={() => {
+                handleDetailProject(record);
+              }}
+              type="primary"
+            >
+              <BiSolidUserDetail />
+            </Button>
+          </Tooltip>
         );
       },
     },
@@ -61,8 +65,15 @@ const TeacherContent = ({ projectData }) => {
   };
   return (
     <div>
-      <p className="font-semibold text-xl text-zinc-500 m-2">Your Project</p>
-      <Table dataSource={projectData} rowKey={"id"} columns={columns} />
+      <p className="font-semibold text-xl text-zinc-500 m-2">
+        {t("yourProject")}
+      </p>
+      <Table
+        dataSource={projectData}
+        rowKey={"id"}
+        columns={columns}
+        scroll={{ x: 600 }}
+      />
     </div>
   );
 };
