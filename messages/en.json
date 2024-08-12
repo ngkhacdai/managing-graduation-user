@@ -23,5 +23,11 @@
     "messageNotFillUsername": "Please input your username!",
     "messageNotFillPassword": "Please input your password!",
     "messageNotFillEmail": "Please input your email!"
+  },
+  "SideBar": {
+    "project": "Project",
+    "library": "Library",
+    "profile": "Profile",
+    "logout": "Logout"
   }
 }

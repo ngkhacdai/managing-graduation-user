@@ -1,9 +1,10 @@
 import { Button, Table } from "antd";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { BiSolidUserDetail } from "react-icons/bi";
 
 const TableProject = ({ projectData }) => {
+  const pathName = usePathname();
   const route = useRouter();
   const columns = [
     {
@@ -56,10 +57,12 @@ const TableProject = ({ projectData }) => {
     params.set("teacherName", record.teacherName);
     params.set("projectName", record.projectName);
     params.set("projectId", record.id);
-    route.push(`/project/detail?${params.toString()}`);
+    route.push(
+      `/${pathName.split("/")[1]}/project/detail?${params.toString()}`
+    );
   };
   const signUpProject = () => {
-    route.push(`/project/signup`);
+    route.push(`/${pathName.split("/")[1]}/project/signup`);
   };
   return (
     <div>

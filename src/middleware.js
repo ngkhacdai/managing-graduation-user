@@ -55,7 +55,7 @@ export default async function middleware(req) {
       }
       const headers = new Headers(req.headers);
       headers.set("role", role);
-      return NextResponse.next({
+      NextResponse.next({
         request: {
           headers,
         },

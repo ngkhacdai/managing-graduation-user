@@ -12,9 +12,11 @@ import logo from "@/assets/logo.png";
 import { Footer } from "antd/es/layout/layout";
 import { BiLogOut } from "react-icons/bi";
 import { logoutApi } from "@/api/Access";
+import { useTranslations } from "next-intl";
 const { Header, Sider, Content } = Layout;
 
 const SideBarScreen = ({ children }) => {
+  const t = useTranslations("SideBar");
   const [messageApi, contextHolder] = message.useMessage();
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
@@ -35,7 +37,7 @@ const SideBarScreen = ({ children }) => {
     messageApi.error("Failed to log out");
   };
   const getKey = () => {
-    return "/" + pathName.split("/")[1];
+    return "/" + pathName.split("/")[2];
   };
 
   return (
@@ -66,17 +68,17 @@ const SideBarScreen = ({ children }) => {
               {
                 key: "/project",
                 icon: <FaProjectDiagram />,
-                label: <Link href={"/project"}>Project</Link>,
+                label: <Link href={"/project"}>{t("project")}</Link>,
               },
               {
                 key: "/library",
                 icon: <IoLibrary />,
-                label: <Link href={"/library"}>Library</Link>,
+                label: <Link href={"/library"}>{t("library")}</Link>,
               },
               {
                 key: "/profile",
                 icon: <RiProfileLine />,
-                label: <Link href={"/profile"}>Profile</Link>,
+                label: <Link href={"/profile"}>{t("profile")}</Link>,
               },
             ]}
           />
@@ -87,7 +89,7 @@ const SideBarScreen = ({ children }) => {
               className="flex items-center h-16 w-full justify-center"
             >
               <BiLogOut size={18} />
-              {!collapsed && <p className="text-lg ml-2">Log out</p>}
+              {!collapsed && <p className="text-lg ml-2">{t("logout")}</p>}
             </Button>
           </Footer>
         </Sider>
