@@ -1,8 +1,21 @@
 "use client";
 import React, { useState } from "react";
-import { UploadOutlined } from "@ant-design/icons";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import { IoLibrary } from "react-icons/io5";
-import { Button, Layout, Menu, message, Modal, theme } from "antd";
+import {
+  Button,
+  Layout,
+  Menu,
+  message,
+  Modal,
+  Select,
+  theme,
+  Tooltip,
+} from "antd";
 import { RiProfileLine } from "react-icons/ri";
 import Link from "next/link";
 import { FaProjectDiagram } from "react-icons/fa";
@@ -46,7 +59,6 @@ const SideBarScreen = ({ children }) => {
       <Layout className="max-h-screen">
         <Sider
           onCollapse={(value) => setCollapsed(value)}
-          collapsible
           collapsed={collapsed}
           className="!sticky !top-0 !min-h-screen !bg-white border-r-2 border-inherit"
         >
@@ -71,30 +83,53 @@ const SideBarScreen = ({ children }) => {
                 label: <Link href={"/project"}>{t("project")}</Link>,
               },
               {
-                key: "/library",
-                icon: <IoLibrary />,
-                label: <Link href={"/library"}>{t("library")}</Link>,
-              },
-              {
                 key: "/profile",
                 icon: <RiProfileLine />,
                 label: <Link href={"/profile"}>{t("profile")}</Link>,
               },
             ]}
           />
-          <Footer className="absolute bottom-11 left-0 bg-white p-2 w-full flex items-center justify-center">
-            <Button
-              onClick={logout}
-              type="text"
-              className="flex items-center h-16 w-full justify-center"
-            >
-              <BiLogOut size={18} />
-              {!collapsed && <p className="text-lg ml-2">{t("logout")}</p>}
-            </Button>
-          </Footer>
+          <Footer className="absolute bottom-11 left-0 bg-white p-2 w-full flex items-center justify-center"></Footer>
         </Sider>
-        <Layout className="!overflow-y-auto">
-          <Content className="bg-white">{children}</Content>
+        <Layout className="!overflow-y-auto !bg-white">
+          <div className=" w-full p-2 flex justify-between items-center border-b-inherit border-b-2">
+            <div>
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+                style={{
+                  fontSize: "16px",
+                }}
+              />
+            </div>
+            <div className="flex items-center">
+              <Select
+                className="mr-2 !w-20 sm:!w-28"
+                defaultValue={
+                  pathName.split("/")[1] == "en" ? "English" : "Tiếng Việt"
+                }
+                onChange={(value) => {
+                  console.log(`/${value}/${pathName.split("/")[2]}`);
+                  router.push(`/${value}/${pathName.split("/")[2]}`);
+                }}
+                options={[
+                  { value: "en", label: t("English") },
+                  { value: "vi", label: t("Vietnamese") },
+                ]}
+              />
+              <Tooltip title={t("logout")}>
+                <Button
+                  onClick={logout}
+                  type="text"
+                  className="flex items-center justify-center"
+                >
+                  <BiLogOut size={16} />
+                </Button>
+              </Tooltip>
+            </div>
+          </div>
+          <Content className=" ">{children}</Content>
         </Layout>
       </Layout>
     </div>

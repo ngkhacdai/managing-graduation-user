@@ -6,7 +6,7 @@ const ListGraduation = ({ listProduct }) => {
   const t = useTranslations("HomePage");
   return (
     <div className="w-full p-2">
-      <p className="text-xl font-bold">List product student'graduation</p>
+      <p className="text-xl font-bold">{t("titleListProduct")}</p>
       <div className="my-2 w-full">
         <Row gutter={[16, 16]}>
           {listProduct.length > 0 ? (

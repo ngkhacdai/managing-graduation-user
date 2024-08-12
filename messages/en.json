@@ -7,7 +7,8 @@
     "major": "Major",
     "year": "Year",
     "all": "All",
-    "mark": "Mark"
+    "mark": "Mark",
+    "titleListProduct": "List product student'graduation"
   },
   "Login": {
     "login": "Login",
@@ -28,6 +29,38 @@
     "project": "Project",
     "library": "Library",
     "profile": "Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "English": "English",
+    "Vietnamese": "Vietnamese"
+  },
+  "Project": {
+    "yourProject": "Your Project",
+    "No": "No",
+    "projectName": "Project Name",
+    "studentName": "Student Name",
+    "status": "Status",
+    "detail": "Detail",
+    "action": "Action"
+  },
+  "Profile": {
+    "yourProfile": "Your Profile",
+    "avatar": "Avatar",
+    "studenCode": "Student Code",
+    "fullName": "Full name",
+    "Phone": "Phone Number",
+    "Major": "Major",
+    "Degree": "Degree",
+    "Department": "Department",
+    "beginYear": "Begin year",
+    "notFillAvatar": "Please upload your avatar!",
+    "notFillEmail": "Please input your email!",
+    "wrongEmailType": "The input is not a valid email!",
+    "notFillPhoneNumber": "Please input your phone number!",
+    "notFillDegree": "Please input your degree!",
+    "wrongPhoneNumber": "Phone number must be at least 9 characters!",
+    "updateProfile": "Update profile",
+    "notiUpdateSuccess": "Updated student profile successfully!",
+    "notiUpdateFailed": "Failed to update student profile!",
+    "notFillDepartment": "Please fill the department!"
   }
 }

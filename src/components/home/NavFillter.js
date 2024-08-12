@@ -32,7 +32,7 @@ const NavFillter = ({ listCkb = [] }) => {
         onChange={handleChange}
         className="w-full"
         options={[
-          { value: "All", label: "All" },
+          { value: "All", label: t("all") },
           { value: "Teacher", label: t("teacher") },
           { value: "Branch", label: t("major") },
           { value: "Year", label: t("year") },

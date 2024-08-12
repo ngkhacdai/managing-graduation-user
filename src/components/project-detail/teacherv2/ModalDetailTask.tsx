@@ -270,25 +270,27 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
           </div>
         </div>
         <div className="mt-2">
-          {item.detail.comment.map((items, index) => {
-            return (
-              <div key={`comment-${index}`}>
-                <div className="flex my-1">
-                  <div className="border-2 p-1 w-8 h-8 bg-slate-400 rounded-full flex items-center justify-between">
-                    {items.role === "Teacher" ? (
-                      <FaChalkboardTeacher size={16} />
-                    ) : (
-                      <PiStudent size={16} />
-                    )}
-                  </div>
+          {item.detail.comment.map(
+            (items: { role: string; comment: string }, index: number) => {
+              return (
+                <div key={`comment-${index}`}>
+                  <div className="flex my-1">
+                    <div className="border-2 p-1 w-8 h-8 bg-slate-400 rounded-full flex items-center justify-between">
+                      {items.role === "Teacher" ? (
+                        <FaChalkboardTeacher size={16} />
+                      ) : (
+                        <PiStudent size={16} />
+                      )}
+                    </div>
 
-                  <p className="ml-1 p-2 w-full border-2 border-inherit rounded-lg">
-                    {items.comment}
-                  </p>
+                    <p className="ml-1 p-2 w-full border-2 border-inherit rounded-lg">
+                      {items.comment}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            }
+          )}
         </div>
       </Modal>
     </div>

@@ -53,13 +53,7 @@ export default async function middleware(req) {
       ) {
         return NextResponse.redirect(new URL(`/${lang}/project`, req.url));
       }
-      const headers = new Headers(req.headers);
-      headers.set("role", role);
-      NextResponse.next({
-        request: {
-          headers,
-        },
-      });
+      localeResponse.headers.set("role", role);
     }
 
     // Locale check
