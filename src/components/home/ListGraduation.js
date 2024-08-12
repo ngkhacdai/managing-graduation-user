@@ -1,7 +1,9 @@
 import { Card, Col, Pagination, Row } from "antd";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 const ListGraduation = ({ listProduct }) => {
+  const t = useTranslations("HomePage");
   return (
     <div className="w-full p-2">
       <p className="text-xl font-bold">List product student'graduation</p>
@@ -30,10 +32,14 @@ const ListGraduation = ({ listProduct }) => {
                           <p>{item.msv}</p>
                         </div>
 
-                        <p className="truncate">Ngành học: {item.branch}</p>
-                        <p className="truncate">GVHD: {item.instructors}</p>
+                        <p className="truncate">
+                          {t("major")}: {item.branch}
+                        </p>
+                        <p className="truncate">
+                          {t("teacher")}: {item.instructors}
+                        </p>
                         <p className="text-end truncate">
-                          Mark: {item.point}/10
+                          {t("mark")}: {item.point}/10
                         </p>
                       </div>
                     </div>

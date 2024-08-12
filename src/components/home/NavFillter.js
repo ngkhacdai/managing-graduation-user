@@ -33,9 +33,9 @@ const NavFillter = ({ listCkb = [] }) => {
         className="w-full"
         options={[
           { value: "All", label: "All" },
-          { value: "Teacher", label: "Teacher" },
-          { value: "Branch", label: "Branch" },
-          { value: "Year", label: "Year" },
+          { value: "Teacher", label: t("teacher") },
+          { value: "Branch", label: t("major") },
+          { value: "Year", label: t("year") },
         ]}
       />
       <Checkbox.Group

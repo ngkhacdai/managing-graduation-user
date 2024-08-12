@@ -1,6 +1,7 @@
 {
   "HomePage": {
     "Login": "Đăng nhập",
-    "search input": "Tìm kiếm"
+    "search input": "Tìm kiếm",
+    "description": "Đồ án tốt nghiệp là một trang web nơi bạn có thể xem các dự án do sinh viên xuất bản và hoàn thành các nhiệm vụ do giáo viên giao, miễn là bạn đủ điều kiện thực hiện đồ án tốt nghiệp của riêng mình."
   }
 }

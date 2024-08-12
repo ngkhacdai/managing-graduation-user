@@ -1,1 +1,27 @@
-{}
+{
+  "HomePage": {
+    "Login": "Login",
+    "search input": "Search input",
+    "description": "The graduation project is a website where you can view projects published by students and complete tasks assigned by teachers, provided you are eligible for your own graduation project.",
+    "teacher": "Teacher",
+    "major": "Major",
+    "year": "Year",
+    "all": "All",
+    "mark": "Mark"
+  },
+  "Login": {
+    "login": "Login",
+    "username": "Username",
+    "password": "Password",
+    "forgotPassword": "Forgot Password",
+    "goToHomePage": "Go to Home Page",
+    "resetPassword": "Reset Password",
+    "goToLoginPage": "Go to Login Page",
+    "notiWrongPassword": "Login failed email or password is incorrect",
+    "notiLoginSuccess": "Login success ❤❤",
+    "notiNotFillAllInput": "Please fill in your account and password!!",
+    "messageNotFillUsername": "Please input your username!",
+    "messageNotFillPassword": "Please input your password!",
+    "messageNotFillEmail": "Please input your email!"
+  }
+}
