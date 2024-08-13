@@ -13,6 +13,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { addItemInList, deleteBoard } from "@/redux/slices/ProjectDetailSlice";
+import { isPhaseFinished } from "@/utils/checkPhaseFinished";
 
 const Droppable = ({ items }) => {
   const dispatch = useDispatch();
@@ -57,14 +58,16 @@ const Droppable = ({ items }) => {
     >
       <div className="flex justify-between mx-1 items-center">
         <p className="">{items.title}</p>
-        <div className="flex">
-          <Button type="text" className="py-0 px-2" {...listeners}>
-            <MdOutlineDragIndicator />
-          </Button>
-          <Button onClick={handleDeleteBoard} type="text">
-            <IoMdClose />
-          </Button>
-        </div>
+        {!isPhaseFinished() && (
+          <div className="flex">
+            <Button type="text" className="py-0 px-2" {...listeners}>
+              <MdOutlineDragIndicator />
+            </Button>
+            <Button onClick={handleDeleteBoard} type="text">
+              <IoMdClose />
+            </Button>
+          </div>
+        )}
       </div>
       <SortableContext
         items={items.list.map((item) => item.id)}
@@ -90,16 +93,20 @@ const Droppable = ({ items }) => {
           <Button onClick={cancelAddNewCard}>Cancel</Button>
         </div>
       </div>
-      <Button
-        type="text"
-        onClick={() => {
-          setShowNewCard(true);
-        }}
-        className={`flex items-center m-2 ${!showNewCard ? "block" : "hidden"}`}
-      >
-        <FaPlus />
-        Add new card
-      </Button>
+      {!isPhaseFinished() && (
+        <Button
+          type="text"
+          onClick={() => {
+            setShowNewCard(true);
+          }}
+          className={`flex items-center m-2 ${
+            !showNewCard ? "block" : "hidden"
+          }`}
+        >
+          <FaPlus />
+          Add new card
+        </Button>
+      )}
       <Modal
         title={`Delete board: ${items.title}`}
         onCancel={handleCancelDelete}

@@ -3,10 +3,13 @@ import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { BiSolidUserDetail } from "react-icons/bi";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const TableProject = ({ projectData }) => {
   const t = useTranslations("Project");
   const pathName = usePathname();
+  const phase = useSelector((state: RootState) => state.projectDetail.phase);
   const route = useRouter();
   const columns = [
     {
@@ -61,6 +64,7 @@ const TableProject = ({ projectData }) => {
     params.set("teacherName", record.teacherName);
     params.set("projectName", record.projectName);
     params.set("projectId", record.id);
+    params.set("phase", `phase${phase[0].id}`);
     route.push(
       `/${pathName.split("/")[1]}/project/detail?${params.toString()}`
     );
@@ -85,7 +89,7 @@ const TableProject = ({ projectData }) => {
                 )
           }
         >
-          Sign up Project
+          {t("signUp")}
         </Button>
       </div>
       <Table

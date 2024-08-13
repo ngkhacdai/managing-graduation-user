@@ -8,7 +8,9 @@
     "year": "Năm",
     "all": "Tất Cả",
     "mark": "Điểm",
-    "titleListProduct": "Danh sách đồ án tốt nghiệp của sinh viên"
+    "titleListProduct": "Danh sách đồ án tốt nghiệp của sinh viên",
+    "English": "Tiếng Anh",
+    "Vietnamese": "Tiếng Việt"
   },
   "Login": {
     "login": "Đăng Nhập",
@@ -40,7 +42,8 @@
     "studentName": "Tên Sinh Viên",
     "status": "Trạng Thái",
     "detail": "Chi Tiết",
-    "action": "Hành động"
+    "action": "Hành động",
+    "signUp": "Đăng ký đồ án"
   },
   "Profile": {
     "yourProfile": "Hồ sơ của tôi",

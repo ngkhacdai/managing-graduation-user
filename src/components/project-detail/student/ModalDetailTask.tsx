@@ -18,6 +18,7 @@ import {
   updateDescriptionTask,
 } from "@/redux/slices/ProjectDetailSlice";
 import { PiStudent } from "react-icons/pi";
+import { isPhaseFinished } from "@/utils/checkPhaseFinished";
 
 const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
   const dispatch = useDispatch();
@@ -102,31 +103,33 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         footer={() => {
           return (
             <div>
-              <Popover
-                arrow={false}
-                content={
-                  <div>
-                    <p className="text-red-500 font-semibold text-lg">
-                      You can not undo when delete this: {item.title}
-                    </p>
-                    <p>Do you still want to delele?</p>
-                    <div className="text-right">
-                      <Button
-                        className="!bg-red-500 hover:!bg-red-400"
-                        type="primary"
-                        onClick={onDeleteTask}
-                      >
-                        Delete
-                      </Button>
+              {!isPhaseFinished() && (
+                <Popover
+                  arrow={false}
+                  content={
+                    <div>
+                      <p className="text-red-500 font-semibold text-lg">
+                        You can not undo when delete this: {item.title}
+                      </p>
+                      <p>Do you still want to delele?</p>
+                      <div className="text-right">
+                        <Button
+                          className="!bg-red-500 hover:!bg-red-400"
+                          type="primary"
+                          onClick={onDeleteTask}
+                        >
+                          Delete
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                }
-                trigger="click"
-                open={open}
-                onOpenChange={handleOpenChange}
-              >
-                <Button>Delete Task</Button>
-              </Popover>
+                  }
+                  trigger="click"
+                  open={open}
+                  onOpenChange={handleOpenChange}
+                >
+                  <Button>Delete Task</Button>
+                </Popover>
+              )}
             </div>
           );
         }}
@@ -223,26 +226,30 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
                   </div>
                 ))}
             </div>
-            <div className="flex justify-between items-center mt-2">
-              <div>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    onSaveDetail();
-                  }}
-                >
-                  Save
-                </Button>
-                <Button className="mx-2" onClick={clearFormDetail}>
-                  Clear form
-                </Button>
+            {!isPhaseFinished() && (
+              <div className="flex justify-between items-center mt-2">
+                <div>
+                  <div>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        onSaveDetail();
+                      }}
+                    >
+                      Save
+                    </Button>
+                    <Button className="mx-2" onClick={clearFormDetail}>
+                      Clear form
+                    </Button>
+                  </div>
+                </div>
+                <Upload {...props}>
+                  <Button shape="circle">
+                    <FaLink />
+                  </Button>
+                </Upload>
               </div>
-              <Upload {...props}>
-                <Button shape="circle">
-                  <FaLink />
-                </Button>
-              </Upload>
-            </div>
+            )}
           </div>
         </div>
         <div className="flex mt-3">
@@ -263,9 +270,11 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="flex justify-between items-center mt-2">
-              <Button type="primary" onClick={onSaveComment}>
-                Save
-              </Button>
+              {!isPhaseFinished() && (
+                <Button type="primary" onClick={onSaveComment}>
+                  Save
+                </Button>
+              )}
             </div>
           </div>
         </div>

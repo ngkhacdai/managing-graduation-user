@@ -24,6 +24,7 @@ import {
   handleDragStart,
 } from "@/redux/slices/ProjectDetailSlice";
 import AddNewBoard from "./AddNewBoard";
+import { isPhaseFinished } from "@/utils/checkPhaseFinished";
 
 const DetailProject = () => {
   const dispatch = useDispatch();
@@ -88,7 +89,7 @@ const DetailProject = () => {
     [dispatch]
   );
   return (
-    <div className="w-full overflow-auto h-[43rem] bg-blue-500 shadow-inner">
+    <div className="w-full overflow-auto min-h-[40.2rem] bg-blue-500 shadow-inner">
       <DndContext
         sensors={sensors}
         onDragStart={(event) => dispatch(handleDragStart({ event }))}
@@ -105,7 +106,7 @@ const DetailProject = () => {
                 <Droppable items={item} />
               </div>
             ))}
-            <AddNewBoard />
+            {!isPhaseFinished() && <AddNewBoard />}
           </div>
         </SortableContext>
         <DragOverlay adjustScale={false}>

@@ -8,7 +8,9 @@
     "year": "Year",
     "all": "All",
     "mark": "Mark",
-    "titleListProduct": "List product student'graduation"
+    "titleListProduct": "List product student'graduation",
+    "English": "English",
+    "Vietnamese": "Vietnamese"
   },
   "Login": {
     "login": "Login",
@@ -40,7 +42,8 @@
     "studentName": "Student Name",
     "status": "Status",
     "detail": "Detail",
-    "action": "Action"
+    "action": "Action",
+    "signUp": "Sign up Project"
   },
   "Profile": {
     "yourProfile": "Your Profile",

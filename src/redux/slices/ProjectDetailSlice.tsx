@@ -2,68 +2,16 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  projectDetail: [
+  projectDetail: [],
+  phase: [
     {
-      id: "container-1",
-      title: "To do",
-      list: [
-        {
-          id: "task-1",
-          title: "Task 1",
-          detail: {
-            detail: "abc",
-            fileList: [
-              {
-                url: "https://img.freepik.com/free-photo/dark-leaf-background-jungle-aesthetic-instagram-post_53876-133510.jpg",
-                title: "Image 1",
-              },
-            ],
-            comment: [
-              {
-                role: "Student",
-                comment: "Student comment",
-              },
-              {
-                role: "Teacher",
-                comment: "Teacher comment",
-              },
-            ],
-          },
-        },
-        {
-          id: "task-5",
-          title: "Task 5",
-          detail: { description: "", fileList: [], comment: [] },
-        },
-        {
-          id: "task-4",
-          title: "Task 4",
-          detail: { description: "", fileList: [], comment: [] },
-        },
-      ],
+      id: 1,
+      title: "State 1",
+      finished: true,
+      createAt: "8/11/2024",
+      updateAt: "8/13/2024",
     },
-    {
-      id: "container-2",
-      title: "In progress",
-      list: [
-        {
-          id: "task-2",
-          title: "Task 2",
-          detail: { description: "", fileList: [], comment: [] },
-        },
-      ],
-    },
-    {
-      id: "container-3",
-      title: "Done",
-      list: [
-        {
-          id: "task-3",
-          title: "Task 3",
-          detail: { description: "", fileList: [], comment: [] },
-        },
-      ],
-    },
+    { id: 2, title: "State 2", finished: false, createAt: "8/12/2024" },
   ],
   activeId: null,
   projectName: "",
@@ -84,6 +32,10 @@ const projectDetailSlice = createSlice({
   name: "project-slice",
   initialState,
   reducers: {
+    addNewPhase: (state, action) => {
+      const { id, title } = action.payload;
+      // state.phase = [...state.phase, { id, title }];
+    },
     addItemInList: (state, action) => {
       const { items: containerId, title } = action.payload;
       const container = state.projectDetail.find(
@@ -288,6 +240,7 @@ export const {
   updateDescriptionTask,
   deleteImage,
   commentTask,
+  addNewPhase,
 } = projectDetailSlice.actions;
 
 export default projectDetailSlice.reducer;

@@ -5,6 +5,7 @@ import { Button } from "antd";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import ModalDetailTask from "./ModalDetailTask";
 import { FaRegComment } from "react-icons/fa";
+import { isPhaseFinished } from "@/utils/checkPhaseFinished";
 
 const Sortable = ({ containerId, item }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -39,9 +40,11 @@ const Sortable = ({ containerId, item }) => {
               </div>
             )}
           </div>
-          <Button type="text" className="h-full" {...listeners}>
-            <MdOutlineDragIndicator />
-          </Button>
+          {!isPhaseFinished() && (
+            <Button type="text" className="h-full" {...listeners}>
+              <MdOutlineDragIndicator />
+            </Button>
+          )}
         </div>
       </div>
       {isShowModal && (
