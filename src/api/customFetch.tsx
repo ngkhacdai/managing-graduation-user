@@ -9,20 +9,25 @@ export const getCookie = () => {
 };
 
 export const GET = async (url: string) => {
-  const { token } = await getCookie();
+  try {
+    const { token } = await getCookie();
+    const response = await fetch(`${process.env.API_URL}${url}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-  const response = await fetch(`${process.env.API_URL}${url}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    return response.json();
+  } catch (error) {
+    console.log(error);
+
+    return null;
   }
-
-  return response.json();
 };
 
 export const POST = async (
@@ -57,7 +62,7 @@ export const POST = async (
   });
   if (!response.ok) {
     const errorBody = await response.json();
-    throw new Error(`HTTP error! status: ${response.status}, ${errorBody}`);
+    throw new Error(errorBody);
   }
 
   return response.json();

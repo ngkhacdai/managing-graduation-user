@@ -7,7 +7,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import Droppable from "./Droppable";
 import {
   horizontalListSortingStrategy,
@@ -17,7 +17,7 @@ import {
 import debounce from "lodash.debounce";
 
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   handleDragEnd,
   handleDragOver,
@@ -25,9 +25,18 @@ import {
 } from "@/redux/slices/ProjectDetailSlice";
 import AddNewBoard from "./AddNewBoard";
 import { isPhaseFinished } from "@/utils/checkPhaseFinished";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const DetailProject = () => {
-  const dispatch = useDispatch();
+  const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const searchParams = useSearchParams();
+  const phase = useSelector((state: RootState) => state.projectDetail.phase);
+  // useEffect(() => {
+  //   if (phase.some((item) => item.id !== searchParams.get("phase"))) {
+  //     router.replace("/project");
+  //   }
+  // }, [phase]);
   const items = useSelector(
     (state: RootState) => state.projectDetail.projectDetail
   );

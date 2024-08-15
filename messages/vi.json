@@ -65,5 +65,10 @@
     "notiUpdateSuccess": "Cập nhật hồ sơ thành công!",
     "notiUpdateFailed": "Cập nhật hồ sơ thất bại!",
     "notFillDepartment": "Hãy điền phòng ban!"
+  },
+  "SignUp": {
+    "title": "Đăng ký đồ án",
+    "slBranch": "Chọn ngành",
+    "findTeacher": "Tìm kiếm giảng viên"
   }
 }

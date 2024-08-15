@@ -2,10 +2,9 @@ import { Button, Form, Table } from "antd";
 import React, { useState } from "react";
 import ModalSignUp from "./ModalSignUp";
 
-const TableTeacher = ({ listTeacher }) => {
+const TableTeacher = ({ listTeacher, listBranch }) => {
   const [isShowModalSignUp, setIsShowModalSignUp] = useState(false);
   const [saveTeacher, setSaveTeacher] = useState([]);
-  const [form] = Form.useForm();
   const columns = [
     {
       title: "No",
@@ -15,13 +14,15 @@ const TableTeacher = ({ listTeacher }) => {
       },
     },
     {
-      title: "Teacher ID",
-      dataIndex: "id",
-      key: "id",
+      title: "Avatar",
+      key: "avatar",
+      render: (record, text, index) => {
+        return <img alt="" src={record.avatar} />;
+      },
     },
     {
       title: "Teacher Name",
-      dataIndex: "teacherName",
+      dataIndex: "fullName",
       key: "name",
     },
     {
@@ -35,15 +36,20 @@ const TableTeacher = ({ listTeacher }) => {
       key: "branch",
     },
     {
-      title: "Academic Rank",
-      key: "academicRank",
-      dataIndex: "academicRank",
+      title: "Degree",
+      key: "degree",
+      dataIndex: "degree",
+    },
+    {
+      title: "Begin Teaching Year",
+      key: "beginTeachingYear",
+      dataIndex: "beginTeachingYear",
     },
     {
       title: "Student SignUp",
-      key: "studentSignUp",
+      key: "numberOfMentees",
       render: (record) => {
-        return <p>{record.studentSignUp}/10</p>;
+        return <p>{record.numberOfMentees}/5</p>;
       },
     },
     {
@@ -54,7 +60,7 @@ const TableTeacher = ({ listTeacher }) => {
           <Button
             type="primary"
             onClick={() => handleSignUp(record)}
-            disabled={record.studentSignUp === 10 && true}
+            disabled={record.studentSignUp >= 5 && true}
           >
             Sign Up
           </Button>
@@ -67,7 +73,6 @@ const TableTeacher = ({ listTeacher }) => {
     setIsShowModalSignUp(true);
   };
   const handleCloseModalSignUp = () => {
-    form.resetFields();
     setSaveTeacher([]);
     setIsShowModalSignUp(false);
   };
@@ -83,7 +88,7 @@ const TableTeacher = ({ listTeacher }) => {
         <ModalSignUp
           handleCloseModalSignUp={handleCloseModalSignUp}
           saveTeacher={saveTeacher}
-          form={form}
+          listBranch={listBranch}
         />
       )}
     </div>

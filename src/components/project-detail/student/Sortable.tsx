@@ -6,12 +6,15 @@ import { MdOutlineDragIndicator } from "react-icons/md";
 import ModalDetailTask from "./ModalDetailTask";
 import { FaRegComment } from "react-icons/fa";
 import { isPhaseFinished } from "@/utils/checkPhaseFinished";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const Sortable = ({ containerId, item }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: item.id,
     });
+  const phase = useSelector((state: RootState) => state.projectDetail.phase);
   const [isShowModal, setIsShowModal] = useState(false);
   const style = {
     transform: CSS.Transform.toString(transform),

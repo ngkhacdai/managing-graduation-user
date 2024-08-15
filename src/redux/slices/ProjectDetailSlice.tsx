@@ -1,21 +1,56 @@
+import {
+  addPhase,
+  getProjectDetail,
+  deletePhase,
+  finishPhase,
+  getPhaseInProject,
+} from "@/api/Project";
 import { arrayMove } from "@dnd-kit/sortable";
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   projectDetail: [],
-  phase: [
-    {
-      id: 1,
-      title: "State 1",
-      finished: true,
-      createAt: "8/11/2024",
-      updateAt: "8/13/2024",
-    },
-    { id: 2, title: "State 2", finished: false, createAt: "8/12/2024" },
-  ],
+  phase: [],
   activeId: null,
   projectName: "",
+  studentName: "",
+  mentor: "",
+  description: "",
+  loading: false,
+  error: null,
 };
+
+export const fetchProject = createAsyncThunk(
+  "project-slice/fetchProject",
+  async () => {
+    return await getProjectDetail();
+  }
+);
+
+export const addPhaseThunk = createAsyncThunk(
+  "project-slice/addPhase",
+  async (formData: object) => {
+    return await addPhase(formData);
+  }
+);
+
+export const removePhase = createAsyncThunk(
+  "project-slice/removePhase",
+  async () => {
+    return await deletePhase();
+  }
+);
+
+export const finishingPhase = createAsyncThunk(
+  "project-slice/finishPhase",
+  async () => {
+    return await finishPhase();
+  }
+);
+
+export const getPhase = createAsyncThunk("project-slice/getPhase", async () => {
+  return await getPhaseInProject();
+});
 
 export const findItemById = (id, state) => {
   for (const container of state.projectDetail) {
@@ -32,6 +67,9 @@ const projectDetailSlice = createSlice({
   name: "project-slice",
   initialState,
   reducers: {
+    setNullError: (state) => {
+      state.error = null;
+    },
     addNewPhase: (state, action) => {
       const { id, title } = action.payload;
       // state.phase = [...state.phase, { id, title }];
@@ -155,8 +193,6 @@ const projectDetailSlice = createSlice({
     handleDragEnd: (state, action) => {
       const { active, over } = action.payload.event;
       if (!over) return;
-
-      // Container sorting
       if (
         active.id.startsWith("container-") &&
         over.id.startsWith("container-")
@@ -225,6 +261,35 @@ const projectDetailSlice = createSlice({
       state.projectDetail = copyProjectDetail;
     },
   },
+  extraReducers: (builder) => {
+    builder;
+    // .addCase(fetchProject.pending, (state, action) => {
+    //   state.loading = true;
+    //   state.studentName = "";
+    //   state.projectName = "";
+    //   state.mentor = "";
+    //   state.description = "";
+    //   state.phase = [];
+    // })
+    // .addCase(fetchProject.fulfilled, (state, action) => {
+    //   state.studentName = action.payload.studentName;
+    //   state.projectName = action.payload.projectName;
+    //   state.mentor = action.payload.mentor;
+    //   state.description = action.payload.description;
+    // });
+    builder.addCase(addPhaseThunk.fulfilled, (state, action) => {
+      state.phase.push(action.payload);
+    });
+    builder.addCase(removePhase.fulfilled, (state, action) => {
+      state.phase.pop();
+    });
+    builder.addCase(finishingPhase.fulfilled, (state, action) => {
+      state.phase[state.phase.length - 1].completed = true;
+    });
+    builder.addCase(getPhase.fulfilled, (state, action) => {
+      state.phase = action.payload;
+    });
+  },
 });
 
 export const {
@@ -241,6 +306,7 @@ export const {
   deleteImage,
   commentTask,
   addNewPhase,
+  setNullError,
 } = projectDetailSlice.actions;
 
 export default projectDetailSlice.reducer;

@@ -12,8 +12,9 @@ import { Footer } from "antd/es/layout/layout";
 import { BiLogOut } from "react-icons/bi";
 import { logoutApi } from "@/api/Access";
 import { useTranslations } from "next-intl";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ModalAddNewPhase from "./ModalAddNewPhase";
+import { getPhase } from "@/redux/slices/ProjectDetailSlice";
 
 const { Sider, Content } = Layout;
 
@@ -22,6 +23,8 @@ const SideBarScreen = ({ children }) => {
   const [isShow, setIsShow] = useState(false);
   const [pushed, setPushed] = useState(false);
   const t = useTranslations("SideBar");
+  const pathName = usePathname();
+
   const defaultItems = [
     {
       key: "/project",
@@ -35,23 +38,24 @@ const SideBarScreen = ({ children }) => {
     },
   ];
   const phase = useSelector((state) => state.projectDetail.phase);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (pathName.includes("/project/detail")) {
+      dispatch(getPhase());
+    }
+  }, [pathName]);
   const [messageApi, contextHolder] = message.useMessage();
   const [collapsed, setCollapsed] = useState(false);
   const [items, setItems] = useState(defaultItems);
   const router = useRouter();
 
-  const pathName = usePathname();
-
   const logout = async () => {
-    const result = await logoutApi();
-    if (result.success) {
-      messageApi.success("Successfully logged out");
-      setTimeout(() => {
-        router.push("/login");
-      }, 1000);
-    } else {
-      messageApi.error("Failed to log out");
-    }
+    messageApi.success("Successfully logged out");
+
+    setTimeout(() => {
+      const result = logoutApi();
+    }, 1000);
   };
 
   const getKey = () => {
@@ -60,7 +64,6 @@ const SideBarScreen = ({ children }) => {
 
   useEffect(() => {
     const projectName = searchParams?.get("projectName");
-
     if (projectName) {
       const existingItem = items.find((item) => item.key === projectName);
 
@@ -73,9 +76,9 @@ const SideBarScreen = ({ children }) => {
             icon: <IoLibrary />,
             children: [
               ...phase.map((item) => ({
-                key: `/phase${item.id}`,
+                key: `/${item.id}`,
                 icon: <IoLibrary />,
-                label: <p>{item.title}</p>,
+                label: <p>{item.phaseName}</p>,
               })),
             ],
           },
@@ -83,16 +86,15 @@ const SideBarScreen = ({ children }) => {
         setItems(newItems);
         setPushed(true);
       } else {
-        // Update the children of the existing item with the new phases
         const updatedItems = items.map((item) => {
           if (item.key === projectName) {
             return {
               ...item,
               children: [
                 ...phase.map((item) => ({
-                  key: `/phase${item.id}`,
+                  key: `/${item.id}`,
                   icon: <IoLibrary />,
-                  label: <p>{item.title}</p>,
+                  label: <p>{item.phaseName}</p>,
                 })),
               ],
             };
@@ -138,7 +140,8 @@ const SideBarScreen = ({ children }) => {
             }
             items={items}
             onClick={({ key }) => {
-              if (key.startsWith("/phase")) {
+              // console.log(key);
+              if (key != "/project" && key != "/profile") {
                 const newPhase = key.replace("/", "");
                 const newUrl = new URL(window.location.href);
                 newUrl.searchParams.set("phase", newPhase);
@@ -147,16 +150,17 @@ const SideBarScreen = ({ children }) => {
             }}
           />
 
-          {searchParams.get("phase") && (
-            <Footer className="bg-white px-5">
-              <Tooltip title="Add new Phase">
-                <Button className="flex items-center" onClick={newPhase}>
-                  <FaPlus />
-                  {!collapsed && <p>Add new Phase</p>}
-                </Button>
-              </Tooltip>
-            </Footer>
-          )}
+          {searchParams.get("phase") &&
+            !phase.some((item) => item?.completed == false) && (
+              <Footer className="bg-white px-5">
+                <Tooltip title="Add new Phase">
+                  <Button className="flex items-center" onClick={newPhase}>
+                    <FaPlus />
+                    {!collapsed && <p>Add new Phase</p>}
+                  </Button>
+                </Tooltip>
+              </Footer>
+            )}
         </Sider>
         <Layout className="!overflow-y-auto !bg-white">
           <div className="w-full p-2 flex justify-between items-center border-b-inherit border-b-2">

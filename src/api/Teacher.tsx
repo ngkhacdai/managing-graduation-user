@@ -11,3 +11,12 @@ export const updateTeacherProfile = async (formData) => {
     "multipart/form-data"
   );
 };
+
+export const getAllTeacher = async () => {
+  try {
+    return await GET("/getAllTeacher");
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};

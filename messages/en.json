@@ -65,5 +65,11 @@
     "notiUpdateSuccess": "Updated student profile successfully!",
     "notiUpdateFailed": "Failed to update student profile!",
     "notFillDepartment": "Please fill the department!"
-  }
+  },
+  "Signup": {
+    "title": "Sign up project",
+    "slBranch": "Select branch",
+    "findTeacher": "Find teacher"
+  },
+  "ProjectDetails": {}
 }

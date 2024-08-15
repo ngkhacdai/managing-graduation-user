@@ -20,11 +20,6 @@ const TableProject = ({ projectData }) => {
       },
     },
     {
-      title: "id",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
       title: t("projectName"),
       dataIndex: "projectName",
       key: "projectName",
@@ -63,8 +58,7 @@ const TableProject = ({ projectData }) => {
     params.set("studentName", record.studentName);
     params.set("teacherName", record.teacherName);
     params.set("projectName", record.projectName);
-    params.set("projectId", record.id);
-    params.set("phase", `phase${phase[0].id}`);
+    params.set("phase", `${phase[0].id}`);
     route.push(
       `/${pathName.split("/")[1]}/project/detail?${params.toString()}`
     );

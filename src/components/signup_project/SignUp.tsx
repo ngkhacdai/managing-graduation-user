@@ -1,18 +1,16 @@
 import React from "react";
 import SignUpScreen from "./SignUp.screen";
+import { getAllBranch } from "@/api/Branch";
+import { getAllTeacher } from "@/api/Teacher";
 
-const SignUp = () => {
-  const fakeListBranch = ["CNTT", "KT", "YH"];
-  const fakeListTeacher = Array.from({ length: 100 }, (_, index) => ({
-    id: index,
-    teacherName: `Teacher ${index}`,
-    teacherEmail: `teacher${index}@gmail.com`,
-    branch: fakeListBranch[Math.floor(Math.random() * fakeListBranch.length)],
-    academicRank: Math.floor(Math.random() * 5),
-    studentSignUp: Math.round(Math.random() * 9 + 1),
-  }));
+const SignUp = async () => {
+  const listBranch = await getAllBranch();
+  const listTeacher = await getAllTeacher();
   return (
-    <SignUpScreen listBranch={fakeListBranch} listTeacher={fakeListTeacher} />
+    <SignUpScreen
+      listBranch={listBranch?.data || []}
+      listTeacher={listTeacher?.data || []}
+    />
   );
 };
 

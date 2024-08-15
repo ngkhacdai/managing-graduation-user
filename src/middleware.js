@@ -36,9 +36,7 @@ export default async function middleware(req) {
       if (
         !searchParams.get("studentName") ||
         !searchParams.get("teacherName") ||
-        !searchParams.get("projectName") ||
-        !searchParams.get("projectId") ||
-        !searchParams.get("phase")
+        !searchParams.get("projectName")
       ) {
         return NextResponse.redirect(new URL(`/${lang}/project`, req.url));
       }

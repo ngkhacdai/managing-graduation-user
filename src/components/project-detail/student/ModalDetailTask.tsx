@@ -10,7 +10,7 @@ import { BiSolidDetail } from "react-icons/bi";
 import TextArea from "antd/es/input/TextArea";
 import { MdDeleteForever } from "react-icons/md";
 import { Button, Image, message, Modal, Popover, Upload } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   commentTask,
   deleteImage,

@@ -1,12 +1,20 @@
-import { addNewPhase } from "@/redux/slices/ProjectDetailSlice";
+import {
+  addNewPhase,
+  addPhaseThunk,
+  setNullError,
+} from "@/redux/slices/ProjectDetailSlice";
+import { AppDispatch, RootState } from "@/redux/store";
 import { Form, Input, Modal } from "antd";
+import useMessage from "antd/es/message/useMessage";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ModalAddNewPhase = ({ setIsShow }) => {
+  const [messageAPI, contextHolder] = useMessage();
   const [isShowModal, setIsShowModal] = useState(false);
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const error = useSelector((state: RootState) => state.projectDetail.error);
   useEffect(() => {
     setIsShowModal(true);
   }, []);
@@ -19,38 +27,47 @@ const ModalAddNewPhase = ({ setIsShow }) => {
   const handleOk = () => {
     form.submit();
   };
-  const onSubmit = () => {
+
+  const onSubmit = async () => {
     const value = form.getFieldsValue();
-    dispatch(
-      addNewPhase({
-        id: Math.floor(Math.random() * 10000000),
-        title: value.phaseName,
-      })
-    );
-    onCancel();
+    const formData = {
+      phaseName: value.phaseName,
+    };
+    await dispatch(addPhaseThunk(formData));
+    if (error) {
+      messageAPI.error(error);
+    }
+    setTimeout(() => {
+      dispatch(setNullError());
+      onCancel();
+    }, 1000);
   };
+
   return (
-    <Modal
-      onOk={handleOk}
-      title={"Add new phase"}
-      onCancel={onCancel}
-      open={isShowModal}
-    >
-      <Form form={form} onFinish={onSubmit} layout="vertical">
-        <Form.Item
-          name="phaseName"
-          rules={[
-            {
-              required: true,
-              message: "Please input phase name!",
-            },
-          ]}
-          label="Phase name"
-        >
-          <Input />
-        </Form.Item>
-      </Form>
-    </Modal>
+    <>
+      {contextHolder}
+      <Modal
+        onOk={handleOk}
+        title={"Add new phase"}
+        onCancel={onCancel}
+        open={isShowModal}
+      >
+        <Form form={form} onFinish={onSubmit} layout="vertical">
+          <Form.Item
+            name="phaseName"
+            rules={[
+              {
+                required: true,
+                message: "Please input phase name!",
+              },
+            ]}
+            label="Phase name"
+          >
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
   );
 };
 
