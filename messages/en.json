@@ -28,6 +28,7 @@
     "messageNotFillEmail": "Please input your email!"
   },
   "SideBar": {
+    "newPhase": "Add new phase",
     "project": "Project",
     "library": "Library",
     "profile": "Profile",
@@ -71,5 +72,31 @@
     "slBranch": "Select branch",
     "findTeacher": "Find teacher"
   },
-  "ProjectDetails": {}
+  "ProjectDetail": {
+    "newBoard": "Add new board",
+    "newCard": "Add new card",
+    "Detail": "Detail",
+    "Save": "Save",
+    "ClearForm": "Clear form",
+    "Comment": "Comments",
+    "cardTitle": "Card title",
+    "boardTitle": "Board title",
+    "btnAddCard": "New card",
+    "btnAddBoard": "New board",
+    "delete": "Delete phase",
+    "finish": "Finish phase",
+    "cancel": "Cancel",
+    "notiDelete": "You can not undo when delete this",
+    "saveDescription": "Save description successfully!",
+    "saveComment": "Save comment successfully!",
+    "commentEmty": "Comment is empty!",
+    "notiDeleteTask": "Do you still want to delele?",
+    "btnDeleteTask": "Delete Task",
+    "plhTaskDetail": "Task details",
+    "notFillTitle": "Please enter a title!",
+    "deleteBoard": "Warning: You can not undo when delete this",
+    "titleDeleteBoard": "Delete board",
+    "project": "Project",
+    "warn": "This action can not undo. Do you want to continue?"
+  }
 }

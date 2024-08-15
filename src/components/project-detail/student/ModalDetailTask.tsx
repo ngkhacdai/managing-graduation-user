@@ -19,8 +19,10 @@ import {
 } from "@/redux/slices/ProjectDetailSlice";
 import { PiStudent } from "react-icons/pi";
 import { isPhaseFinished } from "@/utils/checkPhaseFinished";
+import { useTranslations } from "next-intl";
 
 const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
+  const t = useTranslations("ProjectDetail");
   const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
   const [detail, setDetail] = useState(item.detail.description);
@@ -62,7 +64,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         description: detail,
       })
     );
-    messageApi.success("Save description successfully");
+    messageApi.success(t("saveDescription"));
   };
 
   const clearFormComment = () => {
@@ -89,9 +91,9 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         })
       );
       clearFormComment();
-      return messageApi.success("Save comment successfully");
+      return messageApi.success(t("saveComment"));
     }
-    return messageApi.error("Comment is empty");
+    return messageApi.error(t("commentEmty"));
   };
   return (
     <div>
@@ -109,16 +111,16 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
                   content={
                     <div>
                       <p className="text-red-500 font-semibold text-lg">
-                        You can not undo when delete this: {item.title}
+                        {t("notiDelete")}: {item.title}
                       </p>
-                      <p>Do you still want to delele?</p>
+                      <p>{t("notiDeleteTask")}</p>
                       <div className="text-right">
                         <Button
                           className="!bg-red-500 hover:!bg-red-400"
                           type="primary"
                           onClick={onDeleteTask}
                         >
-                          Delete
+                          {t("delete")}
                         </Button>
                       </div>
                     </div>
@@ -127,7 +129,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
                   open={open}
                   onOpenChange={handleOpenChange}
                 >
-                  <Button>Delete Task</Button>
+                  <Button>{t("btnDeleteTask")}</Button>
                 </Popover>
               )}
             </div>
@@ -143,7 +145,9 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         <div className="flex">
           <BiSolidDetail size={18} color="#44546F" />
           <div className="px-2">
-            <p className="text-slate-600 font-semibold text-lg">Detail</p>
+            <p className="text-slate-600 font-semibold text-lg">
+              {t("Detail")}
+            </p>
             <TextArea
               autoSize={true}
               value={detail}
@@ -154,7 +158,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
                   minHeight: 150,
                 },
               }}
-              placeholder="Task details"
+              placeholder={t("plhTaskDetail")}
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="my-2">
@@ -236,10 +240,10 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
                         onSaveDetail();
                       }}
                     >
-                      Save
+                      {t("Save")}
                     </Button>
                     <Button className="mx-2" onClick={clearFormDetail}>
-                      Clear form
+                      {t("ClearForm")}
                     </Button>
                   </div>
                 </div>
@@ -272,7 +276,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
             <div className="flex justify-between items-center mt-2">
               {!isPhaseFinished() && (
                 <Button type="primary" onClick={onSaveComment}>
-                  Save
+                  {t("Save")}
                 </Button>
               )}
             </div>

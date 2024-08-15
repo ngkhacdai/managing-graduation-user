@@ -193,6 +193,8 @@ const projectDetailSlice = createSlice({
     handleDragEnd: (state, action) => {
       const { active, over } = action.payload.event;
       if (!over) return;
+
+      // Container sorting
       if (
         active.id.startsWith("container-") &&
         over.id.startsWith("container-")
@@ -262,7 +264,7 @@ const projectDetailSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder;
+    // builder
     // .addCase(fetchProject.pending, (state, action) => {
     //   state.loading = true;
     //   state.studentName = "";

@@ -28,6 +28,7 @@
     "messageNotFillEmail": "Vui lòng nhập email của bạn!"
   },
   "SideBar": {
+    "newPhase": "Thêm giai đoạn",
     "project": "Dự Án",
     "library": "Thư Viện",
     "profile": "Hồ Sơ",
@@ -70,5 +71,32 @@
     "title": "Đăng ký đồ án",
     "slBranch": "Chọn ngành",
     "findTeacher": "Tìm kiếm giảng viên"
+  },
+  "ProjectDetail": {
+    "newBoard": "Thêm bảng mới",
+    "newCard": "Thêm thẻ mới",
+    "Detail": "Chi tiết",
+    "Save": "Lưu",
+    "ClearForm": "Xóa biểu mẫu",
+    "Comment": "Bình luận",
+    "cardTitle": "Tiêu đề thẻ",
+    "boardTitle": "Tiêu đề bảng",
+    "btnAddCard": "Thẻ mới",
+    "btnAddBoard": "Bảng mới",
+    "delete": "Xóa giai đoạn",
+    "finish": "Hoàn thành giai đoạn",
+    "cancel": "Hủy",
+    "notiDelete": "Bạn không thể hoàn tác khi xóa điều này",
+    "saveDescription": "Lưu mô tả thành công!",
+    "saveComment": "Lưu bình luận thành công!",
+    "commentEmty": "Bình luận trống!",
+    "notiDeleteTask": "Bạn vẫn muốn xóa chứ?",
+    "btnDeleteTask": "Xóa công việc",
+    "plhTaskDetail": "Chi tiết công việc",
+    "notFillTitle": "Vui lòng nhập tiêu đề!",
+    "deleteBoard": "Cảnh báo: Bạn không thể hoàn tác khi xóa điều này",
+    "titleDeleteBoard": "Xóa bảng",
+    "project": "Đồ án",
+    "warn": "Hành động này không thể quay lại. Bạn có muốn tiếp tục không?"
   }
 }

@@ -6,9 +6,10 @@ import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SlOptionsVertical } from "react-icons/sl";
+import { useTranslations } from "next-intl";
 
 const Navigation = ({ role }) => {
-  const phase = useSelector((state) => state.projectDetail.phase);
+  const t = useTranslations("ProjectDetail");
   const searchParams = useSearchParams();
   const [isShowModal, setIsShowModal] = useState(false);
   const [title, setTitle] = useState("");
@@ -39,7 +40,7 @@ const Navigation = ({ role }) => {
             setIsShowModal(true);
           }}
         >
-          Delete
+          {t("delete")}
         </p>
       ),
     },
@@ -52,7 +53,7 @@ const Navigation = ({ role }) => {
             setIsShowModal(true);
           }}
         >
-          Finish
+          {t("finish")}
         </p>
       ),
     },
@@ -61,7 +62,7 @@ const Navigation = ({ role }) => {
     <>
       <div className="md:px-7 flex items-center justify-between bg-blue-700">
         <p className="py-2 font-bold text-white text-lg">
-          Project: {searchParams.get("projectName")}
+          {t("project")}: {searchParams.get("projectName")}
         </p>
         {!isPhaseFinished() && role == "student" && (
           <div className="flex items-center">
@@ -77,9 +78,9 @@ const Navigation = ({ role }) => {
         onCancel={onCancel}
         onOk={onOk}
         open={isShowModal}
-        title={`${title} phase`}
+        title={title == "Finish" ? t("finish") : t("delete")}
       >
-        <p>This action can not undo. Do you want to continue?</p>
+        <p>{t("warn")}</p>
       </Modal>
     </>
   );

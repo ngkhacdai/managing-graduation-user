@@ -6,10 +6,12 @@ import {
 import { AppDispatch, RootState } from "@/redux/store";
 import { Form, Input, Modal } from "antd";
 import useMessage from "antd/es/message/useMessage";
+import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const ModalAddNewPhase = ({ setIsShow }) => {
+  const t = useTranslations("SideBar");
   const [messageAPI, contextHolder] = useMessage();
   const [isShowModal, setIsShowModal] = useState(false);
   const [form] = Form.useForm();
@@ -48,7 +50,7 @@ const ModalAddNewPhase = ({ setIsShow }) => {
       {contextHolder}
       <Modal
         onOk={handleOk}
-        title={"Add new phase"}
+        title={t("newPhase")}
         onCancel={onCancel}
         open={isShowModal}
       >
