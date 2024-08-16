@@ -67,10 +67,17 @@
     "notiUpdateFailed": "Failed to update student profile!",
     "notFillDepartment": "Please fill the department!"
   },
-  "Signup": {
+  "SignUp": {
     "title": "Sign up project",
     "slBranch": "Select branch",
-    "findTeacher": "Find teacher"
+    "findTeacher": "Find teacher",
+    "Avatar": "Avatar",
+    "TeacherName": "Teacher Name",
+    "Branch": "Branch",
+    "Degree": "Degree",
+    "beginTeachingYear": "Begin Teaching Year",
+    "numberStudentSingUp": "Student SignUp",
+    "Action": "Action"
   },
   "ProjectDetail": {
     "newBoard": "Add new board",

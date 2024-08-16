@@ -70,7 +70,14 @@
   "SignUp": {
     "title": "Đăng ký đồ án",
     "slBranch": "Chọn ngành",
-    "findTeacher": "Tìm kiếm giảng viên"
+    "findTeacher": "Tìm kiếm giảng viên",
+    "Avatar": "Ảnh đại diện",
+    "TeacherName": "Tên giảng viên",
+    "Branch": "Ngành",
+    "Degree": "Degree",
+    "beginTeachingYear": "Năm bắt đầu dạy",
+    "numberStudentSingUp": "Học sinh đăng ký",
+    "Action": "Hành động"
   },
   "ProjectDetail": {
     "newBoard": "Thêm bảng mới",

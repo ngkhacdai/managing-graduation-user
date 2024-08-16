@@ -194,6 +194,84 @@ const projectDetailSlice = createSlice({
       const { active, over } = action.payload.event;
       if (!over) return;
 
+      // Moving a task into a container
+      if (active.id.startsWith("task-") && over.id.startsWith("container-")) {
+        const { container: activeContainer, item: activeItem } =
+          findItemById(active.id, state) || {};
+        const overContainer = findContainerById(over.id, state);
+
+        if (!activeContainer || !overContainer) return;
+
+        const activeContainerIndex =
+          state.projectDetail.indexOf(activeContainer);
+        const overContainerIndex = state.projectDetail.indexOf(overContainer);
+
+        const [movedItem] = state.projectDetail[
+          activeContainerIndex
+        ].list.splice(activeContainer.list.indexOf(activeItem), 1);
+
+        // Log task move into a container
+        console.log("Task moved into container", {
+          taskId: active.id,
+          fromContainerId: activeContainer.id,
+          toContainerId: overContainer.id,
+          fromIndex: activeContainer.list.indexOf(activeItem),
+          toIndex: state.projectDetail[overContainerIndex].list.length,
+        });
+
+        state.projectDetail[overContainerIndex].list.push(movedItem);
+        state.activeId = null;
+        return;
+      }
+
+      // Task sorting within the same container or moving to another container
+      if (active.id.startsWith("task-") && over.id.startsWith("task-")) {
+        const { container: activeContainer, item: activeItem } =
+          findItemById(active.id, state) || {};
+        const { container: overContainer, item: overItem } =
+          findItemById(over.id, state) || {};
+
+        if (!activeContainer || !overContainer) return;
+
+        const activeContainerIndex =
+          state.projectDetail.indexOf(activeContainer);
+        const overContainerIndex = state.projectDetail.indexOf(overContainer);
+        const activeItemIndex = activeContainer.list.indexOf(activeItem);
+        const overItemIndex = overContainer.list.indexOf(overItem);
+
+        if (activeContainerIndex === overContainerIndex) {
+          // Log task reordering within the same container
+          console.log("Task reordered", {
+            taskId: active.id,
+            containerId: activeContainer.id,
+            fromIndex: activeItemIndex,
+            toIndex: overItemIndex,
+          });
+
+          // Reorder items within the same container
+          state.projectDetail[activeContainerIndex].list = arrayMove(
+            state.projectDetail[activeContainerIndex].list,
+            activeItemIndex,
+            overItemIndex
+          );
+        } else {
+          // Log task move between different containers
+          console.log("Task moved between containers", {
+            taskId: active.id,
+            fromContainerId: activeContainer.id,
+            toContainerId: overContainer.id,
+            fromIndex: activeItemIndex,
+            toIndex: state.projectDetail[overContainerIndex].list.length,
+          });
+
+          // Move item between different containers
+          const [movedItem] = state.projectDetail[
+            activeContainerIndex
+          ].list.splice(activeItemIndex, 1);
+          state.projectDetail[overContainerIndex].list.push(movedItem);
+        }
+      }
+
       // Container sorting
       if (
         active.id.startsWith("container-") &&
@@ -206,8 +284,18 @@ const projectDetailSlice = createSlice({
           (container) => container.id === over.id
         );
 
-        const newItems = arrayMove(state.projectDetail, activeIndex, overIndex);
-        state.projectDetail = newItems;
+        // Log container change
+        console.log("Container moved", {
+          containerId: active.id,
+          fromIndex: activeIndex,
+          toIndex: overIndex,
+        });
+
+        state.projectDetail = arrayMove(
+          state.projectDetail,
+          activeIndex,
+          overIndex
+        );
       }
 
       state.activeId = null;

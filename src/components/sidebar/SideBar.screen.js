@@ -150,17 +150,18 @@ const SideBarScreen = ({ children }) => {
             }}
           />
 
-          {(phase.length == 0 ||
-            !phase.some((item) => item?.completed == false)) && (
-            <Footer className="bg-white px-5">
-              <Tooltip title={t("newPhase")}>
-                <Button className="flex items-center" onClick={newPhase}>
-                  <FaPlus />
-                  {!collapsed && <p>{t("newPhase")}</p>}
-                </Button>
-              </Tooltip>
-            </Footer>
-          )}
+          {pathName.includes("/project/detail") &&
+            (phase.length == 0 ||
+              !phase.some((item) => item?.completed == false)) && (
+              <Footer className="bg-white px-5">
+                <Tooltip title={t("newPhase")}>
+                  <Button className="flex items-center" onClick={newPhase}>
+                    <FaPlus />
+                    {!collapsed && <p>{t("newPhase")}</p>}
+                  </Button>
+                </Tooltip>
+              </Footer>
+            )}
         </Sider>
         <Layout className="!overflow-y-auto !bg-white">
           <div className="w-full p-2 flex justify-between items-center border-b-inherit border-b-2">

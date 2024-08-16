@@ -1,8 +1,10 @@
 import { Button, Form, Table } from "antd";
 import React, { useState } from "react";
 import ModalSignUp from "./ModalSignUp";
+import { useTranslations } from "next-intl";
 
 const TableTeacher = ({ listTeacher, listBranch }) => {
+  const t = useTranslations("SignUp");
   const [isShowModalSignUp, setIsShowModalSignUp] = useState(false);
   const [saveTeacher, setSaveTeacher] = useState([]);
   const columns = [
@@ -14,14 +16,14 @@ const TableTeacher = ({ listTeacher, listBranch }) => {
       },
     },
     {
-      title: "Avatar",
+      title: t("Avatar"),
       key: "avatar",
       render: (record, text, index) => {
         return <img alt="" src={record.avatar} />;
       },
     },
     {
-      title: "Teacher Name",
+      title: t("TeacherName"),
       dataIndex: "fullName",
       key: "name",
     },
@@ -31,29 +33,29 @@ const TableTeacher = ({ listTeacher, listBranch }) => {
       key: "email",
     },
     {
-      title: "Branch",
+      title: t("Branch"),
       dataIndex: "branch",
       key: "branch",
     },
     {
-      title: "Degree",
+      title: t("Degree"),
       key: "degree",
       dataIndex: "degree",
     },
     {
-      title: "Begin Teaching Year",
+      title: t("beginTeachingYear"),
       key: "beginTeachingYear",
       dataIndex: "beginTeachingYear",
     },
     {
-      title: "Student SignUp",
+      title: t("numberStudentSingUp"),
       key: "numberOfMentees",
       render: (record) => {
         return <p>{record.numberOfMentees}/5</p>;
       },
     },
     {
-      title: "Action",
+      title: t("Action"),
       key: "action",
       render: (record) => {
         return (
