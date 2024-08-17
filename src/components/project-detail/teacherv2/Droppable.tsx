@@ -12,7 +12,7 @@ import { IoMdClose } from "react-icons/io";
 import { CSS } from "@dnd-kit/utilities";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { addItemInList, deleteBoard } from "@/redux/slices/ProjectDetailSlice";
+import { deleteBoard } from "@/redux/slices/ProjectDetailSlice";
 import { useTranslations } from "next-intl";
 
 const Droppable = ({ items }) => {
@@ -31,7 +31,7 @@ const Droppable = ({ items }) => {
   };
 
   const addNewCard = () => {
-    dispatch(addItemInList({ items: items.id, title }));
+    // dispatch(addItemInList({ items: items.id, title }));
     cancelAddNewCard();
   };
 

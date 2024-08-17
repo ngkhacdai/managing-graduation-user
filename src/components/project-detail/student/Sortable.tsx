@@ -34,9 +34,9 @@ const Sortable = ({ containerId, item }) => {
       >
         <div className="bg-white py-2 max-w-[272px] border-inherit border-2 rounded-xl flex items-center justify-between">
           <div className="w-full break-words ">
-            <div className="px-2">{item.title}</div>
+            <div className="px-2">{item.taskName}</div>
 
-            {item.detail.comment.length > 0 && (
+            {item?.detail?.comment?.length > 0 && (
               <div className="flex px-2 items-center">
                 <FaRegComment />
                 <p className="mx-1">{item.detail.comment.length}</p>

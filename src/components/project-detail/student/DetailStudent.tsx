@@ -19,6 +19,7 @@ import debounce from "lodash.debounce";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
+  getBoard,
   handleDragEnd,
   handleDragOver,
   handleDragStart,
@@ -32,11 +33,18 @@ const DetailProject = () => {
   const dispatch = useDispatch<AppDispatch>();
   const searchParams = useSearchParams();
   const phase = useSelector((state: RootState) => state.projectDetail.phase);
-  // useEffect(() => {
-  //   if (phase.some((item) => item.id !== searchParams.get("phase"))) {
-  //     router.replace("/project");
-  //   }
-  // }, [phase]);
+  const dispatchBoard = useCallback(
+    debounce((id) => {
+      dispatch(getBoard(id));
+    }, 300),
+    [dispatch]
+  );
+  useEffect(() => {
+    const phaseId = searchParams.get("phase");
+    if (phaseId && phase.some((item) => item.id.toString() === phaseId)) {
+      dispatchBoard(phaseId);
+    }
+  }, [phase, searchParams, dispatchBoard]);
   const items = useSelector(
     (state: RootState) => state.projectDetail.projectDetail
   );
@@ -56,7 +64,7 @@ const DetailProject = () => {
 
   const findItemById = (id) => {
     for (const container of items) {
-      const item = container.list.find((item) => item.id === id);
+      const item = container.task.find((item) => item.id === id);
       if (item) return { container, item };
     }
     return null;
@@ -68,14 +76,16 @@ const DetailProject = () => {
         <p>{container.title}</p>
       </div>
       <div>
-        {container.list.map((item) => (
-          <div
-            key={item.id}
-            className="w-full flex items-center justify-between bg-white py-2 border-inherit border-2 rounded-xl m-1"
-          >
-            <div className="px-2">{item.title}</div>
-          </div>
-        ))}
+        {container.task.map((item) => {
+          return (
+            <div
+              key={item.id}
+              className="w-full flex items-center justify-between bg-white py-2 border-inherit border-2 rounded-xl m-1"
+            >
+              <div className="px-2">{item.taskName}</div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -124,7 +134,9 @@ const DetailProject = () => {
               <DraggableContainer container={findContainerById(activeId)} />
             ) : findItemById(activeId)?.item ? (
               <div className="w-full flex items-center justify-between bg-white py-2 border-inherit border-2 rounded-xl m-1">
-                <div className="px-2">{findItemById(activeId).item.title}</div>
+                <div className="px-2">
+                  {findItemById(activeId).item.taskName}
+                </div>
               </div>
             ) : null
           ) : null}

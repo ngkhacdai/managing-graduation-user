@@ -14,7 +14,8 @@ export const updateTeacherProfile = async (formData) => {
 
 export const getAllTeacher = async () => {
   try {
-    return await GET("/getAllTeacher");
+    const response = await GET("/getAllTeacher");
+    return response;
   } catch (error) {
     console.log(error);
     return null;

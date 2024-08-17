@@ -20,12 +20,15 @@ import {
 import { PiStudent } from "react-icons/pi";
 import { isPhaseFinished } from "@/utils/checkPhaseFinished";
 import { useTranslations } from "next-intl";
+import { AppDispatch } from "@/redux/store";
 
 const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
   const t = useTranslations("ProjectDetail");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [messageApi, contextHolder] = message.useMessage();
-  const [detail, setDetail] = useState(item.detail.description);
+  const [detail, setDetail] = useState(
+    item?.detail?.description ? item?.detail?.description : ""
+  );
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [fileList, setFileList] = useState([]);
@@ -72,7 +75,12 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
   };
 
   const onDeleteTask = async () => {
-    dispatch(deleteTask({ containerId: containerId, taskId: item.id, detail }));
+    dispatch(
+      deleteTask({
+        containerId: containerId.split("container-")[1],
+        taskId: item.id.split("task-")[1],
+      })
+    );
   };
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -162,7 +170,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="my-2">
-              {item.detail.fileList.map(
+              {item?.detail?.fileList?.map(
                 (items: { url: string; title: string }, index: number) => {
                   return (
                     <div
@@ -283,7 +291,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
           </div>
         </div>
         <div className="mt-2">
-          {item.detail.comment.map((items, index) => {
+          {item?.detail?.comment?.map((items, index) => {
             return (
               <div key={`comment-${index}`}>
                 <div className="flex my-1">

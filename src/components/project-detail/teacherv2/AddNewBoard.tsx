@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, Input } from "antd";
 import { FaPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { addNewBoard } from "@/redux/slices/ProjectDetailSlice";
 import { useTranslations } from "next-intl";
 import useMessage from "antd/es/message/useMessage";
 const AddNewBoard = () => {
@@ -17,7 +16,7 @@ const AddNewBoard = () => {
   };
   const newBoard = () => {
     if (title !== "") {
-      dispatch(addNewBoard({ title }));
+      // dispatch(addNewBoard({ title }));
       cancelAddNewBoard();
     } else {
       messageAPI.error(t("notFillTitle"));

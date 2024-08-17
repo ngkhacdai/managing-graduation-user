@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <div className="flex justify-between items-center">
       <Link href={"/"}>
-        <img className="w-16 h-16" src={logo.src} />
+        <img alt="" className="w-16 h-16" src={logo.src} />
       </Link>
       <div className="flex items-center">
         <Select

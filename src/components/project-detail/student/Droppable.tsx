@@ -12,13 +12,17 @@ import { IoMdClose } from "react-icons/io";
 import { CSS } from "@dnd-kit/utilities";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { addItemInList, deleteBoard } from "@/redux/slices/ProjectDetailSlice";
+import { addNewTask, deleteBoard } from "@/redux/slices/ProjectDetailSlice";
 import { isPhaseFinished } from "@/utils/checkPhaseFinished";
 import { useTranslations } from "next-intl";
+import { AppDispatch } from "@/redux/store";
+import useMessage from "antd/es/message/useMessage";
 
 const Droppable = ({ items }) => {
+  const [messageAPI, contextHoler] = useMessage();
+
   const t = useTranslations("ProjectDetail");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [showNewCard, setShowNewCard] = useState(false);
   const [title, setTitle] = useState("");
   const [isShowModalDelete, setIsShowModalDelete] = useState(false);
@@ -32,8 +36,17 @@ const Droppable = ({ items }) => {
   };
 
   const addNewCard = () => {
-    dispatch(addItemInList({ items: items.id, title }));
-    cancelAddNewCard();
+    if (title !== "") {
+      dispatch(
+        addNewTask({
+          boardId: items.id.split("container-")[1],
+          taskName: title,
+        })
+      );
+      cancelAddNewCard();
+    } else {
+      messageAPI.error(t("notFillTitle"));
+    }
   };
 
   const handleDeleteBoard = () => {
@@ -58,6 +71,7 @@ const Droppable = ({ items }) => {
         transform: CSS.Translate.toString(transform),
       }}
     >
+      {contextHoler}
       <div className="flex justify-between mx-1 items-center">
         <p className="">{items.title}</p>
         {!isPhaseFinished() && (
@@ -72,10 +86,10 @@ const Droppable = ({ items }) => {
         )}
       </div>
       <SortableContext
-        items={items.list.map((item) => item.id)}
+        items={items.task.map((item) => item.id)}
         strategy={verticalListSortingStrategy}
       >
-        {items.list.map((item) => (
+        {items.task.map((item) => (
           <div key={`task-${item.id}`}>
             <Sortable containerId={items.id} item={item} />
           </div>

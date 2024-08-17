@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { IoLibrary } from "react-icons/io5";
 import { Button, Layout, Menu, message, Select, Tooltip } from "antd";
@@ -15,6 +15,7 @@ import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
 import ModalAddNewPhase from "./ModalAddNewPhase";
 import { getPhase } from "@/redux/slices/ProjectDetailSlice";
+import debounce from "lodash.debounce";
 
 const { Sider, Content } = Layout;
 
@@ -38,24 +39,28 @@ const SideBarScreen = ({ children }) => {
     },
   ];
   const phase = useSelector((state) => state.projectDetail.phase);
-
+  const dispatchDebounce = useCallback(
+    debounce(() => {
+      dispatch(getPhase());
+    }, 100),
+    []
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     if (pathName.includes("/project/detail")) {
-      dispatch(getPhase());
+      dispatchDebounce();
     }
-  }, [pathName]);
+  }, [pathName, dispatchDebounce]);
   const [messageApi, contextHolder] = message.useMessage();
   const [collapsed, setCollapsed] = useState(false);
   const [items, setItems] = useState(defaultItems);
   const router = useRouter();
-
   const logout = async () => {
     messageApi.success("Successfully logged out");
 
     setTimeout(() => {
       const result = logoutApi();
-    }, 1000);
+    }, 500);
   };
 
   const getKey = () => {
@@ -107,7 +112,7 @@ const SideBarScreen = ({ children }) => {
       setItems(defaultItems);
       setPushed(false);
     }
-  }, [phase, searchParams, pushed]);
+  }, [phase, searchParams, pushed, defaultItems]);
   const newPhase = () => {
     setIsShow(true);
   };
@@ -151,6 +156,7 @@ const SideBarScreen = ({ children }) => {
           />
 
           {pathName.includes("/project/detail") &&
+            phase &&
             (phase.length == 0 ||
               !phase.some((item) => item?.completed == false)) && (
               <Footer className="bg-white px-5">

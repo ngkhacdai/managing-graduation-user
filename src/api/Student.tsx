@@ -10,26 +10,21 @@ export const updateStudentProfile = async (formData) => {
 };
 
 export const addProject = async (form) => {
-  const cookies = getCookie();
+  const cookies = await getCookie();
   const url = `http://26.79.227.10:8080/student/addProject`;
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies.token}`,
-      },
-      body: JSON.stringify(form),
-    });
-    if (!response.ok) {
-      const errorBody = await response.json();
-      throw new Error(errorBody);
-    }
-    return await response.json();
-  } catch (error) {
-    console.log(error);
-    return {
-      message: "Failed to create project",
-    };
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookies.token}`,
+    },
+    body: JSON.stringify(form),
+  });
+  if (!response.ok) {
+    console.log(response);
+
+    const errorBody = await response.json();
+    throw new Error(errorBody);
   }
+  return await response.json();
 };

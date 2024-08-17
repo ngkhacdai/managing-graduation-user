@@ -72,6 +72,7 @@ const Comment = () => {
                       ) : item?.link ? (
                         <div>
                           <img
+                            alt=""
                             src={`
                         https://api.screenshotone.com/take?
 	access_key=VNLCZ-l26Dk-JA

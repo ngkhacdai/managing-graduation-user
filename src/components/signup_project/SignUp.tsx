@@ -9,7 +9,7 @@ const SignUp = async () => {
   return (
     <SignUpScreen
       listBranch={listBranch?.data || []}
-      listTeacher={listTeacher?.data || []}
+      listTeacher={listTeacher || []}
     />
   );
 };

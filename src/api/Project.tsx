@@ -63,9 +63,100 @@ export const finishPhase = async () => {
     },
     body: JSON.stringify({ completed: true }),
   });
-  console.log(response.json());
+  if (!response.ok) {
+    throw new Error("Failed to call api");
+  }
+  return response.json();
+};
+
+export const getDataInPhase = async (phaseId: string) => {
+  try {
+    return await GET(`/getPhaseById/${phaseId}`);
+  } catch (error) {
+    return [];
+  }
+};
+
+export const addBoard = async (form) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/createBoard`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: JSON.stringify(form),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to add phase");
+  }
+  return response.json();
+};
+
+export const updateBoardPosition = async (form) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/updateBoardPosition`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: JSON.stringify(form),
+  });
+  console.log(response);
 
   if (!response.ok) {
+    throw new Error("Failed to call api");
+  }
+  return response.json();
+};
+
+export const addTask = async (form) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/user/addTask`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: JSON.stringify(form),
+  });
+  if (!response.ok) {
+    console.log(response);
+
+    throw new Error("Failed to add phase");
+  }
+  return response.json();
+};
+
+export const updateTaskPosition = async (form) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/updateLocationTask`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: JSON.stringify(form),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to call api");
+  }
+  return response.json();
+};
+
+export const deleteTaskById = async (id) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/user/deleteTask/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${cookie.token}`,
+    },
+  });
+  if (!response.ok) {
+    console.log(response);
+
     throw new Error("Failed to call api");
   }
   return response.json();

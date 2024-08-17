@@ -45,7 +45,7 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
       }, 1000);
     } catch (error) {
       console.log(error);
-      // messageAPI.error(error.message);
+      messageAPI.error(error.message);
     }
   };
   return (
