@@ -12,9 +12,11 @@ import { IoMdClose } from "react-icons/io";
 import { CSS } from "@dnd-kit/utilities";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { addItemInList, deleteBoard } from "@/redux/slices/ProjectDetailSlice";
+import { deleteBoard } from "@/redux/slices/ProjectDetailSlice";
+import { useTranslations } from "next-intl";
 
 const Droppable = ({ items }) => {
+  const t = useTranslations("ProjectDetail");
   const dispatch = useDispatch();
   const [showNewCard, setShowNewCard] = useState(false);
   const [title, setTitle] = useState("");
@@ -29,7 +31,7 @@ const Droppable = ({ items }) => {
   };
 
   const addNewCard = () => {
-    dispatch(addItemInList({ items: items.id, title }));
+    // dispatch(addItemInList({ items: items.id, title }));
     cancelAddNewCard();
   };
 
@@ -85,9 +87,9 @@ const Droppable = ({ items }) => {
         />
         <div className="flex justify-between items-center">
           <Button type="primary" onClick={addNewCard}>
-            New Card
+            {t("btnAddCard")}
           </Button>
-          <Button onClick={cancelAddNewCard}>Cancel</Button>
+          <Button onClick={cancelAddNewCard}>{t("cancel")}</Button>
         </div>
       </div>
       <Button
@@ -98,17 +100,17 @@ const Droppable = ({ items }) => {
         className={`flex items-center m-2 ${!showNewCard ? "block" : "hidden"}`}
       >
         <FaPlus />
-        Add new card
+        {t("newCard")}
       </Button>
       <Modal
-        title={`Delete board: ${items.title}`}
+        title={`${t("titleDeleteBoard")}: ${items.title}`}
         onCancel={handleCancelDelete}
         open={isShowModalDelete}
         onOk={onDeleteBoard}
+        okText={"OK"}
+        cancelText={t("cancel")}
       >
-        <p className="text-lg font-semibold text-red-500">
-          Warning: You can not undo when delete this
-        </p>
+        <p className="text-lg font-semibold text-red-500">{t("deleteBoard")}</p>
       </Modal>
     </div>
   );

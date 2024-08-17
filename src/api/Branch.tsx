@@ -1,5 +1,11 @@
 import { GET } from "./customFetch";
 
 export const getAllBranch = () => {
-  return GET("/admin/getBranch");
+  try {
+    return GET("/getAllBranch");
+  } catch (error) {
+    console.log(error);
+
+    return null;
+  }
 };

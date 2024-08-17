@@ -17,11 +17,6 @@ const TeacherContent = ({ projectData }) => {
       },
     },
     {
-      title: "id",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
       title: t("projectName"),
       dataIndex: "projectName",
       key: "projectName",
@@ -65,9 +60,12 @@ const TeacherContent = ({ projectData }) => {
   };
   return (
     <div>
-      <p className="font-semibold text-xl text-zinc-500 m-2">
-        {t("yourProject")}
-      </p>
+      <div className="flex justify-between">
+        <p className="font-semibold text-xl text-zinc-500 m-2">
+          {t("yourProject")}
+        </p>
+        {/* <Button>Review Student</Button> */}
+      </div>
       <Table
         dataSource={projectData}
         rowKey={"id"}

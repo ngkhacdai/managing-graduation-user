@@ -8,7 +8,9 @@
     "year": "Năm",
     "all": "Tất Cả",
     "mark": "Điểm",
-    "titleListProduct": "Danh sách đồ án tốt nghiệp của sinh viên"
+    "titleListProduct": "Danh sách đồ án tốt nghiệp của sinh viên",
+    "English": "Tiếng Anh",
+    "Vietnamese": "Tiếng Việt"
   },
   "Login": {
     "login": "Đăng Nhập",
@@ -26,6 +28,7 @@
     "messageNotFillEmail": "Vui lòng nhập email của bạn!"
   },
   "SideBar": {
+    "newPhase": "Thêm giai đoạn",
     "project": "Dự Án",
     "library": "Thư Viện",
     "profile": "Hồ Sơ",
@@ -40,7 +43,8 @@
     "studentName": "Tên Sinh Viên",
     "status": "Trạng Thái",
     "detail": "Chi Tiết",
-    "action": "Hành động"
+    "action": "Hành động",
+    "signUp": "Đăng ký đồ án"
   },
   "Profile": {
     "yourProfile": "Hồ sơ của tôi",
@@ -62,5 +66,44 @@
     "notiUpdateSuccess": "Cập nhật hồ sơ thành công!",
     "notiUpdateFailed": "Cập nhật hồ sơ thất bại!",
     "notFillDepartment": "Hãy điền phòng ban!"
+  },
+  "SignUp": {
+    "title": "Đăng ký đồ án",
+    "slBranch": "Chọn ngành",
+    "findTeacher": "Tìm kiếm giảng viên",
+    "Avatar": "Ảnh đại diện",
+    "TeacherName": "Tên giảng viên",
+    "Branch": "Ngành",
+    "Degree": "Degree",
+    "beginTeachingYear": "Năm bắt đầu dạy",
+    "numberStudentSingUp": "Học sinh đăng ký",
+    "Action": "Hành động"
+  },
+  "ProjectDetail": {
+    "newBoard": "Thêm bảng mới",
+    "newCard": "Thêm thẻ mới",
+    "Detail": "Chi tiết",
+    "Save": "Lưu",
+    "ClearForm": "Xóa biểu mẫu",
+    "Comment": "Bình luận",
+    "cardTitle": "Tiêu đề thẻ",
+    "boardTitle": "Tiêu đề bảng",
+    "btnAddCard": "Thẻ mới",
+    "btnAddBoard": "Bảng mới",
+    "delete": "Xóa giai đoạn",
+    "finish": "Hoàn thành giai đoạn",
+    "cancel": "Hủy",
+    "notiDelete": "Bạn không thể hoàn tác khi xóa điều này",
+    "saveDescription": "Lưu mô tả thành công!",
+    "saveComment": "Lưu bình luận thành công!",
+    "commentEmty": "Bình luận trống!",
+    "notiDeleteTask": "Bạn vẫn muốn xóa chứ?",
+    "btnDeleteTask": "Xóa công việc",
+    "plhTaskDetail": "Chi tiết công việc",
+    "notFillTitle": "Vui lòng nhập tiêu đề!",
+    "deleteBoard": "Cảnh báo: Bạn không thể hoàn tác khi xóa điều này",
+    "titleDeleteBoard": "Xóa bảng",
+    "project": "Đồ án",
+    "warn": "Hành động này không thể quay lại. Bạn có muốn tiếp tục không?"
   }
 }

@@ -7,7 +7,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import Droppable from "./Droppable";
 import {
   horizontalListSortingStrategy,
@@ -17,16 +17,34 @@ import {
 import debounce from "lodash.debounce";
 
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
+  getBoard,
   handleDragEnd,
   handleDragOver,
   handleDragStart,
 } from "@/redux/slices/ProjectDetailSlice";
 import AddNewBoard from "./AddNewBoard";
+import { isPhaseFinished } from "@/utils/checkPhaseFinished";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const DetailProject = () => {
-  const dispatch = useDispatch();
+  const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const searchParams = useSearchParams();
+  const phase = useSelector((state: RootState) => state.projectDetail.phase);
+  const dispatchBoard = useCallback(
+    debounce((id) => {
+      dispatch(getBoard(id));
+    }, 300),
+    [dispatch]
+  );
+  useEffect(() => {
+    const phaseId = searchParams.get("phase");
+    if (phaseId && phase.some((item) => item.id.toString() === phaseId)) {
+      dispatchBoard(phaseId);
+    }
+  }, [phase, searchParams, dispatchBoard]);
   const items = useSelector(
     (state: RootState) => state.projectDetail.projectDetail
   );
@@ -46,7 +64,7 @@ const DetailProject = () => {
 
   const findItemById = (id) => {
     for (const container of items) {
-      const item = container.list.find((item) => item.id === id);
+      const item = container.task.find((item) => item.id === id);
       if (item) return { container, item };
     }
     return null;
@@ -58,14 +76,16 @@ const DetailProject = () => {
         <p>{container.title}</p>
       </div>
       <div>
-        {container.list.map((item) => (
-          <div
-            key={item.id}
-            className="w-full flex items-center justify-between bg-white py-2 border-inherit border-2 rounded-xl m-1"
-          >
-            <div className="px-2">{item.title}</div>
-          </div>
-        ))}
+        {container.task.map((item) => {
+          return (
+            <div
+              key={item.id}
+              className="w-full flex items-center justify-between bg-white py-2 border-inherit border-2 rounded-xl m-1"
+            >
+              <div className="px-2">{item.taskName}</div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -88,7 +108,7 @@ const DetailProject = () => {
     [dispatch]
   );
   return (
-    <div className="w-full overflow-auto h-[43rem] bg-blue-500 shadow-inner">
+    <div className="w-full overflow-auto min-h-[40.2rem] bg-blue-500 shadow-inner">
       <DndContext
         sensors={sensors}
         onDragStart={(event) => dispatch(handleDragStart({ event }))}
@@ -105,7 +125,7 @@ const DetailProject = () => {
                 <Droppable items={item} />
               </div>
             ))}
-            <AddNewBoard />
+            {!isPhaseFinished() && <AddNewBoard />}
           </div>
         </SortableContext>
         <DragOverlay adjustScale={false}>
@@ -114,7 +134,9 @@ const DetailProject = () => {
               <DraggableContainer container={findContainerById(activeId)} />
             ) : findItemById(activeId)?.item ? (
               <div className="w-full flex items-center justify-between bg-white py-2 border-inherit border-2 rounded-xl m-1">
-                <div className="px-2">{findItemById(activeId).item.title}</div>
+                <div className="px-2">
+                  {findItemById(activeId).item.taskName}
+                </div>
               </div>
             ) : null
           ) : null}

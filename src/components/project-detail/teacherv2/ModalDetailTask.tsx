@@ -18,9 +18,10 @@ import {
   updateDescriptionTask,
 } from "@/redux/slices/ProjectDetailSlice";
 import { PiStudent } from "react-icons/pi";
+import { AppDispatch } from "@/redux/store";
 
 const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [messageApi, contextHolder] = message.useMessage();
   const [detail, setDetail] = useState(item.detail.description);
   const [open, setOpen] = useState(false);
@@ -69,7 +70,12 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
   };
 
   const onDeleteTask = async () => {
-    dispatch(deleteTask({ containerId: containerId, taskId: item.id, detail }));
+    dispatch(
+      deleteTask({
+        containerId: containerId.split("container-")[1],
+        taskId: item.id.split("task-")[1],
+      })
+    );
   };
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);

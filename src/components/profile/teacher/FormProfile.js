@@ -134,6 +134,7 @@ const FormProfile = ({ dataProfile }) => {
           </Form.Item>
           {previewImage && (
             <Image
+              alt=""
               wrapperStyle={{
                 display: "none",
               }}

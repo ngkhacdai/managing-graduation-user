@@ -1,6 +1,7 @@
 "use server";
 import { fail } from "assert";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const login = async (form) => {
   const cookie = cookies();
@@ -52,7 +53,8 @@ export const logoutApi = async () => {
   const cookie = cookies();
   await cookie.delete("token");
   await cookie.delete("role");
-  return {
-    success: true,
-  };
+  redirect("/login");
+  // return {
+  //   success: true,
+  // };
 };

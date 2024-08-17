@@ -1,11 +1,12 @@
 import { Form, Input, Select } from "antd";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 const FilterTeacher = ({ listBranch }) => {
+  const t = useTranslations("SignUp");
   const options = [
-    { value: "all", label: "All" },
     ...listBranch.map((item) => {
-      return { value: item, label: item };
+      return { value: item.id.toString(), label: item.name };
     }),
   ];
 
@@ -17,27 +18,24 @@ const FilterTeacher = ({ listBranch }) => {
   };
   return (
     <div className="py-2">
-      <div className="flex items-center flex-col xl:flex-row">
-        <div className="flex p-2 items-center">
-          <p className="pr-2">Select branch</p>
+      <div className="flex md:items-center flex-col md:flex-row">
+        <div className="flex p-2 md:items-center md:flex-row flex-col">
           <Select
             mode="tags"
-            defaultValue="all"
-            maxCount={1}
-            className="w-40"
+            placeholder={t("slBranch")}
+            // maxCount={1}
+            className="container md:min-w-56 md:max-w-96"
             onChange={handleChangeBranch}
             options={options}
           />
         </div>
-        <div className="flex p-2 items-center">
-          <p className="pr-2">Find teacher</p>
+        <div className="flex p-2 md:items-center md:flex-row flex-col">
           <Select
-            defaultValue="all"
+            placeholder={t("findTeacher")}
             mode="multiple"
-            maxCount={1}
-            className="w-40"
+            // maxCount={1}
+            className="container md:min-w-56"
             onChange={handleChangeTeacher}
-            options={options}
           />
         </div>
         {/* <div className="flex p-2 items-center">

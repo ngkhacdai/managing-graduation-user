@@ -153,6 +153,7 @@ const FormStudent = ({ dataProfile }) => {
           </Form.Item>
           {previewImage && (
             <Image
+              alt=""
               preview={{
                 visible: previewOpen,
                 onVisibleChange: (visible) => setPreviewOpen(visible),

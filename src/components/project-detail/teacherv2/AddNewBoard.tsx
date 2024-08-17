@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { Button, Input } from "antd";
 import { FaPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { addNewBoard } from "@/redux/slices/ProjectDetailSlice";
+import { useTranslations } from "next-intl";
+import useMessage from "antd/es/message/useMessage";
 const AddNewBoard = () => {
+  const [messageAPI, contextHoler] = useMessage();
+  const t = useTranslations("ProjectDetail");
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [isShowFormAddBoard, setIsShowFormAddBoard] = useState(false);
@@ -11,8 +14,18 @@ const AddNewBoard = () => {
     setIsShowFormAddBoard(false);
     setTitle("");
   };
+  const newBoard = () => {
+    if (title !== "") {
+      // dispatch(addNewBoard({ title }));
+      cancelAddNewBoard();
+    } else {
+      messageAPI.error(t("notFillTitle"));
+    }
+  };
+
   return (
     <div>
+      {contextHoler}
       <div
         className={`${
           !isShowFormAddBoard ? "hidden" : ""
@@ -21,20 +34,14 @@ const AddNewBoard = () => {
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Board title"
+          placeholder={t("boardTitle")}
           className="mb-2"
         />
         <div className="flex justify-between items-center">
-          <Button
-            type="primary"
-            onClick={() => {
-              dispatch(addNewBoard({ title }));
-              cancelAddNewBoard();
-            }}
-          >
-            New board
+          <Button type="primary" onClick={newBoard}>
+            {t("btnAddBoard")}
           </Button>
-          <Button onClick={cancelAddNewBoard}>Cancel</Button>
+          <Button onClick={cancelAddNewBoard}>{t("cancel")}</Button>
         </div>
       </div>
       <Button
@@ -44,7 +51,7 @@ const AddNewBoard = () => {
         }`}
       >
         <FaPlus />
-        <p>Add new board</p>
+        <p>{t("newBoard")}</p>
       </Button>
     </div>
   );

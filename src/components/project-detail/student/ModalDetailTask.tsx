@@ -10,7 +10,7 @@ import { BiSolidDetail } from "react-icons/bi";
 import TextArea from "antd/es/input/TextArea";
 import { MdDeleteForever } from "react-icons/md";
 import { Button, Image, message, Modal, Popover, Upload } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   commentTask,
   deleteImage,
@@ -18,11 +18,17 @@ import {
   updateDescriptionTask,
 } from "@/redux/slices/ProjectDetailSlice";
 import { PiStudent } from "react-icons/pi";
+import { isPhaseFinished } from "@/utils/checkPhaseFinished";
+import { useTranslations } from "next-intl";
+import { AppDispatch } from "@/redux/store";
 
 const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
-  const dispatch = useDispatch();
+  const t = useTranslations("ProjectDetail");
+  const dispatch = useDispatch<AppDispatch>();
   const [messageApi, contextHolder] = message.useMessage();
-  const [detail, setDetail] = useState(item.detail.description);
+  const [detail, setDetail] = useState(
+    item?.detail?.description ? item?.detail?.description : ""
+  );
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [fileList, setFileList] = useState([]);
@@ -61,7 +67,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         description: detail,
       })
     );
-    messageApi.success("Save description successfully");
+    messageApi.success(t("saveDescription"));
   };
 
   const clearFormComment = () => {
@@ -69,7 +75,12 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
   };
 
   const onDeleteTask = async () => {
-    dispatch(deleteTask({ containerId: containerId, taskId: item.id, detail }));
+    dispatch(
+      deleteTask({
+        containerId: containerId.split("container-")[1],
+        taskId: item.id.split("task-")[1],
+      })
+    );
   };
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -88,9 +99,9 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         })
       );
       clearFormComment();
-      return messageApi.success("Save comment successfully");
+      return messageApi.success(t("saveComment"));
     }
-    return messageApi.error("Comment is empty");
+    return messageApi.error(t("commentEmty"));
   };
   return (
     <div>
@@ -102,31 +113,33 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         footer={() => {
           return (
             <div>
-              <Popover
-                arrow={false}
-                content={
-                  <div>
-                    <p className="text-red-500 font-semibold text-lg">
-                      You can not undo when delete this: {item.title}
-                    </p>
-                    <p>Do you still want to delele?</p>
-                    <div className="text-right">
-                      <Button
-                        className="!bg-red-500 hover:!bg-red-400"
-                        type="primary"
-                        onClick={onDeleteTask}
-                      >
-                        Delete
-                      </Button>
+              {!isPhaseFinished() && (
+                <Popover
+                  arrow={false}
+                  content={
+                    <div>
+                      <p className="text-red-500 font-semibold text-lg">
+                        {t("notiDelete")}: {item.title}
+                      </p>
+                      <p>{t("notiDeleteTask")}</p>
+                      <div className="text-right">
+                        <Button
+                          className="!bg-red-500 hover:!bg-red-400"
+                          type="primary"
+                          onClick={onDeleteTask}
+                        >
+                          {t("delete")}
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                }
-                trigger="click"
-                open={open}
-                onOpenChange={handleOpenChange}
-              >
-                <Button>Delete Task</Button>
-              </Popover>
+                  }
+                  trigger="click"
+                  open={open}
+                  onOpenChange={handleOpenChange}
+                >
+                  <Button>{t("btnDeleteTask")}</Button>
+                </Popover>
+              )}
             </div>
           );
         }}
@@ -140,7 +153,9 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         <div className="flex">
           <BiSolidDetail size={18} color="#44546F" />
           <div className="px-2">
-            <p className="text-slate-600 font-semibold text-lg">Detail</p>
+            <p className="text-slate-600 font-semibold text-lg">
+              {t("Detail")}
+            </p>
             <TextArea
               autoSize={true}
               value={detail}
@@ -151,11 +166,11 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
                   minHeight: 150,
                 },
               }}
-              placeholder="Task details"
+              placeholder={t("plhTaskDetail")}
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="my-2">
-              {item.detail.fileList.map(
+              {item?.detail?.fileList?.map(
                 (items: { url: string; title: string }, index: number) => {
                   return (
                     <div
@@ -223,26 +238,30 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
                   </div>
                 ))}
             </div>
-            <div className="flex justify-between items-center mt-2">
-              <div>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    onSaveDetail();
-                  }}
-                >
-                  Save
-                </Button>
-                <Button className="mx-2" onClick={clearFormDetail}>
-                  Clear form
-                </Button>
+            {!isPhaseFinished() && (
+              <div className="flex justify-between items-center mt-2">
+                <div>
+                  <div>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        onSaveDetail();
+                      }}
+                    >
+                      {t("Save")}
+                    </Button>
+                    <Button className="mx-2" onClick={clearFormDetail}>
+                      {t("ClearForm")}
+                    </Button>
+                  </div>
+                </div>
+                <Upload {...props}>
+                  <Button shape="circle">
+                    <FaLink />
+                  </Button>
+                </Upload>
               </div>
-              <Upload {...props}>
-                <Button shape="circle">
-                  <FaLink />
-                </Button>
-              </Upload>
-            </div>
+            )}
           </div>
         </div>
         <div className="flex mt-3">
@@ -263,14 +282,16 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="flex justify-between items-center mt-2">
-              <Button type="primary" onClick={onSaveComment}>
-                Save
-              </Button>
+              {!isPhaseFinished() && (
+                <Button type="primary" onClick={onSaveComment}>
+                  {t("Save")}
+                </Button>
+              )}
             </div>
           </div>
         </div>
         <div className="mt-2">
-          {item.detail.comment.map((items, index) => {
+          {item?.detail?.comment?.map((items, index) => {
             return (
               <div key={`comment-${index}`}>
                 <div className="flex my-1">
