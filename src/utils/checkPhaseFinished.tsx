@@ -4,14 +4,14 @@ import { RootState } from "@/redux/store";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
 
-export const isPhaseFinished = () => {
-  let phase = [];
+export const useIsPhaseFinished = () => {
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const phase = useSelector((state: RootState) => state.projectDetail.phase);
+
   if (pathName.includes("/project/detail")) {
-    phase = useSelector((state: RootState) => state.projectDetail.phase);
     const params = new URLSearchParams();
     params.set("studentName", searchParams.get("studentName"));
     params.set("teacherName", searchParams.get("teacherName"));

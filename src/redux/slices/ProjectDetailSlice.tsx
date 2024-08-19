@@ -365,6 +365,8 @@ const projectDetailSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(addPhaseThunk.fulfilled, (state, action) => {
+      console.log(action.payload);
+
       state.phase.push(action.payload);
     });
     builder.addCase(removePhase.fulfilled, (state, action) => {

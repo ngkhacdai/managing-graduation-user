@@ -25,11 +25,10 @@ import {
   handleDragStart,
 } from "@/redux/slices/ProjectDetailSlice";
 import AddNewBoard from "./AddNewBoard";
-import { isPhaseFinished } from "@/utils/checkPhaseFinished";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
 
 const DetailProject = () => {
-  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const searchParams = useSearchParams();
   const phase = useSelector((state: RootState) => state.projectDetail.phase);
@@ -44,7 +43,7 @@ const DetailProject = () => {
     if (phaseId && phase.some((item) => item.id.toString() === phaseId)) {
       dispatchBoard(phaseId);
     }
-  }, [phase, searchParams, dispatchBoard]);
+  }, [phase, searchParams]);
   const items = useSelector(
     (state: RootState) => state.projectDetail.projectDetail
   );
@@ -125,7 +124,7 @@ const DetailProject = () => {
                 <Droppable items={item} />
               </div>
             ))}
-            {!isPhaseFinished() && <AddNewBoard />}
+            {!useIsPhaseFinished() && <AddNewBoard />}
           </div>
         </SortableContext>
         <DragOverlay adjustScale={false}>

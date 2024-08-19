@@ -4,25 +4,32 @@ import { FaPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useTranslations } from "next-intl";
 import useMessage from "antd/es/message/useMessage";
+import { createBoard } from "@/redux/slices/ProjectDetailSlice";
+import { AppDispatch } from "@/redux/store";
+import { useSearchParams } from "next/navigation";
 const AddNewBoard = () => {
   const [messageAPI, contextHoler] = useMessage();
   const t = useTranslations("ProjectDetail");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [title, setTitle] = useState("");
   const [isShowFormAddBoard, setIsShowFormAddBoard] = useState(false);
   const cancelAddNewBoard = () => {
     setIsShowFormAddBoard(false);
     setTitle("");
   };
-  const newBoard = () => {
+  const searchParams = useSearchParams();
+  const newBoard = async () => {
     if (title !== "") {
-      // dispatch(addNewBoard({ title }));
+      const form = {
+        phaseId: searchParams.get("phase"),
+        nameBoard: title,
+      };
+      await dispatch(createBoard(form));
       cancelAddNewBoard();
     } else {
       messageAPI.error(t("notFillTitle"));
     }
   };
-
   return (
     <div>
       {contextHoler}

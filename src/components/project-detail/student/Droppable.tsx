@@ -13,10 +13,10 @@ import { CSS } from "@dnd-kit/utilities";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { addNewTask, deleteBoard } from "@/redux/slices/ProjectDetailSlice";
-import { isPhaseFinished } from "@/utils/checkPhaseFinished";
 import { useTranslations } from "next-intl";
 import { AppDispatch } from "@/redux/store";
 import useMessage from "antd/es/message/useMessage";
+import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
 
 const Droppable = ({ items }) => {
   const [messageAPI, contextHoler] = useMessage();
@@ -74,7 +74,7 @@ const Droppable = ({ items }) => {
       {contextHoler}
       <div className="flex justify-between mx-1 items-center">
         <p className="">{items.title}</p>
-        {!isPhaseFinished() && (
+        {!useIsPhaseFinished() && (
           <div className="flex">
             <Button type="text" className="py-0 px-2" {...listeners}>
               <MdOutlineDragIndicator />
@@ -99,7 +99,7 @@ const Droppable = ({ items }) => {
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Card title"
+          placeholder={t("cardTitle")}
           className="mb-2"
         />
         <div className="flex justify-between items-center">
@@ -109,7 +109,7 @@ const Droppable = ({ items }) => {
           <Button onClick={cancelAddNewCard}>{t("cancel")}</Button>
         </div>
       </div>
-      {!isPhaseFinished() && (
+      {!useIsPhaseFinished() && (
         <Button
           type="text"
           onClick={() => {

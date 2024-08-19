@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { GET, getCookie } from "./customFetch";
 
 export const getProjectDetail = async () => {
@@ -31,12 +32,10 @@ export const addPhase = async (form) => {
     },
     body: JSON.stringify(form),
   });
-  console.log(response);
-
   if (!response.ok) {
     throw new Error("Failed to add phase");
   }
-
+  revalidatePath("/project");
   return response.json();
 };
 
@@ -59,6 +58,7 @@ export const finishPhase = async () => {
   const response = await fetch(`${process.env.API_URL}/student/updateDone`, {
     method: "PATCH",
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${cookie.token}`,
     },
     body: JSON.stringify({ completed: true }),
@@ -66,6 +66,7 @@ export const finishPhase = async () => {
   if (!response.ok) {
     throw new Error("Failed to call api");
   }
+  revalidatePath("/project");
   return response.json();
 };
 

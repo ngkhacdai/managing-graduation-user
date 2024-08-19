@@ -80,16 +80,16 @@
     "Action": "Hành động"
   },
   "ProjectDetail": {
-    "newBoard": "Thêm bảng mới",
+    "newBoard": "Thêm cột mới",
     "newCard": "Thêm thẻ mới",
     "Detail": "Chi tiết",
     "Save": "Lưu",
     "ClearForm": "Xóa biểu mẫu",
     "Comment": "Bình luận",
     "cardTitle": "Tiêu đề thẻ",
-    "boardTitle": "Tiêu đề bảng",
+    "boardTitle": "Tiêu đề cột",
     "btnAddCard": "Thẻ mới",
-    "btnAddBoard": "Bảng mới",
+    "btnAddBoard": "Cột mới",
     "delete": "Xóa giai đoạn",
     "finish": "Hoàn thành giai đoạn",
     "cancel": "Hủy",
@@ -102,8 +102,9 @@
     "plhTaskDetail": "Chi tiết công việc",
     "notFillTitle": "Vui lòng nhập tiêu đề!",
     "deleteBoard": "Cảnh báo: Bạn không thể hoàn tác khi xóa điều này",
-    "titleDeleteBoard": "Xóa bảng",
+    "titleDeleteBoard": "Xóa cột",
     "project": "Đồ án",
-    "warn": "Hành động này không thể quay lại. Bạn có muốn tiếp tục không?"
+    "warn": "Hành động này không thể quay lại. Bạn có muốn tiếp tục không?",
+    "turnIn": "Nộp bài"
   }
 }

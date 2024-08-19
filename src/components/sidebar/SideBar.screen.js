@@ -112,7 +112,7 @@ const SideBarScreen = ({ children }) => {
       setItems(defaultItems);
       setPushed(false);
     }
-  }, [phase, searchParams, pushed, defaultItems]);
+  }, [phase]);
   const newPhase = () => {
     setIsShow(true);
   };

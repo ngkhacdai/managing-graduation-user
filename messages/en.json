@@ -80,16 +80,16 @@
     "Action": "Action"
   },
   "ProjectDetail": {
-    "newBoard": "Add new board",
+    "newBoard": "Add new column",
     "newCard": "Add new card",
     "Detail": "Detail",
     "Save": "Save",
     "ClearForm": "Clear form",
     "Comment": "Comments",
     "cardTitle": "Card title",
-    "boardTitle": "Board title",
+    "boardTitle": "Column title",
     "btnAddCard": "New card",
-    "btnAddBoard": "New board",
+    "btnAddBoard": "New column",
     "delete": "Delete phase",
     "finish": "Finish phase",
     "cancel": "Cancel",
@@ -102,8 +102,9 @@
     "plhTaskDetail": "Task details",
     "notFillTitle": "Please enter a title!",
     "deleteBoard": "Warning: You can not undo when delete this",
-    "titleDeleteBoard": "Delete board",
+    "titleDeleteBoard": "Delete column",
     "project": "Project",
-    "warn": "This action can not undo. Do you want to continue?"
+    "warn": "This action can not undo. Do you want to continue?",
+    "turnIn": "Turn in"
   }
 }
