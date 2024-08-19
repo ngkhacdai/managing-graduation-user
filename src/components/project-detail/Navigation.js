@@ -1,12 +1,12 @@
 "use client";
 import { finishingPhase, removePhase } from "@/redux/slices/ProjectDetailSlice";
-import { isPhaseFinished } from "@/utils/checkPhaseFinished";
 import { Button, Dropdown, Modal } from "antd";
 import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SlOptionsVertical } from "react-icons/sl";
 import { useTranslations } from "next-intl";
+import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
 
 const Navigation = ({ role }) => {
   const t = useTranslations("ProjectDetail");
@@ -57,6 +57,10 @@ const Navigation = ({ role }) => {
         </p>
       ),
     },
+    {
+      key: "3",
+      label: <p>{t("turnIn")}</p>,
+    },
   ];
   return (
     <>
@@ -64,7 +68,7 @@ const Navigation = ({ role }) => {
         <p className="py-2 font-bold text-white text-lg">
           {t("project")}: {searchParams.get("projectName")}
         </p>
-        {!isPhaseFinished() && role == "student" && (
+        {!useIsPhaseFinished() && role == "student" && (
           <div className="flex items-center">
             <Dropdown menu={{ items }}>
               <div className="hover:cursor-pointer">

@@ -18,13 +18,14 @@ import {
   updateDescriptionTask,
 } from "@/redux/slices/ProjectDetailSlice";
 import { PiStudent } from "react-icons/pi";
-import { isPhaseFinished } from "@/utils/checkPhaseFinished";
+import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
 import { useTranslations } from "next-intl";
 import { AppDispatch } from "@/redux/store";
 
 const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
   const t = useTranslations("ProjectDetail");
   const dispatch = useDispatch<AppDispatch>();
+  const isPhaseFinished = useIsPhaseFinished();
   const [messageApi, contextHolder] = message.useMessage();
   const [detail, setDetail] = useState(
     item?.detail?.description ? item?.detail?.description : ""
@@ -113,7 +114,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         footer={() => {
           return (
             <div>
-              {!isPhaseFinished() && (
+              {!isPhaseFinished && (
                 <Popover
                   arrow={false}
                   content={
@@ -238,7 +239,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
                   </div>
                 ))}
             </div>
-            {!isPhaseFinished() && (
+            {!useIsPhaseFinished() && (
               <div className="flex justify-between items-center mt-2">
                 <div>
                   <div>
@@ -282,7 +283,7 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="flex justify-between items-center mt-2">
-              {!isPhaseFinished() && (
+              {!useIsPhaseFinished() && (
                 <Button type="primary" onClick={onSaveComment}>
                   {t("Save")}
                 </Button>

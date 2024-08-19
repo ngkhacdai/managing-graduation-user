@@ -5,7 +5,7 @@ import { Button } from "antd";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import ModalDetailTask from "./ModalDetailTask";
 import { FaRegComment } from "react-icons/fa";
-import { isPhaseFinished } from "@/utils/checkPhaseFinished";
+import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
@@ -43,7 +43,7 @@ const Sortable = ({ containerId, item }) => {
               </div>
             )}
           </div>
-          {!isPhaseFinished() && (
+          {!useIsPhaseFinished() && (
             <Button type="text" className="h-full" {...listeners}>
               <MdOutlineDragIndicator />
             </Button>

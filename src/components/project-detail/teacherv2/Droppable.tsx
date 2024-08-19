@@ -12,12 +12,17 @@ import { IoMdClose } from "react-icons/io";
 import { CSS } from "@dnd-kit/utilities";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { deleteBoard } from "@/redux/slices/ProjectDetailSlice";
+import { addNewTask, deleteBoard } from "@/redux/slices/ProjectDetailSlice";
 import { useTranslations } from "next-intl";
+import { AppDispatch } from "@/redux/store";
+import useMessage from "antd/es/message/useMessage";
+import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
 
 const Droppable = ({ items }) => {
+  const [messageAPI, contextHoler] = useMessage();
+
   const t = useTranslations("ProjectDetail");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [showNewCard, setShowNewCard] = useState(false);
   const [title, setTitle] = useState("");
   const [isShowModalDelete, setIsShowModalDelete] = useState(false);
@@ -31,8 +36,17 @@ const Droppable = ({ items }) => {
   };
 
   const addNewCard = () => {
-    // dispatch(addItemInList({ items: items.id, title }));
-    cancelAddNewCard();
+    if (title !== "") {
+      dispatch(
+        addNewTask({
+          boardId: items.id.split("container-")[1],
+          taskName: title,
+        })
+      );
+      cancelAddNewCard();
+    } else {
+      messageAPI.error(t("notFillTitle"));
+    }
   };
 
   const handleDeleteBoard = () => {
@@ -57,22 +71,25 @@ const Droppable = ({ items }) => {
         transform: CSS.Translate.toString(transform),
       }}
     >
+      {contextHoler}
       <div className="flex justify-between mx-1 items-center">
         <p className="">{items.title}</p>
-        <div className="flex">
-          <Button type="text" className="py-0 px-2" {...listeners}>
-            <MdOutlineDragIndicator />
-          </Button>
-          <Button onClick={handleDeleteBoard} type="text">
-            <IoMdClose />
-          </Button>
-        </div>
+        {!useIsPhaseFinished() && (
+          <div className="flex">
+            <Button type="text" className="py-0 px-2" {...listeners}>
+              <MdOutlineDragIndicator />
+            </Button>
+            <Button onClick={handleDeleteBoard} type="text">
+              <IoMdClose />
+            </Button>
+          </div>
+        )}
       </div>
       <SortableContext
-        items={items.list.map((item) => item.id)}
+        items={items.task.map((item) => item.id)}
         strategy={verticalListSortingStrategy}
       >
-        {items.list.map((item) => (
+        {items.task.map((item) => (
           <div key={`task-${item.id}`}>
             <Sortable containerId={items.id} item={item} />
           </div>
@@ -92,16 +109,20 @@ const Droppable = ({ items }) => {
           <Button onClick={cancelAddNewCard}>{t("cancel")}</Button>
         </div>
       </div>
-      <Button
-        type="text"
-        onClick={() => {
-          setShowNewCard(true);
-        }}
-        className={`flex items-center m-2 ${!showNewCard ? "block" : "hidden"}`}
-      >
-        <FaPlus />
-        {t("newCard")}
-      </Button>
+      {!useIsPhaseFinished() && (
+        <Button
+          type="text"
+          onClick={() => {
+            setShowNewCard(true);
+          }}
+          className={`flex items-center m-2 ${
+            !showNewCard ? "block" : "hidden"
+          }`}
+        >
+          <FaPlus />
+          {t("newCard")}
+        </Button>
+      )}
       <Modal
         title={`${t("titleDeleteBoard")}: ${items.title}`}
         onCancel={handleCancelDelete}
