@@ -10,6 +10,9 @@ import {
   addTask,
   updateTaskPosition,
   deleteTaskById,
+  commentTask,
+  getTaskById,
+  updateDescriptionTaskById,
 } from "@/api/Project";
 import { arrayMove } from "@dnd-kit/sortable";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -17,6 +20,19 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   projectDetail: [],
   phase: [],
+  detailTask: {
+    taskId: "",
+    taskName: "",
+    taskDescription: "",
+    filePdf: "",
+    fileName: "",
+    commentViewList: [
+      {
+        role: "",
+        comment: "",
+      },
+    ],
+  },
   activeId: null,
   projectName: "",
   loading: false,
@@ -86,6 +102,26 @@ export const deleteTask = createAsyncThunk(
   }
 );
 
+export const createComment = createAsyncThunk(
+  "project-slice/createComment",
+  async (form: {
+    containerId: string;
+    taskId: string;
+    content: string;
+    role: string;
+  }) => {
+    await commentTask(form);
+    return form;
+  }
+);
+
+export const getDetailTask = createAsyncThunk(
+  "project-slice/getDetailTask",
+  async (id: string) => {
+    return await getTaskById(id);
+  }
+);
+
 export const findItemById = (id, state) => {
   for (const container of state.projectDetail) {
     const item = container.task.find((item) => item.id === id);
@@ -101,6 +137,24 @@ const projectDetailSlice = createSlice({
   name: "project-slice",
   initialState,
   reducers: {
+    clearDetail: (state) => {
+      state.detailTask = {
+        taskId: "",
+        taskName: "",
+        taskDescription: "",
+        filePdf: "",
+        fileName: "",
+        commentViewList: [
+          {
+            role: "",
+            comment: "",
+          },
+        ],
+      };
+    },
+    clearPhase: (state) => {
+      state.projectDetail = [];
+    },
     logout: (state) => {
       state.projectDetail = [];
       state.phase = [];
@@ -334,39 +388,9 @@ const projectDetailSlice = createSlice({
         );
       state.projectDetail = copyProjectDetail;
     },
-    commentTask: (state, action) => {
-      const { containerId, taskId, comment, role } = action.payload;
-      const copyProjectDetail = state.projectDetail;
-      const findContainer = copyProjectDetail.findIndex(
-        (item) => item.id === containerId
-      );
-      const findTask = copyProjectDetail[findContainer].task.findIndex(
-        (item) => item.id === taskId
-      );
-      copyProjectDetail[findContainer].task[findTask].detail.comment.push({
-        comment,
-        role,
-      });
-      state.projectDetail = copyProjectDetail;
-    },
-    updateDescriptionTask: (state, action) => {
-      const { containerId, taskId, description } = action.payload;
-      const copyProjectDetail = state.projectDetail;
-      const findContainer = copyProjectDetail.findIndex(
-        (item) => item.id === containerId
-      );
-      const findTask = copyProjectDetail[findContainer].task.findIndex(
-        (item) => item.id === taskId
-      );
-      copyProjectDetail[findContainer].task[findTask].detail.description =
-        description;
-      state.projectDetail = copyProjectDetail;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(addPhaseThunk.fulfilled, (state, action) => {
-      console.log(action.payload);
-
       state.phase.push(action.payload);
     });
     builder.addCase(removePhase.fulfilled, (state, action) => {
@@ -416,6 +440,33 @@ const projectDetailSlice = createSlice({
         );
       }
     });
+    builder.addCase(createComment.fulfilled, (state, action) => {
+      const { containerId, taskId, content, role } = action.payload;
+      const copyProjectDetail = state.projectDetail;
+      const findContainer = copyProjectDetail.findIndex(
+        (item) => item.id === containerId
+      );
+      if (findContainer !== -1) {
+        const findTask = copyProjectDetail[findContainer].task.findIndex(
+          (item) => item.id === `task-${taskId}`
+        );
+        if (findTask !== -1) {
+          if (
+            copyProjectDetail[findContainer].task[findTask]?.comment !==
+            undefined
+          ) {
+            copyProjectDetail[findContainer].task[findTask].comment += 1;
+          } else {
+            copyProjectDetail[findContainer].task[findTask].comment = 1;
+          }
+        }
+      }
+      state.detailTask.commentViewList.push({ role, comment: content });
+      state.projectDetail = copyProjectDetail;
+    });
+    builder.addCase(getDetailTask.fulfilled, (state, action) => {
+      state.detailTask = action.payload;
+    });
   },
 });
 
@@ -426,12 +477,12 @@ export const {
   handleDragStart,
   handleDragEnd,
   handleSetProjectName,
-  updateDescriptionTask,
   deleteImage,
-  commentTask,
   addNewPhase,
   setNullError,
   logout,
+  clearPhase,
+  clearDetail,
 } = projectDetailSlice.actions;
 
 export default projectDetailSlice.reducer;

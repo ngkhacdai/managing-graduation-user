@@ -12,7 +12,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { Button, Image, message, Modal, Popover, Upload } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  commentTask,
+  createComment,
   deleteImage,
   deleteTask,
   updateDescriptionTask,
@@ -48,12 +48,25 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
     setFileList([...fileList.slice(0, index), ...fileList.slice(index + 1)]);
   };
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const beforeUpload = (file) => {
+    const isLessThan1MB = file.size / 1024 / 1024 < 1;
+
+    if (!isLessThan1MB) {
+      message.error("File must be smaller than 1MB!");
+      return Upload.LIST_IGNORE;
+    }
+
+    return true;
+  };
+
   const props = {
     fileList,
     name: "file",
+    accept: ".doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.pdf,image/*",
     multiple: true,
     showUploadList: false,
     onChange: handleChange,
+    beforeUpload,
   };
   const clearFormDetail = () => {
     setDetail("");
@@ -92,10 +105,10 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
   const onSaveComment = () => {
     if (comment.length > 0) {
       dispatch(
-        commentTask({
+        createComment({
           containerId,
           taskId: item.id,
-          comment,
+          content: comment,
           role: "Student",
         })
       );

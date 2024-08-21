@@ -14,7 +14,7 @@ import { logoutApi } from "@/api/Access";
 import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
 import ModalAddNewPhase from "./ModalAddNewPhase";
-import { getPhase } from "@/redux/slices/ProjectDetailSlice";
+import { clearPhase, getPhase } from "@/redux/slices/ProjectDetailSlice";
 import debounce from "lodash.debounce";
 
 const { Sider, Content } = Layout;
@@ -147,6 +147,7 @@ const SideBarScreen = ({ children }) => {
             onClick={({ key }) => {
               // console.log(key);
               if (key != "/project" && key != "/profile") {
+                dispatch(clearPhase());
                 const newPhase = key.replace("/", "");
                 const newUrl = new URL(window.location.href);
                 newUrl.searchParams.set("phase", newPhase);

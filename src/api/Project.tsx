@@ -104,7 +104,6 @@ export const updateBoardPosition = async (form) => {
     },
     body: JSON.stringify(form),
   });
-  console.log(response);
 
   if (!response.ok) {
     throw new Error("Failed to call api");
@@ -158,6 +157,47 @@ export const deleteTaskById = async (id) => {
   if (!response.ok) {
     console.log(response);
 
+    throw new Error("Failed to call api");
+  }
+  return response.json();
+};
+
+export const commentTask = async (form) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/createComment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: JSON.stringify(form),
+  });
+  if (!response.ok) {
+    console.log(response);
+
+    throw new Error("Failed to call api");
+  }
+  return response.json();
+};
+
+export const getTaskById = async (id: string) => {
+  return await GET(`/getTaskById/${id}`);
+};
+
+export const updateDescriptionTaskById = async (
+  formData: any,
+  taskId: string
+) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/updateTask/${taskId}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
     throw new Error("Failed to call api");
   }
   return response.json();

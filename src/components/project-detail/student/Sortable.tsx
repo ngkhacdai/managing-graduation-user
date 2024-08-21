@@ -14,7 +14,6 @@ const Sortable = ({ containerId, item }) => {
     useSortable({
       id: item.id,
     });
-  const phase = useSelector((state: RootState) => state.projectDetail.phase);
   const [isShowModal, setIsShowModal] = useState(false);
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -36,10 +35,10 @@ const Sortable = ({ containerId, item }) => {
           <div className="w-full break-words ">
             <div className="px-2">{item.taskName}</div>
 
-            {item?.detail?.comment?.length > 0 && (
+            {item.comment > 0 && (
               <div className="flex px-2 items-center">
                 <FaRegComment />
-                <p className="mx-1">{item.detail.comment.length}</p>
+                <p className="mx-1">{item.comment}</p>
               </div>
             )}
           </div>
@@ -56,7 +55,7 @@ const Sortable = ({ containerId, item }) => {
           setIsShowModal={(cancel) => {
             setIsShowModal(cancel);
           }}
-          item={item}
+          taskId={item.id}
         />
       )}
     </div>

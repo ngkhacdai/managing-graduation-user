@@ -82,7 +82,7 @@
   "ProjectDetail": {
     "newBoard": "Thêm cột mới",
     "newCard": "Thêm thẻ mới",
-    "Detail": "Chi tiết",
+    "Detail": "Mô tả",
     "Save": "Lưu",
     "ClearForm": "Xóa biểu mẫu",
     "Comment": "Bình luận",
@@ -99,7 +99,7 @@
     "commentEmty": "Bình luận trống!",
     "notiDeleteTask": "Bạn vẫn muốn xóa chứ?",
     "btnDeleteTask": "Xóa công việc",
-    "plhTaskDetail": "Chi tiết công việc",
+    "plhTaskDetail": "Mô tả công việc",
     "notFillTitle": "Vui lòng nhập tiêu đề!",
     "deleteBoard": "Cảnh báo: Bạn không thể hoàn tác khi xóa điều này",
     "titleDeleteBoard": "Xóa cột",

@@ -26,8 +26,8 @@ const FormStudent = ({ dataProfile }) => {
     if (dataProfile?.avatar) {
       setFileList([
         {
-          uid: "-1", // Unique identifier for the file
-          name: "avatar.png", // Provide a default name
+          uid: "-1",
+          name: "avatar.png",
           status: "done",
           url: dataProfile?.avatar,
         },

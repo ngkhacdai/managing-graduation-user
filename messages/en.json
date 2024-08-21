@@ -82,7 +82,7 @@
   "ProjectDetail": {
     "newBoard": "Add new column",
     "newCard": "Add new card",
-    "Detail": "Detail",
+    "Detail": "Description",
     "Save": "Save",
     "ClearForm": "Clear form",
     "Comment": "Comments",
@@ -99,7 +99,7 @@
     "commentEmty": "Comment is empty!",
     "notiDeleteTask": "Do you still want to delele?",
     "btnDeleteTask": "Delete Task",
-    "plhTaskDetail": "Task details",
+    "plhTaskDetail": "Task description",
     "notFillTitle": "Please enter a title!",
     "deleteBoard": "Warning: You can not undo when delete this",
     "titleDeleteBoard": "Delete column",
