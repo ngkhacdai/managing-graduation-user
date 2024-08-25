@@ -74,7 +74,7 @@ const Droppable = ({ items }) => {
       {contextHoler}
       <div className="flex justify-between mx-1 items-center">
         <p className="">{items.title}</p>
-        {!useIsPhaseFinished() && (
+        {/* {!useIsPhaseFinished() && (
           <div className="flex">
             <Button type="text" className="py-0 px-2" {...listeners}>
               <MdOutlineDragIndicator />
@@ -83,7 +83,7 @@ const Droppable = ({ items }) => {
               <IoMdClose />
             </Button>
           </div>
-        )}
+        )} */}
       </div>
       <SortableContext
         items={items.task.map((item) => item.id)}
@@ -95,7 +95,7 @@ const Droppable = ({ items }) => {
           </div>
         ))}
       </SortableContext>
-      <div className={`${showNewCard ? "block" : "hidden"}`}>
+      {/* <div className={`${showNewCard ? "block" : "hidden"}`}>
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -108,8 +108,8 @@ const Droppable = ({ items }) => {
           </Button>
           <Button onClick={cancelAddNewCard}>{t("cancel")}</Button>
         </div>
-      </div>
-      {!useIsPhaseFinished() && (
+      </div> */}
+      {/* {!useIsPhaseFinished() && (
         <Button
           type="text"
           onClick={() => {
@@ -122,7 +122,7 @@ const Droppable = ({ items }) => {
           <FaPlus />
           {t("newCard")}
         </Button>
-      )}
+      )} */}
       <Modal
         title={`${t("titleDeleteBoard")}: ${items.title}`}
         onCancel={handleCancelDelete}

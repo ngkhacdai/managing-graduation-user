@@ -13,6 +13,7 @@ import {
   commentTask,
   getTaskById,
   updateDescriptionTaskById,
+  getPhaseByTeacher,
 } from "@/api/Project";
 import { arrayMove } from "@dnd-kit/sortable";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -70,6 +71,12 @@ export const finishingPhase = createAsyncThunk(
 export const getPhase = createAsyncThunk("project-slice/getPhase", async () => {
   return await getPhaseInProject();
 });
+export const getPhaseById = createAsyncThunk(
+  "project-slice/getPhaseById",
+  async (id: string) => {
+    return await getPhaseByTeacher(id);
+  }
+);
 
 export const getBoard = createAsyncThunk(
   "project-slice/getBoard",
@@ -466,6 +473,9 @@ const projectDetailSlice = createSlice({
     });
     builder.addCase(getDetailTask.fulfilled, (state, action) => {
       state.detailTask = action.payload;
+    });
+    builder.addCase(getPhaseById.fulfilled, (state, action) => {
+      state.phase = action.payload;
     });
   },
 });

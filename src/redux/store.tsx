@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import ProjectDetailReducer from "./slices/ProjectDetailSlice";
+import HomeReducer from "./slices/HomeSlice";
 export const makeStore = () => {
   return configureStore({
-    reducer: { projectDetail: ProjectDetailReducer },
+    reducer: { projectDetail: ProjectDetailReducer, home: HomeReducer },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: false,

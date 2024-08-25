@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { IoLibrary } from "react-icons/io5";
-import { Button, Layout, Menu, message, Select, Tooltip } from "antd";
+import { Button, Layout, Menu, message, Select, Spin, Tooltip } from "antd";
 import { RiProfileLine } from "react-icons/ri";
 import Link from "next/link";
 import { FaPlus, FaProjectDiagram } from "react-icons/fa";
@@ -14,12 +14,16 @@ import { logoutApi } from "@/api/Access";
 import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
 import ModalAddNewPhase from "./ModalAddNewPhase";
-import { clearPhase, getPhase } from "@/redux/slices/ProjectDetailSlice";
+import {
+  clearPhase,
+  getPhase,
+  getPhaseById,
+} from "@/redux/slices/ProjectDetailSlice";
 import debounce from "lodash.debounce";
 
 const { Sider, Content } = Layout;
 
-const SideBarScreen = ({ children }) => {
+const SideBarScreen = ({ children, role }) => {
   const searchParams = useSearchParams();
   const [isShow, setIsShow] = useState(false);
   const [pushed, setPushed] = useState(false);
@@ -48,7 +52,15 @@ const SideBarScreen = ({ children }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (pathName.includes("/project/detail")) {
-      dispatchDebounce();
+      if (role == "student") {
+        dispatchDebounce();
+      } else {
+        if (searchParams.get("projectId")) {
+          dispatch(getPhaseById(searchParams.get("projectId")));
+        } else {
+          router.push("/project");
+        }
+      }
     }
   }, [pathName, dispatchDebounce]);
   const [messageApi, contextHolder] = message.useMessage();

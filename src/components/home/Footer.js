@@ -1,13 +1,21 @@
 import React from "react";
 import logo from "@/assets/logo.png";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
+
 const FooterHome = () => {
   const t = useTranslations("HomePage");
+
   return (
-    <div className="w-full py-2 bg-gray-300 flex justify-center flex-col items-center">
-      <img alt="" src={logo.src} className="w-16 h-16" />
-      <p className="text-2xl font-bold">Graduation project</p>
-      <p className="text-lg max-w-[32rem] text-center">{t("description")}</p>
+    <div className="w-full md:px-20 border-2 drop-shadow-lg py-2 mt-2 flex justify-between items-center">
+      <Link href="/">
+        <img
+          alt="Graduation Project Logo"
+          src={logo.src}
+          className="w-20 h-20 mb-2"
+        />
+      </Link>
+      <p>{t("made")}</p>
     </div>
   );
 };

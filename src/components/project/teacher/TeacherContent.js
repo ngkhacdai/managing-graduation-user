@@ -2,6 +2,7 @@
 import { Button, Table, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { title } from "process";
 import React from "react";
 import { BiSolidUserDetail } from "react-icons/bi";
 
@@ -28,8 +29,21 @@ const TeacherContent = ({ projectData }) => {
     },
     {
       title: t("status"),
-      dataIndex: "status",
       key: "status",
+      render: (record) => {
+        return (
+          <p>{record.completed === false ? t("processing") : t("finished")}</p>
+        );
+      },
+    },
+    {
+      title: t("dateStart"),
+      key: "date",
+      render: (record) => {
+        return (
+          <p>{new Date(record.implementation).toLocaleDateString("en-GB")}</p>
+        );
+      },
     },
     {
       title: t("action"),
@@ -53,9 +67,9 @@ const TeacherContent = ({ projectData }) => {
   const handleDetailProject = (record) => {
     const params = new URLSearchParams();
     params.set("studentName", record.studentName);
-    params.set("teacherName", record.teacherName);
+    params.set("teacherName", record.mentorName);
     params.set("projectName", record.projectName);
-    params.set("projectId", record.id);
+    params.set("projectId", record.projectId);
     route.push(`/project/detail?${params.toString()}`);
   };
   return (
@@ -64,7 +78,6 @@ const TeacherContent = ({ projectData }) => {
         <p className="font-semibold text-xl text-zinc-500 m-2">
           {t("yourProject")}
         </p>
-        {/* <Button>Review Student</Button> */}
       </div>
       <Table
         dataSource={projectData}

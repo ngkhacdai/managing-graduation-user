@@ -10,7 +10,10 @@
     "mark": "Mark",
     "titleListProduct": "List product student'graduation",
     "English": "English",
-    "Vietnamese": "Vietnamese"
+    "Vietnamese": "Vietnamese",
+    "design": "DESIGNED AND CODED BY",
+    "made": "© 2024, made with ❤ by ngkhacdai",
+    "filter": "Filter"
   },
   "Login": {
     "login": "Login",
@@ -44,7 +47,10 @@
     "status": "Status",
     "detail": "Detail",
     "action": "Action",
-    "signUp": "Sign up Project"
+    "signUp": "Sign up Project",
+    "processing": "Processing",
+    "finished": "Finished",
+    "dateStart": "Date Start"
   },
   "Profile": {
     "yourProfile": "Your Profile",
@@ -105,6 +111,9 @@
     "titleDeleteBoard": "Delete column",
     "project": "Project",
     "warn": "This action can not undo. Do you want to continue?",
-    "turnIn": "Turn in"
+    "turnIn": "Turn in",
+    "download": "Download",
+    "view": "View",
+    "deleteFile": "Delete"
   }
 }

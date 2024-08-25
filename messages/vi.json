@@ -10,7 +10,10 @@
     "mark": "Điểm",
     "titleListProduct": "Danh sách đồ án tốt nghiệp của sinh viên",
     "English": "Tiếng Anh",
-    "Vietnamese": "Tiếng Việt"
+    "Vietnamese": "Tiếng Việt",
+    "design": "ĐƯỢC LÀM VÀ THIẾT KẾ BỞI",
+    "made": "© 2024, được làm bởi ngkhacdai",
+    "filter": "Lọc"
   },
   "Login": {
     "login": "Đăng Nhập",
@@ -44,7 +47,10 @@
     "status": "Trạng Thái",
     "detail": "Chi Tiết",
     "action": "Hành động",
-    "signUp": "Đăng ký đồ án"
+    "signUp": "Đăng ký đồ án",
+    "processing": "Đang làm",
+    "finished": "Đã hoàn thành",
+    "dateStart": "Ngày bắt đàu làm"
   },
   "Profile": {
     "yourProfile": "Hồ sơ của tôi",
@@ -105,6 +111,9 @@
     "titleDeleteBoard": "Xóa cột",
     "project": "Đồ án",
     "warn": "Hành động này không thể quay lại. Bạn có muốn tiếp tục không?",
-    "turnIn": "Nộp bài"
+    "turnIn": "Nộp bài",
+    "download": "Tải xuống",
+    "view": "Xem trước file",
+    "deleteFile": "Xóa file"
   }
 }

@@ -43,11 +43,11 @@ const Sortable = ({ containerId, item }) => {
               </div>
             )}
           </div>
-          {!useIsPhaseFinished() && (
+          {/* {!useIsPhaseFinished() && (
             <Button type="text" className="h-full" {...listeners}>
               <MdOutlineDragIndicator />
             </Button>
-          )}
+          )} */}
         </div>
       </div>
       {isShowModal && (
@@ -56,7 +56,7 @@ const Sortable = ({ containerId, item }) => {
           setIsShowModal={(cancel) => {
             setIsShowModal(cancel);
           }}
-          item={item}
+          taskId={item.id}
         />
       )}
     </div>

@@ -19,7 +19,7 @@ const NavFillter = ({ listCkb = [] }) => {
   };
 
   return (
-    <div className="w-full p-2">
+    <div className="w-full p-2 overflow-hidden rounded-lg shadow-md">
       <Search
         className="h-10"
         placeholder={`${t("search input")}`}
@@ -49,7 +49,7 @@ const NavFillter = ({ listCkb = [] }) => {
             </Checkbox>
           );
         })}
-        <Checkbox className="line-clamp-1 flex max-w-56 container" value="A">
+        <Checkbox className="line-clamp-1 flex max-w-80 container" value="A">
           AAAAAAAAAAAAAAAAAAAAAAAA
         </Checkbox>
         <Checkbox value="B">B</Checkbox>

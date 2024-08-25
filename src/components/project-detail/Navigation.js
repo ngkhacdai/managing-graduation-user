@@ -36,11 +36,11 @@ const Navigation = ({ role }) => {
       label: (
         <p
           onClick={() => {
-            setTitle("Delete");
+            setTitle("Finish");
             setIsShowModal(true);
           }}
         >
-          {t("delete")}
+          {t("finish")}
         </p>
       ),
     },
@@ -49,11 +49,11 @@ const Navigation = ({ role }) => {
       label: (
         <p
           onClick={() => {
-            setTitle("Finish");
+            setTitle("Delete");
             setIsShowModal(true);
           }}
         >
-          {t("finish")}
+          {t("delete")}
         </p>
       ),
     },

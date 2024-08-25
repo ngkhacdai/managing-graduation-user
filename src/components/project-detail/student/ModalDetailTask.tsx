@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { BiSolidDetail } from "react-icons/bi";
 import TextArea from "antd/es/input/TextArea";
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdOutlineFileDownload } from "react-icons/md";
 import { Button, Image, message, Modal, Popover, Upload } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -23,6 +23,7 @@ import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
 import { useTranslations } from "next-intl";
 import { AppDispatch, RootState } from "@/redux/store";
 import { updateDescriptionTaskById } from "@/api/Project";
+import { GrFormView } from "react-icons/gr";
 
 const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
   const t = useTranslations("ProjectDetail");
@@ -88,7 +89,6 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
   const props = {
     fileList,
     name: "file",
-    // accept: ".doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.pdf,image/*",
     accept: ".pdf",
     multiple: true,
     showUploadList: false,
@@ -155,7 +155,9 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
       messageApi.error(t("commentEmty"));
     }
   };
-
+  const changeUrlToSearchParams = (url: string) => {
+    return `/preview/${btoa(url)}`;
+  };
   return (
     <div>
       {contextHolder}
@@ -179,7 +181,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
                       type="primary"
                       onClick={onDeleteTask}
                     >
-                      {t("delete")}
+                      {t("btnDeleteTask")}
                     </Button>
                   </div>
                 </div>
@@ -188,7 +190,9 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
               open={open}
               onOpenChange={handleOpenChange}
             >
-              <Button>{t("btnDeleteTask")}</Button>
+              <Button className="!bg-red-500 hover:!bg-red-400" type="primary">
+                {t("btnDeleteTask")}
+              </Button>
             </Popover>
           )
         }
@@ -236,22 +240,40 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
                             </div>
                           )}
                         </div>
+                        <p className="pl-2 max-w-96 line-clamp-1">
+                          {item?.name}
+                        </p>
+                      </div>
+                      <Popover
+                        content={<p className="text-center">{t("download")}</p>}
+                      >
+                        <a href={item.url}>
+                          <MdOutlineFileDownload color="black" size={28} />
+                        </a>
+                      </Popover>
 
+                      <Popover
+                        content={<p className="text-center">{t("view")}</p>}
+                      >
                         <a
-                          href={item.url}
+                          href={changeUrlToSearchParams(item.url)}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <p className="pl-2 max-w-96 line-clamp-1">
-                            {item?.name}
-                          </p>
+                          <GrFormView color="black" size={28} />
                         </a>
-                      </div>
-                      <MdDeleteForever
-                        onClick={() => deleteFile(index)}
-                        size={28}
-                        className="mr-5 cursor-pointer"
-                      />
+                      </Popover>
+                      <Popover
+                        content={
+                          <p className="text-center">{t("deleteFile")}</p>
+                        }
+                      >
+                        <MdDeleteForever
+                          onClick={() => deleteFile(index)}
+                          size={28}
+                          className="mr-5 cursor-pointer"
+                        />
+                      </Popover>
                     </div>
                   );
                 })}
@@ -310,7 +332,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
               <div key={`comment-${index}`}>
                 <div className="flex my-1">
                   <div className="border-2 p-1 w-8 h-8 bg-slate-400 rounded-full flex items-center justify-between">
-                    {items.role === "Teacher" ? (
+                    {items.role === "TEACHER" ? (
                       <FaChalkboardTeacher size={16} />
                     ) : (
                       <PiStudent size={16} />

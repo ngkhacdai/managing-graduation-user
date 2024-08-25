@@ -124,7 +124,7 @@ const DetailProject = () => {
                 <Droppable items={item} />
               </div>
             ))}
-            {!useIsPhaseFinished() && <AddNewBoard />}
+            {/* {!useIsPhaseFinished() && <AddNewBoard />} */}
           </div>
         </SortableContext>
         <DragOverlay adjustScale={false}>

@@ -1,6 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { GET, getCookie } from "./customFetch";
+import { redirect } from "next/navigation";
 
 export const getProjectDetail = async () => {
   try {
@@ -16,9 +17,7 @@ export const getPhaseInProject = async () => {
   try {
     return await GET("/user/findPhaseInProject");
   } catch (error) {
-    console.log(error);
-
-    return null;
+    return [];
   }
 };
 
@@ -201,4 +200,16 @@ export const updateDescriptionTaskById = async (
     throw new Error("Failed to call api");
   }
   return response.json();
+};
+
+export const getListProjectByMentor = async () => {
+  return await GET(`/getListProjectByMentor`);
+};
+
+export const getPhaseByTeacher = async (id: string) => {
+  try {
+    return await GET(`/getPhaseByProjectId/${id}`);
+  } catch (error) {
+    revalidatePath("/project");
+  }
 };
