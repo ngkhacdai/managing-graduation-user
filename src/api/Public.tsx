@@ -21,3 +21,14 @@ export const getPublicProjectByProjectId = async (projectId: string) => {
   }
   return response.json();
 };
+
+export const searchProjectPublic = async (form) => {
+  const response = await fetch(
+    `${process.env.API_URL}/searchProjectPublic?` + new URLSearchParams(form)
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch public project: ${response.status}`);
+  }
+  return response.json();
+};

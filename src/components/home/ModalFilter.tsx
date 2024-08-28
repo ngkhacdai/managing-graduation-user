@@ -4,7 +4,12 @@ import { useTranslations } from "next-intl";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { getListBranch } from "@/redux/slices/HomeSlice";
+import {
+  filterProject,
+  getListBranch,
+  saveFilter,
+  saveSearch,
+} from "@/redux/slices/HomeSlice";
 import debounce from "lodash.debounce";
 
 const ModalFilter = () => {
@@ -13,6 +18,8 @@ const ModalFilter = () => {
   const [form] = Form.useForm();
   const [isShow, setIsShow] = useState(false);
   const listBranch = useSelector((state: RootState) => state.home.branch) || [];
+  const filter = useSelector((state: RootState) => state.home.filter);
+  const keyword = useSelector((state: RootState) => state.home.searchInput);
   const [selectedBranches, setSelectedBranches] = useState<number[]>([]);
 
   const debouncegetListBranch = useCallback(
@@ -28,9 +35,9 @@ const ModalFilter = () => {
     }
   }, [listBranch]);
 
-  const saveFilter = () => {
-    setSelectedBranches(form.getFieldValue("branch"));
-    setIsShow(false);
+  const onOk = () => {
+    dispatch(saveFilter(form.getFieldValue("branch")));
+    form.submit();
   };
 
   const cancelFilter = () => {
@@ -38,9 +45,21 @@ const ModalFilter = () => {
     setIsShow(false);
   };
 
-  const onSearch = (value, _e, info) => console.log(info?.source, value);
+  const onSearch = (value) => {
+    dispatch(saveSearch(value));
+    const form1 = {
+      keyword: value,
+      branch: filter,
+    };
+    dispatch(filterProject(form1));
+  };
   const submitForm = (e) => {
-    console.log(form.getFieldsValue());
+    const form1 = {
+      keyword,
+      branch: filter,
+    };
+    dispatch(filterProject(form1));
+    setIsShow(false);
   };
 
   return (
@@ -63,7 +82,7 @@ const ModalFilter = () => {
       <Modal
         className="md:!min-w-[40rem] lg:!min-w-[50rem]"
         open={isShow}
-        onOk={saveFilter}
+        onOk={onOk}
         onCancel={cancelFilter}
         title={<p>{t("filter")}</p>}
       >

@@ -1,13 +1,18 @@
 import { getAllBranch } from "@/api/Branch";
-import { getPublicProject, getPublicProjectByProjectId } from "@/api/Public";
+import {
+  getPublicProject,
+  getPublicProjectByProjectId,
+  searchProjectPublic,
+} from "@/api/Public";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   branch: [],
   year: [2023, 2024],
   listProject: [],
+  filter: [],
+  searchInput: "",
   loading: false,
-  filteredBranch: [],
 };
 
 export const getListBranch = createAsyncThunk(
@@ -26,23 +31,23 @@ export const getListProject = createAsyncThunk(
   }
 );
 
-// export const getDetailProject = createAsyncThunk(
-//   "homeSlice/getDetailProject",
-//   async (projectId: string) => {
-//     const response = await getPublicProjectByProjectId(projectId);
-//     return response;
-//   }
-// )
+export const filterProject = createAsyncThunk(
+  "homeSlice/filterProject",
+  async (form: any) => {
+    const response = await searchProjectPublic(form);
+    return response;
+  }
+);
 
 const homeSlice = createSlice({
   name: "home",
   initialState,
   reducers: {
-    searchBranch: (state, action) => {
-      const searchQuery = action.payload.toLowerCase();
-      state.filteredBranch = state.branch.filter((branch) =>
-        branch.name.toLowerCase().includes(searchQuery)
-      );
+    saveFilter: (state, action) => {
+      state.filter = action.payload;
+    },
+    saveSearch: (state, action) => {
+      state.searchInput = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -58,9 +63,12 @@ const homeSlice = createSlice({
         state.loading = false;
         state.listProject = action.payload;
       });
+    builder.addCase(filterProject.fulfilled, (state, action) => {
+      state.listProject = action.payload;
+    });
   },
 });
 
-export const { searchBranch } = homeSlice.actions;
+export const { saveFilter, saveSearch } = homeSlice.actions;
 
 export default homeSlice.reducer;
