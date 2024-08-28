@@ -2,9 +2,9 @@
 import { Button, Table, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { title } from "process";
 import React from "react";
-import { BiSolidUserDetail } from "react-icons/bi";
+import ModalStudentProfile from "./ModalStudentProfile";
+import { TbListDetails } from "react-icons/tb";
 
 const TeacherContent = ({ projectData }) => {
   const t = useTranslations("Project");
@@ -50,16 +50,19 @@ const TeacherContent = ({ projectData }) => {
       key: "detail",
       render: (record) => {
         return (
-          <Tooltip title={t("detail")}>
-            <Button
-              onClick={() => {
-                handleDetailProject(record);
-              }}
-              type="primary"
-            >
-              <BiSolidUserDetail />
-            </Button>
-          </Tooltip>
+          <div className="flex">
+            <Tooltip className="mr-2" title={t("detailProject")}>
+              <Button
+                onClick={() => {
+                  handleDetailProject(record);
+                }}
+                type="primary"
+              >
+                <TbListDetails />
+              </Button>
+            </Tooltip>
+            <ModalStudentProfile projectId={record.projectId} />
+          </div>
         );
       },
     },

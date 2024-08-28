@@ -13,7 +13,10 @@
     "Vietnamese": "Tiếng Việt",
     "design": "ĐƯỢC LÀM VÀ THIẾT KẾ BỞI",
     "made": "© 2024, được làm bởi ngkhacdai",
-    "filter": "Lọc"
+    "filter": "Lọc",
+    "branch": "Ngành học",
+    "details": "Chi tiết đồ án",
+    "noProduct": "Chưa có đồ án nào"
   },
   "Login": {
     "login": "Đăng Nhập",
@@ -32,6 +35,7 @@
   },
   "SideBar": {
     "newPhase": "Thêm giai đoạn",
+    "finish": "Nộp bài",
     "project": "Dự Án",
     "library": "Thư Viện",
     "profile": "Hồ Sơ",
@@ -45,7 +49,8 @@
     "projectName": "Tên Dự Án",
     "studentName": "Tên Sinh Viên",
     "status": "Trạng Thái",
-    "detail": "Chi Tiết",
+    "detailProject": "Chi tiết dự án",
+    "detailStudent": "Thông tin sinh viên",
     "action": "Hành động",
     "signUp": "Đăng ký đồ án",
     "processing": "Đang làm",

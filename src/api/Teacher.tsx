@@ -21,3 +21,7 @@ export const getAllTeacher = async () => {
     return null;
   }
 };
+
+export const getTeacherProfileById = async (id) => {
+  return await GET(`/getTeacherProfileById/${id}`);
+};

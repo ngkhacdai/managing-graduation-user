@@ -8,7 +8,7 @@ const CardItem = ({ item }) => {
     <Card
       className="border border-gray-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
       title={
-        <p className="truncate text-lg font-semibold">{item.product_name}</p>
+        <p className="truncate text-lg font-semibold">{item.projectName}</p>
       }
     >
       <div className="flex items-center">
@@ -16,15 +16,15 @@ const CardItem = ({ item }) => {
         <div className="w-full">
           <div>
             <p className="font-medium text-gray-700 line-clamp-1">
-              {item.name}
+              {item.studentName}
             </p>
-            <p className="text-sm text-gray-500">{item.msv}</p>
+            <p className="text-sm text-gray-500">{item.studentId}</p>
           </div>
           <p className="truncate text-gray-600">
-            {t("major")}: {item.branch}
+            {t("major")}: {item.branchName}
           </p>
           <p className="truncate text-gray-600">
-            {t("teacher")}: {item.instructors}
+            {t("teacher")}: {item.mentor}
           </p>
           <p className="text-right truncate text-gray-800 font-semibold">
             {t("mark")}: {item.point}/10

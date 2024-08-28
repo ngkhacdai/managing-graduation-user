@@ -213,3 +213,19 @@ export const getPhaseByTeacher = async (id: string) => {
     revalidatePath("/project");
   }
 };
+
+export const updateCompleteProject = async (formData) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/updateCompleteProject`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to call api");
+  }
+  return response.json();
+};

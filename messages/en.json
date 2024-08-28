@@ -13,7 +13,10 @@
     "Vietnamese": "Vietnamese",
     "design": "DESIGNED AND CODED BY",
     "made": "© 2024, made with ❤ by ngkhacdai",
-    "filter": "Filter"
+    "filter": "Filter",
+    "branch": "Branches",
+    "details": "Details Project",
+    "noProduct": "No Product"
   },
   "Login": {
     "login": "Login",
@@ -32,6 +35,7 @@
   },
   "SideBar": {
     "newPhase": "Add new phase",
+    "finish": "Turn in",
     "project": "Project",
     "library": "Library",
     "profile": "Profile",
@@ -45,7 +49,8 @@
     "projectName": "Project Name",
     "studentName": "Student Name",
     "status": "Status",
-    "detail": "Detail",
+    "detailProject": "Detail project",
+    "detailStudent": "Detail student",
     "action": "Action",
     "signUp": "Sign up Project",
     "processing": "Processing",

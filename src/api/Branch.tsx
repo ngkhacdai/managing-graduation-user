@@ -1,11 +1,15 @@
+"use server";
 import { GET } from "./customFetch";
 
-export const getAllBranch = () => {
-  try {
-    return GET("/getAllBranch");
-  } catch (error) {
-    console.log(error);
+export const getAllBranch = async () => {
+  const response = await fetch(`${process.env.API_URL}/getAllBranch`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-    return null;
+  if (!response.ok) {
+    throw new Error("Failed to call api");
   }
+  return response.json();
 };

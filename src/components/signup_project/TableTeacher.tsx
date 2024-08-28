@@ -2,6 +2,7 @@ import { Button, Form, Table } from "antd";
 import React, { useState } from "react";
 import ModalSignUp from "./ModalSignUp";
 import { useTranslations } from "next-intl";
+import ModalProfileTeacher from "./ModalProfileTeacher";
 
 const TableTeacher = ({ listTeacher, listBranch }) => {
   const t = useTranslations("SignUp");
@@ -59,13 +60,16 @@ const TableTeacher = ({ listTeacher, listBranch }) => {
       key: "action",
       render: (record) => {
         return (
-          <Button
-            type="primary"
-            onClick={() => handleSignUp(record)}
-            disabled={record.studentSignUp >= 5 && true}
-          >
-            Sign Up
-          </Button>
+          <div className="flex">
+            <Button
+              type="primary"
+              onClick={() => handleSignUp(record)}
+              disabled={record.studentSignUp >= 5 && true}
+            >
+              Sign Up
+            </Button>
+            <ModalProfileTeacher id={record.id} />
+          </div>
         );
       },
     },

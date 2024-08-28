@@ -9,7 +9,7 @@ import {
 import { BiSolidDetail } from "react-icons/bi";
 import TextArea from "antd/es/input/TextArea";
 import { MdDeleteForever, MdOutlineFileDownload } from "react-icons/md";
-import { Button, Image, message, Modal, Popover, Upload } from "antd";
+import { Button, Image, message, Modal, Popover, Tooltip, Upload } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearDetail,
@@ -135,10 +135,6 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
     setOpen(newOpen);
   };
 
-  const deleteImageByUrl = (url) => {
-    dispatch(deleteImage({ url, containerId, taskId: detailTask.taskId }));
-  };
-
   const onSaveComment = () => {
     if (comment.length > 0) {
       dispatch(
@@ -156,8 +152,12 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
     }
   };
   const changeUrlToSearchParams = (url: string) => {
-    return `/preview/${btoa(url)}`;
+    // Use encodeURIComponent to safely encode the URL
+    const encodedUrl = encodeURIComponent(url);
+    // Replace any existing '/' with '_'
+    return `/preview/${encodedUrl.replace(/\//g, "_")}`;
   };
+
   return (
     <div>
       {contextHolder}
@@ -244,36 +244,38 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
                           {item?.name}
                         </p>
                       </div>
-                      <Popover
-                        content={<p className="text-center">{t("download")}</p>}
-                      >
-                        <a href={item.url}>
-                          <MdOutlineFileDownload color="black" size={28} />
-                        </a>
-                      </Popover>
-
-                      <Popover
-                        content={<p className="text-center">{t("view")}</p>}
-                      >
-                        <a
-                          href={changeUrlToSearchParams(item.url)}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                      <div className="flex">
+                        <Tooltip
+                          title={<p className="text-center">{t("download")}</p>}
                         >
-                          <GrFormView color="black" size={28} />
-                        </a>
-                      </Popover>
-                      <Popover
-                        content={
-                          <p className="text-center">{t("deleteFile")}</p>
-                        }
-                      >
-                        <MdDeleteForever
-                          onClick={() => deleteFile(index)}
-                          size={28}
-                          className="mr-5 cursor-pointer"
-                        />
-                      </Popover>
+                          <a href={item.url}>
+                            <MdOutlineFileDownload color="black" size={28} />
+                          </a>
+                        </Tooltip>
+
+                        <Tooltip
+                          title={<p className="text-center">{t("view")}</p>}
+                        >
+                          <a
+                            href={changeUrlToSearchParams(item.url)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <GrFormView color="black" size={28} />
+                          </a>
+                        </Tooltip>
+                        <Tooltip
+                          title={
+                            <p className="text-center">{t("deleteFile")}</p>
+                          }
+                        >
+                          <MdDeleteForever
+                            onClick={() => deleteFile(index)}
+                            size={28}
+                            className="mr-5 cursor-pointer"
+                          />
+                        </Tooltip>
+                      </div>
                     </div>
                   );
                 })}

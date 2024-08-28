@@ -12,8 +12,8 @@ import {
   deleteTaskById,
   commentTask,
   getTaskById,
-  updateDescriptionTaskById,
   getPhaseByTeacher,
+  updateCompleteProject,
 } from "@/api/Project";
 import { arrayMove } from "@dnd-kit/sortable";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -35,17 +35,10 @@ const initialState = {
     ],
   },
   activeId: null,
-  projectName: "",
+  detailProject: null,
   loading: false,
   error: null,
 };
-
-export const fetchProject = createAsyncThunk(
-  "project-slice/fetchProject",
-  async () => {
-    return await getProjectDetail();
-  }
-);
 
 export const addPhaseThunk = createAsyncThunk(
   "project-slice/addPhase",
@@ -119,6 +112,21 @@ export const createComment = createAsyncThunk(
   }) => {
     await commentTask(form);
     return form;
+  }
+);
+
+export const finishProject = createAsyncThunk(
+  "project-slice/finishProject",
+  async (form: any) => {
+    const respose = await updateCompleteProject(form);
+    return respose;
+  }
+);
+export const getProject = createAsyncThunk(
+  "project-slice/getProject",
+  async () => {
+    const respose = await getProjectDetail();
+    return respose;
   }
 );
 
@@ -377,9 +385,6 @@ const projectDetailSlice = createSlice({
     handleDragStart: (state, action) => {
       state.activeId = action.payload.event.active.id;
     },
-    handleSetProjectName: (state, action) => {
-      state.projectName = action.payload.projectName;
-    },
     deleteImage: (state, action) => {
       const { url, containerId, taskId } = action.payload;
       const copyProjectDetail = state.projectDetail;
@@ -394,6 +399,12 @@ const projectDetailSlice = createSlice({
           (file) => file.url !== url
         );
       state.projectDetail = copyProjectDetail;
+    },
+    setInforProject: (state, action) => {
+      state.detailProject = action.payload;
+    },
+    setCompleteProject: (state, action) => {
+      state.detailProject.completed = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -477,6 +488,13 @@ const projectDetailSlice = createSlice({
     builder.addCase(getPhaseById.fulfilled, (state, action) => {
       state.phase = action.payload;
     });
+    builder.addCase(finishProject.fulfilled, (state, action) => {
+      state.detailProject.completed = true;
+      state.phase.push(action.payload);
+    });
+    builder.addCase(getProject.fulfilled, (state, action) => {
+      state.detailProject = action.payload;
+    });
   },
 });
 
@@ -486,13 +504,14 @@ export const {
   handleDragOver,
   handleDragStart,
   handleDragEnd,
-  handleSetProjectName,
   deleteImage,
   addNewPhase,
   setNullError,
   logout,
   clearPhase,
   clearDetail,
+  setInforProject,
+  setCompleteProject,
 } = projectDetailSlice.actions;
 
 export default projectDetailSlice.reducer;

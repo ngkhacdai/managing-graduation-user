@@ -44,7 +44,7 @@ const Header = ({ isScroll }) => {
             {isEnglish ? "EN" : "VI"}
           </Button>
 
-          <Link href="/login">
+          <Link href={`/${currentLang}/login`}>
             <Button
               type="text"
               className={`font-semibold mx-2 text-lg hover:text-black `}

@@ -26,5 +26,9 @@ export const addProject = async (form) => {
     const errorBody = await response.json();
     throw new Error(errorBody);
   }
-  return await response.json();
+  return response.json();
+};
+
+export const getStudentProfileByProjectId = async (projectId) => {
+  return await GET(`/getStudentProfileById/${projectId}`);
 };

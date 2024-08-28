@@ -24,9 +24,7 @@ import {
   handleDragOver,
   handleDragStart,
 } from "@/redux/slices/ProjectDetailSlice";
-import AddNewBoard from "./AddNewBoard";
 import { useSearchParams } from "next/navigation";
-import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
 
 const DetailProject = () => {
   const dispatch = useDispatch<AppDispatch>();

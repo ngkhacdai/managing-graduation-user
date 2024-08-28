@@ -2,26 +2,29 @@ import { Col, Pagination, Row } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import CardItem from "./CardItem";
-import DrawerDetail from "./DrawerDetail";
+import dynamic from "next/dynamic";
+const DrawerDetail = dynamic(() => import("./DrawerDetail"), { ssr: false });
 
 const ListGraduation = ({ listProduct }) => {
   const t = useTranslations("HomePage");
+  const [selectedItem, setSelectedItem] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const onClose = () => {
     setDrawerOpen(false);
   };
 
-  const handleCardClick = () => {
+  const handleCardClick = (item) => {
+    setSelectedItem(item);
     setDrawerOpen(true);
   };
   return (
     <div className="w-full">
       <Row gutter={[16, 16]}>
-        {listProduct.length > 0 ? (
+        {listProduct && listProduct.length > 0 ? (
           listProduct.map((item, index) => (
             <Col
-              onClick={handleCardClick}
+              onClick={() => handleCardClick(item)}
               key={`graduation-${index}`}
               xs={24}
               sm={12}
@@ -44,7 +47,7 @@ const ListGraduation = ({ listProduct }) => {
           showSizeChanger={false}
         />
       </div>
-      <DrawerDetail open={drawerOpen} onClose={onClose} />
+      <DrawerDetail open={drawerOpen} item={selectedItem} onClose={onClose} />
     </div>
   );
 };

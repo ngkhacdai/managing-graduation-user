@@ -14,22 +14,30 @@ import { logoutApi } from "@/api/Access";
 import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
 import ModalAddNewPhase from "./ModalAddNewPhase";
+
 import {
   clearPhase,
   getPhase,
   getPhaseById,
+  getProject,
 } from "@/redux/slices/ProjectDetailSlice";
 import debounce from "lodash.debounce";
+import { IoMdReturnLeft } from "react-icons/io";
+import ModalTurnIn from "./ModalTurnIn";
 
 const { Sider, Content } = Layout;
 
 const SideBarScreen = ({ children, role }) => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [isShow, setIsShow] = useState(false);
   const [pushed, setPushed] = useState(false);
   const t = useTranslations("SideBar");
   const pathName = usePathname();
-
+  const dispatch = useDispatch();
+  const detailProject = useSelector(
+    (state) => state.projectDetail.detailProject
+  );
   const defaultItems = [
     {
       key: "/project",
@@ -49,10 +57,12 @@ const SideBarScreen = ({ children, role }) => {
     }, 100),
     []
   );
-  const dispatch = useDispatch();
   useEffect(() => {
     if (pathName.includes("/project/detail")) {
       if (role == "student") {
+        if (!detailProject) {
+          dispatch(getProject());
+        }
         dispatchDebounce();
       } else {
         if (searchParams.get("projectId")) {
@@ -66,12 +76,11 @@ const SideBarScreen = ({ children, role }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [collapsed, setCollapsed] = useState(false);
   const [items, setItems] = useState(defaultItems);
-  const router = useRouter();
   const logout = async () => {
     messageApi.success("Successfully logged out");
 
     setTimeout(() => {
-      const result = logoutApi();
+      logoutApi();
     }, 500);
   };
 
@@ -155,7 +164,7 @@ const SideBarScreen = ({ children, role }) => {
                 ? [`/${searchParams.get("phase")}`]
                 : [getKey()]
             }
-            items={items}
+            items={pathName.includes("/project/detail") ? items : defaultItems}
             onClick={({ key }) => {
               // console.log(key);
               if (key != "/project" && key != "/profile") {
@@ -167,21 +176,34 @@ const SideBarScreen = ({ children, role }) => {
               }
             }}
           />
-
-          {pathName.includes("/project/detail") &&
-            phase &&
-            (phase.length == 0 ||
-              !phase.some((item) => item?.completed == false)) && (
-              <Footer className="bg-white px-5">
-                <Tooltip title={t("newPhase")}>
-                  <Button className="flex items-center" onClick={newPhase}>
-                    <FaPlus />
-                    {!collapsed && <p>{t("newPhase")}</p>}
-                  </Button>
-                </Tooltip>
-              </Footer>
-            )}
+          {detailProject && !detailProject.completed && role != "teacher" ? (
+            <Footer className="bg-white px-5">
+              {pathName.includes("/project/detail") &&
+                phase &&
+                (phase.length == 0 ||
+                  !phase.some((item) => item.completed == false)) && (
+                  <Tooltip title={t("newPhase")}>
+                    <Button
+                      className="flex w-full items-center justify-start"
+                      onClick={newPhase}
+                    >
+                      <FaPlus />
+                      {!collapsed && <p>{t("newPhase")}</p>}
+                    </Button>
+                  </Tooltip>
+                )}
+              {pathName.includes("/project/detail") &&
+                phase &&
+                phase.length > 0 &&
+                !phase.some((item) => item.completed == false) && (
+                  <ModalTurnIn collapsed={collapsed} />
+                )}
+            </Footer>
+          ) : (
+            <></>
+          )}
         </Sider>
+
         <Layout className="!overflow-y-auto !bg-white">
           <div className="w-full p-2 flex justify-between items-center border-b-inherit border-b-2">
             <div>

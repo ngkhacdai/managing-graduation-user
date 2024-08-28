@@ -1,8 +1,8 @@
 "use client";
-
-import { RootState } from "@/redux/store";
+import { useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export const useIsPhaseFinished = () => {
   const pathName = usePathname();
@@ -11,28 +11,32 @@ export const useIsPhaseFinished = () => {
 
   const phase = useSelector((state: RootState) => state.projectDetail.phase);
 
-  if (pathName.includes("/project/detail")) {
-    const params = new URLSearchParams();
-    params.set("studentName", searchParams.get("studentName"));
-    params.set("teacherName", searchParams.get("teacherName"));
-    params.set("projectName", searchParams.get("projectName"));
-    if (phase.length > 0 && !searchParams.get("phase")) {
-      params.set("phase", `${phase[0].id}`);
-      router.push(
-        `/${pathName.split("/")[1]}/project/detail?${params.toString()}`
-      );
-    } else if (phase.length > 0 && searchParams.get("phase")) {
-      params.set("phase", `${phase[0].id}`);
-      const checkPhaseUrl = phase.some(
-        (i) => i.id == searchParams.get("phase")
-      );
-      if (!checkPhaseUrl) {
-        router.push(
-          `/${pathName.split("/")[1]}/project/detail?${params.toString()}`
-        );
+  useEffect(() => {
+    if (pathName.includes("/project/detail")) {
+      const params = new URLSearchParams();
+      params.set("studentName", searchParams.get("studentName") || "");
+      params.set("teacherName", searchParams.get("teacherName") || "");
+      params.set("projectName", searchParams.get("projectName") || "");
+
+      if (phase.length > 0) {
+        const phaseId = `${phase[0].id}`;
+        if (!searchParams.get("phase")) {
+          params.set("phase", phaseId);
+          router.push(
+            `/${pathName.split("/")[1]}/project/detail?${params.toString()}`
+          );
+        } else {
+          const currentPhaseId = searchParams.get("phase");
+          if (!phase.some((i) => i.id == currentPhaseId)) {
+            params.set("phase", phaseId);
+            router.push(
+              `/${pathName.split("/")[1]}/project/detail?${params.toString()}`
+            );
+          }
+        }
       }
     }
-  }
+  }, [pathName, searchParams, phase, router]);
 
   const currentPhaseId = searchParams.get("phase");
 
