@@ -8,60 +8,114 @@ import {
 } from "react-icons/fa";
 import { BiSolidDetail } from "react-icons/bi";
 import TextArea from "antd/es/input/TextArea";
-import { MdDeleteForever } from "react-icons/md";
-import { Button, Image, message, Modal, Popover, Upload } from "antd";
-import { useDispatch } from "react-redux";
+import { MdDeleteForever, MdOutlineFileDownload } from "react-icons/md";
+import { Button, Image, message, Modal, Popover, Tooltip, Upload } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  commentTask,
+  clearDetail,
+  createComment,
   deleteImage,
   deleteTask,
-  updateDescriptionTask,
+  getDetailTask,
 } from "@/redux/slices/ProjectDetailSlice";
 import { PiStudent } from "react-icons/pi";
+import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
+import { useTranslations } from "next-intl";
+import { AppDispatch, RootState } from "@/redux/store";
+import { updateDescriptionTaskById } from "@/api/Project";
+import { GrFormView } from "react-icons/gr";
 
-const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
-  const dispatch = useDispatch();
+const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
+  const t = useTranslations("ProjectDetail");
+  const dispatch = useDispatch<AppDispatch>();
+  const isPhaseFinished = useIsPhaseFinished();
   const [messageApi, contextHolder] = message.useMessage();
-  const [detail, setDetail] = useState(item.detail.description);
+  const [detail, setDetail] = useState("");
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [fileList, setFileList] = useState([]);
   const [isShowModalDetail, setIsShowModalDetail] = useState(false);
+  const detailTask = useSelector(
+    (state: RootState) => state.projectDetail.detailTask
+  );
+
   useEffect(() => {
+    dispatch(getDetailTask(taskId.split("task-")[1]));
     setIsShowModalDetail(true);
   }, []);
+  useEffect(() => {
+    if (detailTask) {
+      setDetail(detailTask.taskDescription || "");
+
+      if (detailTask.filePdf && detailTask.fileName) {
+        setFileList([
+          {
+            uid: "-1",
+            name: detailTask.fileName, // The name of the file
+            status: "done", // Status of the file
+            url: detailTask.filePdf, // The URL of the file
+            type: "application/pdf", // The type of the file
+          },
+        ]);
+      }
+    }
+  }, [detailTask]);
   const onCancelDetail = () => {
-    setIsShowModalDetail(false);
+    dispatch(clearDetail());
     clearFormDetail();
+    setIsShowModalDetail(false);
     setTimeout(() => {
       setIsShowModal(false);
     }, 300);
   };
+
   const deleteFile = (index) => {
     setFileList([...fileList.slice(0, index), ...fileList.slice(index + 1)]);
   };
+
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+
+  const beforeUpload = (file) => {
+    const isLessThan1MB = file.size / 1024 / 1024 < 1;
+
+    if (!isLessThan1MB) {
+      message.error("File must be smaller than 1MB!");
+      return Upload.LIST_IGNORE;
+    }
+
+    return true;
+  };
+
   const props = {
     fileList,
     name: "file",
+    accept: ".pdf",
     multiple: true,
     showUploadList: false,
     onChange: handleChange,
+    beforeUpload,
   };
+
   const clearFormDetail = () => {
     setDetail("");
     setFileList([]);
   };
 
-  const onSaveDetail = () => {
-    dispatch(
-      updateDescriptionTask({
-        containerId,
-        taskId: item.id,
-        description: detail,
-      })
-    );
-    messageApi.success("Save description successfully");
+  const onSaveDetail = async () => {
+    try {
+      const formData = new FormData();
+      if (fileList.length > 0 && fileList[0].originFileObj) {
+        formData.append("file", fileList[0].originFileObj);
+      }
+      formData.append("description", detail);
+      const id = taskId.split("task-")[1];
+
+      await updateDescriptionTaskById(formData, id);
+      return messageApi.success(t("saveDescription"));
+    } catch (error) {
+      console.log(error);
+      return messageApi.error(t(error));
+    }
   };
 
   const clearFormComment = () => {
@@ -69,28 +123,41 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
   };
 
   const onDeleteTask = async () => {
-    dispatch(deleteTask({ containerId: containerId, taskId: item.id, detail }));
+    dispatch(
+      deleteTask({
+        containerId: containerId.split("container-")[1],
+        taskId: detailTask.taskId.split("task-")[1],
+      })
+    );
   };
-  const handleOpenChange = (newOpen: boolean) => {
+
+  const handleOpenChange = (newOpen) => {
     setOpen(newOpen);
   };
+
   const deleteImageByUrl = (url) => {
-    dispatch(deleteImage({ url, containerId, taskId: item.id }));
+    dispatch(deleteImage({ url, containerId, taskId: detailTask.taskId }));
   };
+
   const onSaveComment = () => {
     if (comment.length > 0) {
       dispatch(
-        commentTask({
+        createComment({
           containerId,
-          taskId: item.id,
-          comment,
+          taskId: detailTask.taskId.split("task-")[1],
+          content: comment,
           role: "Teacher",
         })
       );
       clearFormComment();
-      return messageApi.success("Save comment successfully");
+      messageApi.success(t("saveComment"));
+    } else {
+      messageApi.error(t("commentEmty"));
     }
-    return messageApi.error("Comment is empty");
+  };
+  const changeUrlToSearchParams = (url: string) => {
+    const encodedUrl = encodeURIComponent(url);
+    return `/preview/${encodedUrl.replace(/\//g, "_")}`;
   };
   return (
     <div>
@@ -99,76 +166,73 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
         width={630}
         open={isShowModalDetail}
         onCancel={onCancelDetail}
-        footer={() => {
-          return (
-            <div>
-              <Popover
-                arrow={false}
-                content={
-                  <div>
-                    <p className="text-red-500 font-semibold text-lg">
-                      You can not undo when delete this: {item.title}
-                    </p>
-                    <p>Do you still want to delele?</p>
-                    <div className="text-right">
-                      <Button
-                        className="!bg-red-500 hover:!bg-red-400"
-                        type="primary"
-                        onClick={onDeleteTask}
-                      >
-                        Delete
-                      </Button>
-                    </div>
+        footer={
+          !isPhaseFinished && (
+            <Popover
+              arrow={false}
+              content={
+                <div>
+                  <p className="text-red-500 font-semibold text-lg">
+                    {t("notiDelete")}: {detailTask.taskName}
+                  </p>
+                  <p>{t("notiDeleteTask")}</p>
+                  <div className="text-right">
+                    <Button
+                      className="!bg-red-500 hover:!bg-red-400"
+                      type="primary"
+                      onClick={onDeleteTask}
+                    >
+                      {t("btnDeleteTask")}
+                    </Button>
                   </div>
-                }
-                trigger="click"
-                open={open}
-                onOpenChange={handleOpenChange}
-              >
-                <Button>Delete Task</Button>
-              </Popover>
-            </div>
-          );
-        }}
+                </div>
+              }
+              trigger="click"
+              open={open}
+              onOpenChange={handleOpenChange}
+            >
+              <Button className="!bg-red-500 hover:!bg-red-400" type="primary">
+                {t("btnDeleteTask")}
+              </Button>
+            </Popover>
+          )
+        }
         title={
           <div className="flex items-center">
             <FaChalkboard />
-            <p className="mx-2">{item.title}</p>
+            <p className="mx-2">{detailTask.taskName}</p>
           </div>
         }
       >
         <div className="flex">
           <BiSolidDetail size={18} color="#44546F" />
           <div className="px-2">
-            <p className="text-slate-600 font-semibold text-lg">Detail</p>
+            <p className="text-slate-600 font-semibold text-lg">
+              {t("Detail")}
+            </p>
             <TextArea
               autoSize={true}
               value={detail}
               onChange={(e) => setDetail(e.target.value)}
-              styles={{
-                textarea: {
-                  width: "100%",
-                  minHeight: 150,
-                },
-              }}
-              placeholder="Task details"
+              style={{ width: "100%", minHeight: 150 }}
+              placeholder={t("plhTaskDetail")}
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="my-2">
-              {item.detail.fileList.map(
-                (items: { url: string; title: string }, index: number) => {
+              {fileList.length > 0 &&
+                fileList.map((item, index) => {
                   return (
                     <div
-                      key={`Url-Image-${index}`}
+                      key={`file-${index}`}
                       className="flex justify-between items-center border-2 max-w-[34rem] rounded-lg my-2"
                     >
                       <div className="flex items-center">
-                        <div>
-                          {items.url.match(/\.(jpeg|jpg|gif|png)$/) != null ? (
+                        <div className="w-28 h-20 flex items-center justify-center border-r-2">
+                          {item?.type?.startsWith("image/") ? (
                             <Image
                               className="min-w-28 max-w-28 max-h-20 rounded-l-lg"
-                              src={items.url}
-                              alt={item.title}
+                              src={URL.createObjectURL(item.originFileObj)}
+                              alt={item.name}
                             />
                           ) : (
                             <div className="text-center">
@@ -177,74 +241,37 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
                           )}
                         </div>
                         <p className="pl-2 max-w-96 line-clamp-1">
-                          {item?.title}
+                          {item?.name}
                         </p>
                       </div>
-                      <MdDeleteForever
-                        onClick={() => {
-                          deleteImageByUrl(items.url);
-                        }}
-                        size={28}
-                        className="mr-5 cursor-pointer"
-                      />
+                      <div className="flex">
+                        <Tooltip
+                          title={<p className="text-center">{t("download")}</p>}
+                        >
+                          <a href={item.url}>
+                            <MdOutlineFileDownload color="black" size={28} />
+                          </a>
+                        </Tooltip>
+
+                        <Tooltip
+                          title={<p className="text-center">{t("view")}</p>}
+                        >
+                          <a
+                            href={changeUrlToSearchParams(item.url)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <GrFormView color="black" size={28} />
+                          </a>
+                        </Tooltip>
+                      </div>
                     </div>
                   );
-                }
-              )}
-              {fileList.length > 0 &&
-                fileList.map((item, index) => (
-                  <div
-                    key={`file-${index}`}
-                    className="flex justify-between items-center border-2 max-w-[34rem] rounded-lg my-2"
-                  >
-                    <div className="flex items-center">
-                      <div className="w-28 h-20 flex items-center justify-center border-r-2">
-                        {item?.type?.startsWith("image/") ? (
-                          <Image
-                            className="min-w-28 max-w-28 max-h-20 rounded-l-lg"
-                            src={URL.createObjectURL(item.originFileObj)}
-                            alt={item.name}
-                          />
-                        ) : (
-                          <div className="text-center">
-                            <FaFileAlt className="text-2xl" />
-                          </div>
-                        )}
-                      </div>
-                      <p className="pl-2 max-w-96 line-clamp-1">{item?.name}</p>
-                    </div>
-                    <MdDeleteForever
-                      onClick={() => {
-                        deleteFile(index);
-                      }}
-                      size={28}
-                      className="mr-5 cursor-pointer"
-                    />
-                  </div>
-                ))}
-            </div>
-            <div className="flex justify-between items-center mt-2">
-              <div>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    onSaveDetail();
-                  }}
-                >
-                  Save
-                </Button>
-                <Button className="mx-2" onClick={clearFormDetail}>
-                  Clear form
-                </Button>
-              </div>
-              <Upload {...props}>
-                <Button shape="circle">
-                  <FaLink />
-                </Button>
-              </Upload>
+                })}
             </div>
           </div>
         </div>
+
         <div className="flex mt-3">
           <FaCommentAlt size={18} color="#44546F" />
           <div className="pl-2">
@@ -263,34 +290,34 @@ const ModalDetailTask = ({ item, setIsShowModal, containerId }) => {
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="flex justify-between items-center mt-2">
-              <Button type="primary" onClick={onSaveComment}>
-                Save
-              </Button>
+              {!useIsPhaseFinished() && (
+                <Button type="primary" onClick={onSaveComment}>
+                  {t("Save")}
+                </Button>
+              )}
             </div>
           </div>
         </div>
         <div className="mt-2">
-          {item.detail.comment.map(
-            (items: { role: string; comment: string }, index: number) => {
-              return (
-                <div key={`comment-${index}`}>
-                  <div className="flex my-1">
-                    <div className="border-2 p-1 w-8 h-8 bg-slate-400 rounded-full flex items-center justify-between">
-                      {items.role === "Teacher" ? (
-                        <FaChalkboardTeacher size={16} />
-                      ) : (
-                        <PiStudent size={16} />
-                      )}
-                    </div>
-
-                    <p className="ml-1 p-2 w-full border-2 border-inherit rounded-lg">
-                      {items.comment}
-                    </p>
+          {detailTask?.commentViewList?.map((items, index) => {
+            return (
+              <div key={`comment-${index}`}>
+                <div className="flex my-1">
+                  <div className="border-2 p-1 w-8 h-8 bg-slate-400 rounded-full flex items-center justify-between">
+                    {items.role === "TEACHER" ? (
+                      <FaChalkboardTeacher size={16} />
+                    ) : (
+                      <PiStudent size={16} />
+                    )}
                   </div>
+
+                  <p className="ml-1 p-2 w-full border-2 border-inherit rounded-lg">
+                    {items.comment}
+                  </p>
                 </div>
-              );
-            }
-          )}
+              </div>
+            );
+          })}
         </div>
       </Modal>
     </div>

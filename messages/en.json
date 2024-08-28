@@ -8,7 +8,15 @@
     "year": "Year",
     "all": "All",
     "mark": "Mark",
-    "titleListProduct": "List product student'graduation"
+    "titleListProduct": "List product student'graduation",
+    "English": "English",
+    "Vietnamese": "Vietnamese",
+    "design": "DESIGNED AND CODED BY",
+    "made": "© 2024, made with ❤ by ngkhacdai",
+    "filter": "Filter",
+    "branch": "Branches",
+    "details": "Details Project",
+    "noProduct": "No Product"
   },
   "Login": {
     "login": "Login",
@@ -26,6 +34,8 @@
     "messageNotFillEmail": "Please input your email!"
   },
   "SideBar": {
+    "newPhase": "Add new phase",
+    "finish": "Turn in",
     "project": "Project",
     "library": "Library",
     "profile": "Profile",
@@ -39,8 +49,13 @@
     "projectName": "Project Name",
     "studentName": "Student Name",
     "status": "Status",
-    "detail": "Detail",
-    "action": "Action"
+    "detailProject": "Detail project",
+    "detailStudent": "Detail student",
+    "action": "Action",
+    "signUp": "Sign up Project",
+    "processing": "Processing",
+    "finished": "Finished",
+    "dateStart": "Date Start"
   },
   "Profile": {
     "yourProfile": "Your Profile",
@@ -62,5 +77,48 @@
     "notiUpdateSuccess": "Updated student profile successfully!",
     "notiUpdateFailed": "Failed to update student profile!",
     "notFillDepartment": "Please fill the department!"
+  },
+  "SignUp": {
+    "title": "Sign up project",
+    "slBranch": "Select branch",
+    "findTeacher": "Find teacher",
+    "Avatar": "Avatar",
+    "TeacherName": "Teacher Name",
+    "Branch": "Branch",
+    "Degree": "Degree",
+    "beginTeachingYear": "Begin Teaching Year",
+    "numberStudentSingUp": "Student SignUp",
+    "Action": "Action"
+  },
+  "ProjectDetail": {
+    "newBoard": "Add new column",
+    "newCard": "Add new card",
+    "Detail": "Description",
+    "Save": "Save",
+    "ClearForm": "Clear form",
+    "Comment": "Comments",
+    "cardTitle": "Card title",
+    "boardTitle": "Column title",
+    "btnAddCard": "New card",
+    "btnAddBoard": "New column",
+    "delete": "Delete phase",
+    "finish": "Finish phase",
+    "cancel": "Cancel",
+    "notiDelete": "You can not undo when delete this",
+    "saveDescription": "Save description successfully!",
+    "saveComment": "Save comment successfully!",
+    "commentEmty": "Comment is empty!",
+    "notiDeleteTask": "Do you still want to delele?",
+    "btnDeleteTask": "Delete Task",
+    "plhTaskDetail": "Task description",
+    "notFillTitle": "Please enter a title!",
+    "deleteBoard": "Warning: You can not undo when delete this",
+    "titleDeleteBoard": "Delete column",
+    "project": "Project",
+    "warn": "This action can not undo. Do you want to continue?",
+    "turnIn": "Turn in",
+    "download": "Download",
+    "view": "View",
+    "deleteFile": "Delete"
   }
 }

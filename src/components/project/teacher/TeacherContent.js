@@ -3,7 +3,8 @@ import { Button, Table, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { BiSolidUserDetail } from "react-icons/bi";
+import ModalStudentProfile from "./ModalStudentProfile";
+import { TbListDetails } from "react-icons/tb";
 
 const TeacherContent = ({ projectData }) => {
   const t = useTranslations("Project");
@@ -17,11 +18,6 @@ const TeacherContent = ({ projectData }) => {
       },
     },
     {
-      title: "id",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
       title: t("projectName"),
       dataIndex: "projectName",
       key: "projectName",
@@ -33,24 +29,40 @@ const TeacherContent = ({ projectData }) => {
     },
     {
       title: t("status"),
-      dataIndex: "status",
       key: "status",
+      render: (record) => {
+        return (
+          <p>{record.completed === false ? t("processing") : t("finished")}</p>
+        );
+      },
+    },
+    {
+      title: t("dateStart"),
+      key: "date",
+      render: (record) => {
+        return (
+          <p>{new Date(record.implementation).toLocaleDateString("en-GB")}</p>
+        );
+      },
     },
     {
       title: t("action"),
       key: "detail",
       render: (record) => {
         return (
-          <Tooltip title={t("detail")}>
-            <Button
-              onClick={() => {
-                handleDetailProject(record);
-              }}
-              type="primary"
-            >
-              <BiSolidUserDetail />
-            </Button>
-          </Tooltip>
+          <div className="flex">
+            <Tooltip className="mr-2" title={t("detailProject")}>
+              <Button
+                onClick={() => {
+                  handleDetailProject(record);
+                }}
+                type="primary"
+              >
+                <TbListDetails />
+              </Button>
+            </Tooltip>
+            <ModalStudentProfile projectId={record.projectId} />
+          </div>
         );
       },
     },
@@ -58,16 +70,18 @@ const TeacherContent = ({ projectData }) => {
   const handleDetailProject = (record) => {
     const params = new URLSearchParams();
     params.set("studentName", record.studentName);
-    params.set("teacherName", record.teacherName);
+    params.set("teacherName", record.mentorName);
     params.set("projectName", record.projectName);
-    params.set("projectId", record.id);
+    params.set("projectId", record.projectId);
     route.push(`/project/detail?${params.toString()}`);
   };
   return (
     <div>
-      <p className="font-semibold text-xl text-zinc-500 m-2">
-        {t("yourProject")}
-      </p>
+      <div className="flex justify-between">
+        <p className="font-semibold text-xl text-zinc-500 m-2">
+          {t("yourProject")}
+        </p>
+      </div>
       <Table
         dataSource={projectData}
         rowKey={"id"}

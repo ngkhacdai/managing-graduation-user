@@ -8,7 +8,15 @@
     "year": "Năm",
     "all": "Tất Cả",
     "mark": "Điểm",
-    "titleListProduct": "Danh sách đồ án tốt nghiệp của sinh viên"
+    "titleListProduct": "Danh sách đồ án tốt nghiệp của sinh viên",
+    "English": "Tiếng Anh",
+    "Vietnamese": "Tiếng Việt",
+    "design": "ĐƯỢC LÀM VÀ THIẾT KẾ BỞI",
+    "made": "© 2024, được làm bởi ngkhacdai",
+    "filter": "Lọc",
+    "branch": "Ngành học",
+    "details": "Chi tiết đồ án",
+    "noProduct": "Chưa có đồ án nào"
   },
   "Login": {
     "login": "Đăng Nhập",
@@ -26,6 +34,8 @@
     "messageNotFillEmail": "Vui lòng nhập email của bạn!"
   },
   "SideBar": {
+    "newPhase": "Thêm giai đoạn",
+    "finish": "Nộp bài",
     "project": "Dự Án",
     "library": "Thư Viện",
     "profile": "Hồ Sơ",
@@ -39,8 +49,13 @@
     "projectName": "Tên Dự Án",
     "studentName": "Tên Sinh Viên",
     "status": "Trạng Thái",
-    "detail": "Chi Tiết",
-    "action": "Hành động"
+    "detailProject": "Chi tiết dự án",
+    "detailStudent": "Thông tin sinh viên",
+    "action": "Hành động",
+    "signUp": "Đăng ký đồ án",
+    "processing": "Đang làm",
+    "finished": "Đã hoàn thành",
+    "dateStart": "Ngày bắt đàu làm"
   },
   "Profile": {
     "yourProfile": "Hồ sơ của tôi",
@@ -62,5 +77,48 @@
     "notiUpdateSuccess": "Cập nhật hồ sơ thành công!",
     "notiUpdateFailed": "Cập nhật hồ sơ thất bại!",
     "notFillDepartment": "Hãy điền phòng ban!"
+  },
+  "SignUp": {
+    "title": "Đăng ký đồ án",
+    "slBranch": "Chọn ngành",
+    "findTeacher": "Tìm kiếm giảng viên",
+    "Avatar": "Ảnh đại diện",
+    "TeacherName": "Tên giảng viên",
+    "Branch": "Ngành",
+    "Degree": "Degree",
+    "beginTeachingYear": "Năm bắt đầu dạy",
+    "numberStudentSingUp": "Học sinh đăng ký",
+    "Action": "Hành động"
+  },
+  "ProjectDetail": {
+    "newBoard": "Thêm cột mới",
+    "newCard": "Thêm thẻ mới",
+    "Detail": "Mô tả",
+    "Save": "Lưu",
+    "ClearForm": "Xóa biểu mẫu",
+    "Comment": "Bình luận",
+    "cardTitle": "Tiêu đề thẻ",
+    "boardTitle": "Tiêu đề cột",
+    "btnAddCard": "Thẻ mới",
+    "btnAddBoard": "Cột mới",
+    "delete": "Xóa giai đoạn",
+    "finish": "Hoàn thành giai đoạn",
+    "cancel": "Hủy",
+    "notiDelete": "Bạn không thể hoàn tác khi xóa điều này",
+    "saveDescription": "Lưu mô tả thành công!",
+    "saveComment": "Lưu bình luận thành công!",
+    "commentEmty": "Bình luận trống!",
+    "notiDeleteTask": "Bạn vẫn muốn xóa chứ?",
+    "btnDeleteTask": "Xóa công việc",
+    "plhTaskDetail": "Mô tả công việc",
+    "notFillTitle": "Vui lòng nhập tiêu đề!",
+    "deleteBoard": "Cảnh báo: Bạn không thể hoàn tác khi xóa điều này",
+    "titleDeleteBoard": "Xóa cột",
+    "project": "Đồ án",
+    "warn": "Hành động này không thể quay lại. Bạn có muốn tiếp tục không?",
+    "turnIn": "Nộp bài",
+    "download": "Tải xuống",
+    "view": "Xem trước file",
+    "deleteFile": "Xóa file"
   }
 }

@@ -1,19 +1,14 @@
 import React from "react";
 import TeacherScreen from "./Teacher.screen";
 import { headers } from "next/headers";
+import { getListProjectByMentor } from "@/api/Project";
 
-const TeacherComponent = () => {
-  const fakeProjectData = Array.from({ length: 50 }, (_, index) => ({
-    id: index,
-    projectName: `project-${index}`,
-    studentName: `student-${index}`,
-    teacherName: `teacher`,
-    status: `Processing`,
-  }));
+const TeacherComponent = async () => {
+  const projectData = await getListProjectByMentor();
 
   return (
     <div>
-      <TeacherScreen projectData={fakeProjectData} />
+      <TeacherScreen projectData={projectData} />
     </div>
   );
 };

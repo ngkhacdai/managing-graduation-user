@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Button, Checkbox, Form, Input, message } from "antd";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { login } from "@/api/Access";
 import { useTranslations } from "next-intl";
 
 const LoginForm = ({ changeForm }) => {
   const t = useTranslations("Login");
+  const pathName = usePathname();
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
   const [loadingButton, setLoadingButton] = useState(false);
@@ -94,7 +95,10 @@ const LoginForm = ({ changeForm }) => {
           {t("login")}
         </Button>
       </Form>
-      <Link href={"/"} className=" hover:text-blue-700 cursor-pointer mt-2">
+      <Link
+        href={`${pathName.split("/")[1]}`}
+        className=" hover:text-blue-700 cursor-pointer mt-2"
+      >
         {t("goToHomePage")}
       </Link>
     </div>

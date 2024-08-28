@@ -1,5 +1,5 @@
-import SideBarScreen from "@/components/SideBar.screen";
+import SideBar from "@/components/sidebar/SideBar";
 
 export default function UserLayout({ children }) {
-  return <SideBarScreen>{children}</SideBarScreen>;
+  return <SideBar>{children}</SideBar>;
 }

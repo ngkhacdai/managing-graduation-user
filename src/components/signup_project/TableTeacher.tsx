@@ -1,11 +1,13 @@
 import { Button, Form, Table } from "antd";
 import React, { useState } from "react";
 import ModalSignUp from "./ModalSignUp";
+import { useTranslations } from "next-intl";
+import ModalProfileTeacher from "./ModalProfileTeacher";
 
-const TableTeacher = ({ listTeacher }) => {
+const TableTeacher = ({ listTeacher, listBranch }) => {
+  const t = useTranslations("SignUp");
   const [isShowModalSignUp, setIsShowModalSignUp] = useState(false);
   const [saveTeacher, setSaveTeacher] = useState([]);
-  const [form] = Form.useForm();
   const columns = [
     {
       title: "No",
@@ -15,13 +17,15 @@ const TableTeacher = ({ listTeacher }) => {
       },
     },
     {
-      title: "Teacher ID",
-      dataIndex: "id",
-      key: "id",
+      title: t("Avatar"),
+      key: "avatar",
+      render: (record, text, index) => {
+        return <img alt="" src={record.avatar} />;
+      },
     },
     {
-      title: "Teacher Name",
-      dataIndex: "teacherName",
+      title: t("TeacherName"),
+      dataIndex: "fullName",
       key: "name",
     },
     {
@@ -30,34 +34,42 @@ const TableTeacher = ({ listTeacher }) => {
       key: "email",
     },
     {
-      title: "Branch",
+      title: t("Branch"),
       dataIndex: "branch",
       key: "branch",
     },
     {
-      title: "Academic Rank",
-      key: "academicRank",
-      dataIndex: "academicRank",
+      title: t("Degree"),
+      key: "degree",
+      dataIndex: "degree",
     },
     {
-      title: "Student SignUp",
-      key: "studentSignUp",
+      title: t("beginTeachingYear"),
+      key: "beginTeachingYear",
+      dataIndex: "beginTeachingYear",
+    },
+    {
+      title: t("numberStudentSingUp"),
+      key: "numberOfMentees",
       render: (record) => {
-        return <p>{record.studentSignUp}/10</p>;
+        return <p>{record.numberOfMentees}/5</p>;
       },
     },
     {
-      title: "Action",
+      title: t("Action"),
       key: "action",
       render: (record) => {
         return (
-          <Button
-            type="primary"
-            onClick={() => handleSignUp(record)}
-            disabled={record.studentSignUp === 10 && true}
-          >
-            Sign Up
-          </Button>
+          <div className="flex">
+            <Button
+              type="primary"
+              onClick={() => handleSignUp(record)}
+              disabled={record.studentSignUp >= 5 && true}
+            >
+              Sign Up
+            </Button>
+            <ModalProfileTeacher id={record.id} />
+          </div>
         );
       },
     },
@@ -67,7 +79,6 @@ const TableTeacher = ({ listTeacher }) => {
     setIsShowModalSignUp(true);
   };
   const handleCloseModalSignUp = () => {
-    form.resetFields();
     setSaveTeacher([]);
     setIsShowModalSignUp(false);
   };
@@ -83,7 +94,7 @@ const TableTeacher = ({ listTeacher }) => {
         <ModalSignUp
           handleCloseModalSignUp={handleCloseModalSignUp}
           saveTeacher={saveTeacher}
-          form={form}
+          listBranch={listBranch}
         />
       )}
     </div>

@@ -2,17 +2,37 @@ import React, { useState } from "react";
 import { Button, Input } from "antd";
 import { FaPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { addNewBoard } from "@/redux/slices/ProjectDetailSlice";
+import { useTranslations } from "next-intl";
+import useMessage from "antd/es/message/useMessage";
+import { createBoard } from "@/redux/slices/ProjectDetailSlice";
+import { AppDispatch } from "@/redux/store";
+import { useSearchParams } from "next/navigation";
 const AddNewBoard = () => {
-  const dispatch = useDispatch();
+  const [messageAPI, contextHoler] = useMessage();
+  const t = useTranslations("ProjectDetail");
+  const dispatch = useDispatch<AppDispatch>();
   const [title, setTitle] = useState("");
   const [isShowFormAddBoard, setIsShowFormAddBoard] = useState(false);
   const cancelAddNewBoard = () => {
     setIsShowFormAddBoard(false);
     setTitle("");
   };
+  const searchParams = useSearchParams();
+  const newBoard = async () => {
+    if (title !== "") {
+      const form = {
+        phaseId: searchParams.get("phase"),
+        nameBoard: title,
+      };
+      await dispatch(createBoard(form));
+      cancelAddNewBoard();
+    } else {
+      messageAPI.error(t("notFillTitle"));
+    }
+  };
   return (
     <div>
+      {contextHoler}
       <div
         className={`${
           !isShowFormAddBoard ? "hidden" : ""
@@ -21,20 +41,14 @@ const AddNewBoard = () => {
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Board title"
+          placeholder={t("boardTitle")}
           className="mb-2"
         />
         <div className="flex justify-between items-center">
-          <Button
-            type="primary"
-            onClick={() => {
-              dispatch(addNewBoard({ title }));
-              cancelAddNewBoard();
-            }}
-          >
-            New board
+          <Button type="primary" onClick={newBoard}>
+            {t("btnAddBoard")}
           </Button>
-          <Button onClick={cancelAddNewBoard}>Cancel</Button>
+          <Button onClick={cancelAddNewBoard}>{t("cancel")}</Button>
         </div>
       </div>
       <Button
@@ -44,7 +58,7 @@ const AddNewBoard = () => {
         }`}
       >
         <FaPlus />
-        <p>Add new board</p>
+        <p>{t("newBoard")}</p>
       </Button>
     </div>
   );

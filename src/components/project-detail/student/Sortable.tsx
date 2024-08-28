@@ -5,6 +5,9 @@ import { Button } from "antd";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import ModalDetailTask from "./ModalDetailTask";
 import { FaRegComment } from "react-icons/fa";
+import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const Sortable = ({ containerId, item }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -30,18 +33,20 @@ const Sortable = ({ containerId, item }) => {
       >
         <div className="bg-white py-2 max-w-[272px] border-inherit border-2 rounded-xl flex items-center justify-between">
           <div className="w-full break-words ">
-            <div className="px-2">{item.title}</div>
+            <div className="px-2">{item.taskName}</div>
 
-            {item.detail.comment.length > 0 && (
+            {item.comment > 0 && (
               <div className="flex px-2 items-center">
                 <FaRegComment />
-                <p className="mx-1">{item.detail.comment.length}</p>
+                <p className="mx-1">{item.comment}</p>
               </div>
             )}
           </div>
-          <Button type="text" className="h-full" {...listeners}>
-            <MdOutlineDragIndicator />
-          </Button>
+          {!useIsPhaseFinished() && (
+            <Button type="text" className="h-full" {...listeners}>
+              <MdOutlineDragIndicator />
+            </Button>
+          )}
         </div>
       </div>
       {isShowModal && (
@@ -50,7 +55,7 @@ const Sortable = ({ containerId, item }) => {
           setIsShowModal={(cancel) => {
             setIsShowModal(cancel);
           }}
-          item={item}
+          taskId={item.id}
         />
       )}
     </div>

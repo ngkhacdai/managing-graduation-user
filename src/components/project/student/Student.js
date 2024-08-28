@@ -1,21 +1,15 @@
+import SignUp from "@/components/signup_project/SignUp";
 import React from "react";
 import ProjectScreen from "./Project.screen";
-const StudentComponent = () => {
-  const fakeStatus = () => {
-    return ["processing", "Finished", "Failed"][Math.floor(Math.random() * 3)];
-  };
-  const fakeProjectData = Array.from({ length: 10 }, (_, index) => ({
-    id: index,
-    projectName: `project-${index}`,
-    studentName: `student`,
-    teacherName: `teacher-${index}`,
-    status: "Failed",
-  }));
-  return (
-    <div>
-      <ProjectScreen projectData={fakeProjectData} />
-    </div>
-  );
+import { getProjectDetail } from "@/api/Project";
+const StudentComponent = async () => {
+  let project = await getProjectDetail();
+
+  if (!project) {
+    return <SignUp />;
+  } else {
+    return <ProjectScreen project={project} />;
+  }
 };
 
 export default StudentComponent;

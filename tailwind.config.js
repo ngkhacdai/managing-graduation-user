@@ -11,7 +11,20 @@ module.exports = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        bg_project_detail: "url('/bg_classroom.jpg')", // Updated path
+      },
+      keyframes: {
+        cloudsMoveContinuous: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        fogMoveContinuous: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+      },
+      animation: {
+        cloudsMoveContinuous: "cloudsMoveContinuous 75s linear infinite",
+        fogMoveContinuous: "fogMoveContinuous 75s linear infinite",
       },
     },
   },
