@@ -1,10 +1,11 @@
 import { getTeacherProfileById } from "@/api/Teacher";
 import { Button, Col, Modal, Row } from "antd";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 
 const ModalProfileTeacher = ({ id }) => {
+  const t = useTranslations("SignUp");
   const [isShowModal, setIsShowModal] = useState(false);
   const pathName = usePathname();
   const [detail, setDetails] = useState(null);
@@ -21,11 +22,11 @@ const ModalProfileTeacher = ({ id }) => {
         type="primary"
         onClick={openModal}
       >
-        Detail
+        {t("detail")}
       </Button>
       <Modal
-        className="!w-1/2"
-        title="Mentor profile"
+        className="lg:!w-1/2 !w-3/4"
+        title={t("mentorProfile")}
         onCancel={() => setIsShowModal(false)}
         open={isShowModal}
         footer={false}
@@ -39,11 +40,13 @@ const ModalProfileTeacher = ({ id }) => {
             />
             <p className="text-xl my-1">{detail?.fullName}</p>
             <p className="break-all my-1">{detail?.branch}</p>
-            <p className="my-1">{detail?.numberOfMentees}/5</p>
+            <p className="my-1">
+              {detail?.numberOfMentees}/{detail?.limitOfMentees}
+            </p>
           </div>
           <div className="w-2/3 bg-white m-1 p-2 break-all">
             <Row className="mt-2">
-              <Col span={8}>Full Name:</Col>
+              <Col span={8}>{t("fullName")}:</Col>
               <Col className=" break-all" span={16}>
                 {detail?.fullName}
               </Col>
@@ -55,26 +58,26 @@ const ModalProfileTeacher = ({ id }) => {
               </Col>
             </Row>
             <Row className="mt-2">
-              <Col span={8}>Phone:</Col>
+              <Col span={8}>{t("phone")}:</Col>
               <Col className=" break-all" span={16}>
                 {detail?.phoneNumber}
               </Col>
             </Row>
             <Row className="mt-2">
-              <Col span={8}>Degree:</Col>
+              <Col span={8}>{t("Degree")}:</Col>
               <Col className=" break-all" span={16}>
                 {detail?.degree}
               </Col>
             </Row>
             <Row className="mt-2">
-              <Col span={8}>Begin teaching year:</Col>
+              <Col span={8}>{t("beginTeachingYear")}:</Col>
               <Col className=" break-all" span={16}>
                 {detail?.beginTeachingYear}
               </Col>
             </Row>
             <Row className="mt-2 flex justify-center">
               <a target="_blank" href={`/${pathName.split("/")[1]}`}>
-                <Button type="primary">View project</Button>
+                <Button type="primary">{t("viewProject")}</Button>
               </a>
             </Row>
           </div>

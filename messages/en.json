@@ -16,7 +16,10 @@
     "filter": "Filter",
     "branch": "Branches",
     "details": "Details Project",
-    "noProduct": "No Product"
+    "noProduct": "No Product",
+    "madeBy": "Made by",
+    "Branch": "Branch",
+    "descriptionDetail": "Description"
   },
   "Login": {
     "login": "Login",
@@ -31,7 +34,14 @@
     "notiNotFillAllInput": "Please fill in your account and password!!",
     "messageNotFillUsername": "Please input your username!",
     "messageNotFillPassword": "Please input your password!",
-    "messageNotFillEmail": "Please input your email!"
+    "messageNotFillEmail": "Please input your email!",
+    "sendCode": "Send code",
+    "newPass": "New password",
+    "otp": "OTP code",
+    "warn": "You have 15 minutes to reset password!!",
+    "notFillCode": "Please input the otp code!",
+    "notFillPassword": "Please input your new password!",
+    "notFillEmail": "Please input your email!"
   },
   "SideBar": {
     "newPhase": "Add new phase",
@@ -55,7 +65,10 @@
     "signUp": "Sign up Project",
     "processing": "Processing",
     "finished": "Finished",
-    "dateStart": "Date Start"
+    "dateStart": "Date Start",
+    "projectComplete": "Project completed",
+    "projectProcessing": "Project processing",
+    "projectPassed": "Project passed"
   },
   "Profile": {
     "yourProfile": "Your Profile",
@@ -63,7 +76,7 @@
     "studenCode": "Student Code",
     "fullName": "Full name",
     "Phone": "Phone Number",
-    "Major": "Major",
+    "Major": "Branch",
     "Degree": "Degree",
     "Department": "Department",
     "beginYear": "Begin year",
@@ -76,7 +89,14 @@
     "updateProfile": "Update profile",
     "notiUpdateSuccess": "Updated student profile successfully!",
     "notiUpdateFailed": "Failed to update student profile!",
-    "notFillDepartment": "Please fill the department!"
+    "notFillDepartment": "Please fill the department!",
+    "notFillOldPassword": "Please input your old password!",
+    "oldPassword": "Old password",
+    "notFillNewPassword": "Please input your new password!",
+    "newPassword": "New password",
+    "notFillComNewPassword": "Please input your comfirm new password!",
+    "comNewPass": "Comfirm new password",
+    "changePassword": "Change password"
   },
   "SignUp": {
     "title": "Sign up project",
@@ -88,7 +108,14 @@
     "Degree": "Degree",
     "beginTeachingYear": "Begin Teaching Year",
     "numberStudentSingUp": "Student SignUp",
-    "Action": "Action"
+    "Action": "Action",
+    "signUp": "Sign up",
+    "detail": "Detail",
+    "fullName": "Full Name",
+    "phone": "Phone",
+    "viewProject": "View project",
+    "mentorProfile": "Mentor profile",
+    "filter": "Filter"
   },
   "ProjectDetail": {
     "newBoard": "Add new column",

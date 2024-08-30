@@ -18,10 +18,9 @@ const ModalFilter = () => {
   const [form] = Form.useForm();
   const [isShow, setIsShow] = useState(false);
   const listBranch = useSelector((state: RootState) => state.home.branch) || [];
-  const filter = useSelector((state: RootState) => state.home.filter);
   const keyword = useSelector((state: RootState) => state.home.searchInput);
-  const [selectedBranches, setSelectedBranches] = useState<number[]>([]);
-
+  const [selectedBranches, setSelectedBranches] = useState({ branch: [] });
+  const [searchText, setSearchText] = useState("");
   const debouncegetListBranch = useCallback(
     debounce(() => {
       dispatch(getListBranch());
@@ -36,12 +35,12 @@ const ModalFilter = () => {
   }, [listBranch]);
 
   const onOk = () => {
+    setSelectedBranches(form.getFieldsValue());
     dispatch(saveFilter(form.getFieldValue("branch")));
     form.submit();
   };
 
   const cancelFilter = () => {
-    form.setFieldsValue({ branch: selectedBranches });
     setIsShow(false);
   };
 
@@ -49,14 +48,14 @@ const ModalFilter = () => {
     dispatch(saveSearch(value));
     const form1 = {
       keyword: value,
-      branch: filter,
+      branch: selectedBranches.branch,
     };
     dispatch(filterProject(form1));
   };
   const submitForm = (e) => {
     const form1 = {
-      keyword,
-      branch: filter,
+      keyword: searchText,
+      branch: selectedBranches.branch,
     };
     dispatch(filterProject(form1));
     setIsShow(false);
@@ -70,6 +69,7 @@ const ModalFilter = () => {
           placeholder={`${t("search input")}`}
           size="middle"
           onSearch={onSearch}
+          onChange={(e) => setSearchText(e.target.value)}
         />
         <Button
           onClick={() => {
@@ -91,7 +91,7 @@ const ModalFilter = () => {
           onFinish={submitForm}
           layout="vertical"
           initialValues={{
-            branch: selectedBranches,
+            branch: selectedBranches.branch,
           }}
           className="select-none"
         >

@@ -11,7 +11,6 @@ const DrawerDetail = ({ open, onClose, item }) => {
   const t = useTranslations("HomePage");
   const [showDetail, setShowDetail] = useState(false);
   const [projectDetail, setProjectDetail] = useState<any>();
-  console.log(projectDetail);
 
   const getData = async () => {
     const response = await getPublicProjectByProjectId(item.projectId);
@@ -79,19 +78,19 @@ const DrawerDetail = ({ open, onClose, item }) => {
             {projectDetail?.projectName}
           </p>
           <div className="flex">
-            <p className="min-w-24 font-medium">Made by:</p>
+            <p className="min-w-24 font-medium">{t("madeBy")}:</p>
             <p className="break-all">{projectDetail?.projectAuthor}</p>
           </div>
           <div className="flex">
-            <p className="min-w-24 font-medium">Branch:</p>
+            <p className="min-w-24 font-medium">{t("Branch")}:</p>
             <p className="break-all">{projectDetail?.branch}</p>
           </div>
           <div className="flex">
-            <p className="min-w-24 font-medium">Mark:</p>
+            <p className="min-w-24 font-medium">{t("mark")}:</p>
             <p className="break-all">{projectDetail?.mark}</p>
           </div>
           <div className="flex">
-            <p className="min-w-24 font-medium">Description:</p>
+            <p className="min-w-24 font-medium">{t("descriptionDetail")}:</p>
             <p className="break-all">{projectDetail?.projectDescription}</p>
           </div>
         </div>

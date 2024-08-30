@@ -2,6 +2,7 @@
 import { fail } from "assert";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getCookie } from "./customFetch";
 
 export const login = async (form) => {
   const cookie = cookies();
@@ -57,4 +58,21 @@ export const logoutApi = async () => {
   // return {
   //   success: true,
   // };
+};
+
+export const changePassword = async (form) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/member/updateUser`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: JSON.stringify(form),
+  });
+  if (!response.ok) {
+    console.log(response);
+    throw new Error(`Failed to change password`);
+  }
+  return response.json();
 };

@@ -1,13 +1,30 @@
-import { Button, Form, Table } from "antd";
-import React, { useState } from "react";
+import { Button, Form, Spin, Table } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
 import ModalSignUp from "./ModalSignUp";
 import { useTranslations } from "next-intl";
 import ModalProfileTeacher from "./ModalProfileTeacher";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import debounce from "lodash.debounce";
+import { fetchDataTeacher } from "@/redux/slices/SignUpSlice";
 
-const TableTeacher = ({ listTeacher, listBranch }) => {
+const TableTeacher = ({ listBranch }) => {
   const t = useTranslations("SignUp");
+  const dispatch = useDispatch<AppDispatch>();
   const [isShowModalSignUp, setIsShowModalSignUp] = useState(false);
   const [saveTeacher, setSaveTeacher] = useState([]);
+  const listTeacher = useSelector(
+    (state: RootState) => state.signup.listTeacher
+  );
+  const debounceFetchData = useCallback(
+    debounce(() => {
+      dispatch(fetchDataTeacher());
+    }, 300),
+    []
+  );
+  useEffect(() => {
+    debounceFetchData();
+  }, []);
   const columns = [
     {
       title: "No",
@@ -52,7 +69,11 @@ const TableTeacher = ({ listTeacher, listBranch }) => {
       title: t("numberStudentSingUp"),
       key: "numberOfMentees",
       render: (record) => {
-        return <p>{record.numberOfMentees}/5</p>;
+        return (
+          <p>
+            {record.numberOfMentees}/{record.limitOfMentees}
+          </p>
+        );
       },
     },
     {
@@ -66,7 +87,7 @@ const TableTeacher = ({ listTeacher, listBranch }) => {
               onClick={() => handleSignUp(record)}
               disabled={record.studentSignUp >= 5 && true}
             >
-              Sign Up
+              {t("signUp")}
             </Button>
             <ModalProfileTeacher id={record.id} />
           </div>
@@ -82,6 +103,9 @@ const TableTeacher = ({ listTeacher, listBranch }) => {
     setSaveTeacher([]);
     setIsShowModalSignUp(false);
   };
+  if (!listTeacher) {
+    return <Spin fullscreen />;
+  }
   return (
     <div>
       <Table

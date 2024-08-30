@@ -5,6 +5,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import useMessage from "antd/es/message/useMessage";
 import { updateTeacherProfile } from "@/api/Teacher";
 import { useTranslations } from "next-intl";
+import FormChangePassword from "./FormChangePassword";
 
 const FormProfile = ({ dataProfile }) => {
   const t = useTranslations("Profile");
@@ -89,132 +90,146 @@ const FormProfile = ({ dataProfile }) => {
   };
   return (
     <div>
+      {contexHolder}
+
       <p className="font-semibold text-xl text-zinc-500 m-2">
         {t("yourProfile")}
       </p>
-
-      <div className="flex justify-center items-center text-center">
-        {contexHolder}
-        <Form
-          layout="horizontal"
-          className="md:w-1/2 w-full"
-          labelCol={{ span: 4 }}
-          onFinish={handleOnFinish}
-          wrapperCol={{ span: 20 }}
-          initialValues={{
-            beginYear: dataProfile?.beginTeachingYear,
-            degree: dataProfile?.degree,
-            phone: dataProfile?.phoneNumber,
-            email: dataProfile?.email,
-            fullName: dataProfile?.fullName,
-            department: dataProfile?.department,
-          }}
-        >
-          <Form.Item
-            label={t("avatar")}
-            rules={[
-              {
-                required: true,
-                message: t("notFillAvatar"),
-              },
-            ]}
-            name="avatar"
-          >
-            <div className="flex justify-center">
-              <Upload
-                beforeUpload={beforeUpload}
-                listType="picture-card"
-                fileList={fileList}
-                onPreview={handlePreview}
-                onChange={handleChange}
+      <div className="lg:flex ">
+        <div className="lg:w-2/5 m-2 p-2 w-full">
+          <p className="text-center text-lg mb-5">{t("changePassword")}</p>
+          <FormChangePassword />
+        </div>
+        <div className="lg:w-3/5 w-full text-center">
+          <p className="text-lg mb-5">{t("updateProfile")}</p>
+          <div className="flex justify-center items-center text-center">
+            <Form
+              layout="horizontal"
+              className="md:w-3/5 w-full"
+              labelCol={{ span: 4 }}
+              onFinish={handleOnFinish}
+              wrapperCol={{ span: 20 }}
+              initialValues={{
+                beginYear: dataProfile?.beginTeachingYear,
+                degree: dataProfile?.degree,
+                phone: dataProfile?.phoneNumber,
+                email: dataProfile?.email,
+                fullName: dataProfile?.fullName,
+                department: dataProfile?.department,
+              }}
+            >
+              <Form.Item
+                label={t("avatar")}
+                rules={[
+                  {
+                    required: true,
+                    message: t("notFillAvatar"),
+                  },
+                ]}
+                name="avatar"
               >
-                {fileList.length >= 1 ? null : uploadButton}
-              </Upload>
-            </div>
-          </Form.Item>
-          {previewImage && (
-            <Image
-              alt=""
-              wrapperStyle={{
-                display: "none",
-              }}
-              preview={{
-                visible: previewOpen,
-                onVisibleChange: (visible) => setPreviewOpen(visible),
-                afterOpenChange: (visible) => !visible && setPreviewImage(""),
-              }}
-              src={previewImage}
-            />
-          )}
-          <Form.Item label={t("fullName")} name="fullName">
-            <Input disabled />
-          </Form.Item>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: t("notFillEmail"),
-              },
-              {
-                type: "email",
-                message: t("wrongEmailType"),
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label={t("Phone")}
-            name="phone"
-            rules={[
-              {
-                required: true,
-                message: t("notFillPhoneNumber"),
-              },
-              {
-                min: 9,
-                message: t("wrongPhoneNumber"),
-              },
-            ]}
-          >
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item
-            rules={[
-              {
-                required: true,
-                message: t("notFillDegree"),
-              },
-            ]}
-            label={t("Degree")}
-            name="degree"
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            rules={[
-              {
-                required: true,
-                message: t("notFillDepartment"),
-              },
-            ]}
-            label={t("Department")}
-            name="department"
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label={t("beginYear")} name="beginYear">
-            <Input disabled />
-          </Form.Item>
+                <div className="flex justify-center">
+                  <Upload
+                    beforeUpload={beforeUpload}
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                  >
+                    {fileList.length >= 1 ? null : uploadButton}
+                  </Upload>
+                </div>
+              </Form.Item>
+              {previewImage && (
+                <Image
+                  alt=""
+                  wrapperStyle={{
+                    display: "none",
+                  }}
+                  preview={{
+                    visible: previewOpen,
+                    onVisibleChange: (visible) => setPreviewOpen(visible),
+                    afterOpenChange: (visible) =>
+                      !visible && setPreviewImage(""),
+                  }}
+                  src={previewImage}
+                />
+              )}
+              <Form.Item label={t("fullName")} name="fullName">
+                <Input disabled />
+              </Form.Item>
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: t("notFillEmail"),
+                  },
+                  {
+                    type: "email",
+                    message: t("wrongEmailType"),
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label={t("Phone")}
+                name="phone"
+                rules={[
+                  {
+                    required: true,
+                    message: t("notFillPhoneNumber"),
+                  },
+                  {
+                    min: 9,
+                    message: t("wrongPhoneNumber"),
+                  },
+                ]}
+              >
+                <Input type="number" />
+              </Form.Item>
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: t("notFillDegree"),
+                  },
+                ]}
+                label={t("Degree")}
+                name="degree"
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: t("notFillDepartment"),
+                  },
+                ]}
+                label={t("Department")}
+                name="department"
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item label={t("beginYear")} name="beginYear">
+                <Input disabled />
+              </Form.Item>
 
-          <div className="text-center">
-            <Button htmlType="submit" loading={loadingButton} type="primary">
-              {t("updateProfile")}
-            </Button>
+              <div className="text-center">
+                <Button
+                  htmlType="submit"
+                  loading={loadingButton}
+                  type="primary"
+                >
+                  {t("updateProfile")}
+                </Button>
+              </div>
+            </Form>
           </div>
-        </Form>
+        </div>
       </div>
     </div>
   );

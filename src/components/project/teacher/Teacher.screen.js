@@ -12,9 +12,9 @@ const TeacherScreen = ({ projectData }) => {
   }, []);
   return (
     <>
-      <Statistic />
+      <Statistic data={projectData.data1} />
       <div className=" p-2">
-        <TeacherContent projectData={projectData} />
+        <TeacherContent projectData={projectData.data2} />
       </div>
     </>
   );

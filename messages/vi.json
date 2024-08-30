@@ -16,7 +16,10 @@
     "filter": "Lọc",
     "branch": "Ngành học",
     "details": "Chi tiết đồ án",
-    "noProduct": "Chưa có đồ án nào"
+    "noProduct": "Chưa có đồ án nào",
+    "madeBy": "Được làm bởi",
+    "Branch": "Ngành học",
+    "descriptionDetail": "Mô tả đồ án"
   },
   "Login": {
     "login": "Đăng Nhập",
@@ -31,7 +34,14 @@
     "notiNotFillAllInput": "Vui lòng nhập đầy đủ tài khoản và mật khẩu!!",
     "messageNotFillUsername": "Vui lòng nhập tên đăng nhập của bạn!",
     "messageNotFillPassword": "Vui lòng nhập mật khẩu của bạn!",
-    "messageNotFillEmail": "Vui lòng nhập email của bạn!"
+    "messageNotFillEmail": "Vui lòng nhập email của bạn!",
+    "sendCode": "Gửi mã",
+    "newPass": "Mật khẩu mới",
+    "otp": "Mã otp",
+    "warn": "Bạn có 15 phút để đổi mật khẩu!!",
+    "notFillCode": "Vui lòng nhập mã otp!",
+    "notFillPassword": "Vui lòng nhập mật khẩu mới!",
+    "notFillEmail": "Vui lòng nhập email!"
   },
   "SideBar": {
     "newPhase": "Thêm giai đoạn",
@@ -55,7 +65,10 @@
     "signUp": "Đăng ký đồ án",
     "processing": "Đang làm",
     "finished": "Đã hoàn thành",
-    "dateStart": "Ngày bắt đàu làm"
+    "dateStart": "Ngày bắt đàu làm",
+    "projectComplete": "Đồ án đã hoàn thành",
+    "projectProcessing": "Đồ án đang làm",
+    "projectPassed": "Đồ án đã qua"
   },
   "Profile": {
     "yourProfile": "Hồ sơ của tôi",
@@ -76,7 +89,14 @@
     "updateProfile": "Cập nhật hồ sơ",
     "notiUpdateSuccess": "Cập nhật hồ sơ thành công!",
     "notiUpdateFailed": "Cập nhật hồ sơ thất bại!",
-    "notFillDepartment": "Hãy điền phòng ban!"
+    "notFillDepartment": "Hãy điền phòng ban!",
+    "notFillOldPassword": "Hãy điền mật khẩu cũ!",
+    "oldPassword": "Mật khẩu cũ",
+    "notFillNewPassword": "Hãy điền mật khẩu mới!",
+    "newPassword": "Mật khẩu mới",
+    "notFillComNewPassword": "Hãy điền nhập lại mật khẩu mới!",
+    "comNewPass": "Nhập lại mật khẩu mới",
+    "changePassword": "Đổi mật khẩu"
   },
   "SignUp": {
     "title": "Đăng ký đồ án",
@@ -85,10 +105,17 @@
     "Avatar": "Ảnh đại diện",
     "TeacherName": "Tên giảng viên",
     "Branch": "Ngành",
-    "Degree": "Degree",
+    "Degree": "Trình độ",
     "beginTeachingYear": "Năm bắt đầu dạy",
     "numberStudentSingUp": "Học sinh đăng ký",
-    "Action": "Hành động"
+    "Action": "Hành động",
+    "signUp": "Đăng ký",
+    "detail": "Chi tiết",
+    "fullName": "Họ và tên",
+    "phone": "Số điện thoại",
+    "viewProject": "Xem đồ án",
+    "mentorProfile": "Thông tin giảng viên",
+    "filter": "Lọc"
   },
   "ProjectDetail": {
     "newBoard": "Thêm cột mới",

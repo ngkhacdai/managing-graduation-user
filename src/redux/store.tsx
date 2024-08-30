@@ -2,9 +2,16 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import ProjectDetailReducer from "./slices/ProjectDetailSlice";
 import HomeReducer from "./slices/HomeSlice";
+import SignUpReducer from "./slices/SignUpSlice";
+import NotiReducer from "./slices/NotiSlice";
 export const makeStore = () => {
   return configureStore({
-    reducer: { projectDetail: ProjectDetailReducer, home: HomeReducer },
+    reducer: {
+      projectDetail: ProjectDetailReducer,
+      home: HomeReducer,
+      signup: SignUpReducer,
+      noti: NotiReducer,
+    },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: false,

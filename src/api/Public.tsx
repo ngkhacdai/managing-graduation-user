@@ -32,3 +32,30 @@ export const searchProjectPublic = async (form) => {
   }
   return response.json();
 };
+
+export const sendCodeForgotPassword = async (form) => {
+  const response = await fetch(
+    `${process.env.API_URL}/public/sendCode?` + new URLSearchParams(form),
+    { method: "PATCH" }
+  );
+  const res = await response.json();
+  if (!response.ok) {
+    console.log(response);
+    throw new Error(res.message);
+  }
+  return res;
+};
+export const resetPassword = async (form) => {
+  const response = await fetch(`${process.env.API_URL}/public/forgotPassword`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(form),
+  });
+  const res = await response.json();
+  if (!response.ok) {
+    throw new Error(res.message);
+  }
+  return res;
+};

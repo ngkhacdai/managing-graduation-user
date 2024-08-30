@@ -1,47 +1,44 @@
 import { Form, Input, Select } from "antd";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useState } from "react";
+import ModalBranch from "./ModalBranch";
+import Search from "antd/es/input/Search";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { filterTeacher, saveSearch } from "@/redux/slices/SignUpSlice";
 
 const FilterTeacher = ({ listBranch }) => {
   const t = useTranslations("SignUp");
-  const options = [
-    ...listBranch.map((item) => {
-      return { value: item.id.toString(), label: item.name };
-    }),
-  ];
-
-  const handleChangeBranch = (value: string) => {
-    console.log(`selected ${value}`);
-  };
-  const handleChangeTeacher = (value: string) => {
-    console.log(`selected ${value}`);
+  const dispatch = useDispatch<AppDispatch>();
+  const [filter, setFilter] = useState({ branch: [] });
+  const [searchText, setSearchText] = useState("");
+  const handleSearchTeacher = (value: string) => {
+    dispatch(saveSearch(value));
+    const form = {
+      teacherName: value,
+      branch: filter.branch,
+    };
+    dispatch(filterTeacher(form));
   };
   return (
     <div className="py-2">
       <div className="flex md:items-center flex-col md:flex-row">
         <div className="flex p-2 md:items-center md:flex-row flex-col">
-          <Select
-            mode="tags"
-            placeholder={t("slBranch")}
-            // maxCount={1}
-            className="container md:min-w-56 md:max-w-96"
-            onChange={handleChangeBranch}
-            options={options}
+          <Search
+            placeholder={t("findTeacher")}
+            className="container md:min-w-56"
+            onSearch={handleSearchTeacher}
+            onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
         <div className="flex p-2 md:items-center md:flex-row flex-col">
-          <Select
-            placeholder={t("findTeacher")}
-            mode="multiple"
-            // maxCount={1}
-            className="container md:min-w-56"
-            onChange={handleChangeTeacher}
+          <ModalBranch
+            filter={filter}
+            setFilter={(value) => setFilter(value)}
+            searchText={searchText}
+            listBranch={listBranch}
           />
         </div>
-        {/* <div className="flex p-2 items-center">
-          <p className="pr-2 w-10 xl:w-max">Search teacher</p>
-          <Input className="max-w-40" />
-        </div> */}
       </div>
     </div>
   );

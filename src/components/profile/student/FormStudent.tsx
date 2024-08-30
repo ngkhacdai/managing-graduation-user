@@ -14,6 +14,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { updateStudentProfile } from "@/api/Student";
 import useMessage from "antd/es/message/useMessage";
 import { useTranslations } from "next-intl";
+import FormChangePassword from "./FormChangePassword";
 
 const FormStudent = ({ dataProfile }) => {
   const t = useTranslations("Profile");
@@ -109,110 +110,122 @@ const FormStudent = ({ dataProfile }) => {
 
   return (
     <div>
+      {contexHolder}
       <p className="font-semibold text-xl text-zinc-500 m-2">
         {t("yourProfile")}
       </p>
-      <div className="flex justify-center items-center">
-        {contexHolder}
-        <Form
-          layout="horizontal"
-          className="md:w-1/2 w-full"
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 20 }}
-          onFinish={submitForm}
-          initialValues={{
-            branch: dataProfile?.majors,
-            id: dataProfile?.studentId,
-            email: dataProfile?.email,
-            fullName: dataProfile?.fullName,
-            phoneNumber: dataProfile?.phoneNumber,
-          }}
-        >
-          <Form.Item
-            label={t("avatar")}
-            name="avatar"
-            rules={[
-              {
-                required: true,
-                message: t("notFillAvatar"),
-              },
-            ]}
-          >
-            <div className="flex justify-center ">
-              <Upload
-                beforeUpload={beforeUpload}
-                listType="picture-card"
-                accept="image/*"
-                fileList={fileList}
-                onPreview={handlePreview}
-                onChange={handleChange}
-              >
-                {fileList.length >= 1 ? null : uploadButton}
-              </Upload>
-            </div>
-          </Form.Item>
-          {previewImage && (
-            <Image
-              alt=""
-              preview={{
-                visible: previewOpen,
-                onVisibleChange: (visible) => setPreviewOpen(visible),
-                afterOpenChange: (visible) => !visible && setPreviewImage(""),
+      <div className="lg:flex ">
+        <div className="lg:w-2/5 m-2 p-2 w-full">
+          <p className="text-center text-lg mb-5">{t("changePassword")}</p>
+          <FormChangePassword />
+        </div>
+        <div className="lg:w-3/5 w-full text-center">
+          <p className="text-lg mb-5">{t("updateProfile")}</p>
+          <div className="flex  justify-center items-center">
+            <Form
+              layout="vertical"
+              className="md:w-3/5 w-full"
+              onFinish={submitForm}
+              initialValues={{
+                branch: dataProfile?.branch,
+                id: dataProfile?.studentId,
+                email: dataProfile?.email,
+                fullName: dataProfile?.fullName,
+                phoneNumber: dataProfile?.phoneNumber,
               }}
-              src={previewImage}
-              style={{ maxWidth: "100%", maxHeight: "200px" }}
-            />
-          )}
-          <Form.Item label={t("studenCode")} name="id">
-            <Input disabled />
-          </Form.Item>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: t("notFillEmail"),
-              },
-              {
-                type: "email",
-                message: t("wrongEmailType"),
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label={t("fullName")} name="fullName">
-            <Input disabled />
-          </Form.Item>
-          <Form.Item
-            label={t("Phone")}
-            name="phoneNumber"
-            rules={[
-              {
-                required: true,
-                message: t("notFillPhoneNumber"),
-              },
-              {
-                min: 9,
-                message: t("wrongPhoneNumber"),
-              },
-            ]}
-          >
-            <Input
-              type="number"
-              className="[&::-webkit-inner-spin-button]:appearance-none"
-            />
-          </Form.Item>
-          <Form.Item label={t("Major")} name="branch">
-            <Select disabled />
-          </Form.Item>
-          <div className="text-center">
-            <Button htmlType="submit" loading={loadingButton} type="primary">
-              {t("updateProfile")}
-            </Button>
+            >
+              <Form.Item
+                label={t("avatar")}
+                name="avatar"
+                rules={[
+                  {
+                    required: true,
+                    message: t("notFillAvatar"),
+                  },
+                ]}
+              >
+                <div className="flex justify-center ">
+                  <Upload
+                    beforeUpload={beforeUpload}
+                    listType="picture-card"
+                    accept="image/*"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                  >
+                    {fileList.length >= 1 ? null : uploadButton}
+                  </Upload>
+                </div>
+              </Form.Item>
+              {previewImage && (
+                <Image
+                  alt=""
+                  preview={{
+                    visible: previewOpen,
+                    onVisibleChange: (visible) => setPreviewOpen(visible),
+                    afterOpenChange: (visible) =>
+                      !visible && setPreviewImage(""),
+                  }}
+                  src={previewImage}
+                  style={{ maxWidth: "100%", maxHeight: "200px" }}
+                />
+              )}
+              <Form.Item label={t("studenCode")} name="id">
+                <Input disabled />
+              </Form.Item>
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: t("notFillEmail"),
+                  },
+                  {
+                    type: "email",
+                    message: t("wrongEmailType"),
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item label={t("fullName")} name="fullName">
+                <Input disabled />
+              </Form.Item>
+              <Form.Item
+                label={t("Phone")}
+                name="phoneNumber"
+                rules={[
+                  {
+                    required: true,
+                    message: t("notFillPhoneNumber"),
+                  },
+                  {
+                    min: 9,
+                    message: t("wrongPhoneNumber"),
+                  },
+                ]}
+              >
+                <Input
+                  type="number"
+                  className="[&::-webkit-inner-spin-button]:appearance-none"
+                />
+              </Form.Item>
+              <Form.Item label={t("Major")} name="branch">
+                <Select disabled />
+              </Form.Item>
+              <div className="text-center">
+                <Button
+                  htmlType="submit"
+                  loading={loadingButton}
+                  type="primary"
+                >
+                  {t("updateProfile")}
+                </Button>
+              </div>
+            </Form>
           </div>
-        </Form>
+        </div>
       </div>
     </div>
   );

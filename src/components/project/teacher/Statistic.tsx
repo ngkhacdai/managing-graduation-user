@@ -1,22 +1,35 @@
 import React from "react";
 import CardStatistic from "./CardStatistic";
+import { useTranslations } from "next-intl";
 
-const Statistic = () => {
-  const fakeData = [
-    { title: "Total Student", total: 100 },
-    { title: "Total Project", total: 100 },
-    { title: "Total Processing", total: 100 },
-    { title: "Total Finished", total: 100 },
-    { title: "Total Failed", total: 100 },
-  ];
-
+const Statistic = ({ data }) => {
+  const t = useTranslations("Project");
   return (
     <div className="flex flex-wrap justify-center p-5">
-      {fakeData.map((item, index) => (
-        <div className="w-full sm:w-1/2 lg:w-1/3 p-2" key={`card-${index}`}>
-          <CardStatistic data={item} />
+      <div className="w-full sm:w-1/2 lg:w-1/3 p-2">
+        <div className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md">
+          <div className="text-center font-bold text-2xl text-gray-600">
+            {data.completedProjectCount}
+          </div>
+          <div className="text-xl font-semibold">{t("projectComplete")}</div>
         </div>
-      ))}
+      </div>
+      <div className="w-full sm:w-1/2 lg:w-1/3 p-2">
+        <div className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md">
+          <div className="text-center font-bold text-2xl text-gray-600">
+            {data.processingProjectCount}
+          </div>
+          <div className="text-xl font-semibold">{t("projectProcessing")}</div>
+        </div>
+      </div>
+      <div className="w-full sm:w-1/2 lg:w-1/3 p-2">
+        <div className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md">
+          <div className="text-center font-bold text-2xl text-gray-600">
+            {data.totalProjectPass}
+          </div>
+          <div className="text-xl font-semibold">{t("projectPassed")}</div>
+        </div>
+      </div>
     </div>
   );
 };

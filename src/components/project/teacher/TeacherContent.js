@@ -84,7 +84,7 @@ const TeacherContent = ({ projectData }) => {
       </div>
       <Table
         dataSource={projectData}
-        rowKey={"id"}
+        rowKey={"projectId"}
         columns={columns}
         scroll={{ x: 600 }}
       />

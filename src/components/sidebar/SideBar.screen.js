@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { IoLibrary } from "react-icons/io5";
-import { Button, Layout, Menu, message, Select, Spin, Tooltip } from "antd";
+import { Badge, Button, Layout, Menu, message, Popover, Tooltip } from "antd";
 import { RiProfileLine } from "react-icons/ri";
 import Link from "next/link";
 import { FaPlus, FaProjectDiagram } from "react-icons/fa";
@@ -14,7 +14,6 @@ import { logoutApi } from "@/api/Access";
 import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
 import ModalAddNewPhase from "./ModalAddNewPhase";
-
 import {
   clearPhase,
   getPhase,
@@ -22,8 +21,10 @@ import {
   getProject,
 } from "@/redux/slices/ProjectDetailSlice";
 import debounce from "lodash.debounce";
-import { IoMdReturnLeft } from "react-icons/io";
+import { IoIosNotifications } from "react-icons/io";
 import ModalTurnIn from "./ModalTurnIn";
+import { fetchGetNotiUnread } from "@/redux/slices/NotiSlice";
+import ContentNotiScreen from "./noti/ContentNoti.screen";
 
 const { Sider, Content } = Layout;
 
@@ -32,12 +33,17 @@ const SideBarScreen = ({ children, role }) => {
   const searchParams = useSearchParams();
   const [isShow, setIsShow] = useState(false);
   const [pushed, setPushed] = useState(false);
+
   const t = useTranslations("SideBar");
   const pathName = usePathname();
   const dispatch = useDispatch();
   const detailProject = useSelector(
     (state) => state.projectDetail.detailProject
   );
+  const [messageApi, contextHolder] = message.useMessage();
+  const [collapsed, setCollapsed] = useState(false);
+  const numberNotification = useSelector((state) => state.noti.noUnread);
+  const [click, setClick] = useState(0);
   const defaultItems = [
     {
       key: "/project",
@@ -50,13 +56,19 @@ const SideBarScreen = ({ children, role }) => {
       label: <Link href={"/profile"}>{t("profile")}</Link>,
     },
   ];
+
+  const [items, setItems] = useState(defaultItems);
   const phase = useSelector((state) => state.projectDetail.phase);
+
+  const contentNoti = <ContentNotiScreen click={click} />;
+
   const dispatchDebounce = useCallback(
     debounce(() => {
       dispatch(getPhase());
     }, 100),
     []
   );
+
   useEffect(() => {
     if (pathName.includes("/project/detail")) {
       if (role == "student") {
@@ -73,12 +85,9 @@ const SideBarScreen = ({ children, role }) => {
       }
     }
   }, [pathName, dispatchDebounce]);
-  const [messageApi, contextHolder] = message.useMessage();
-  const [collapsed, setCollapsed] = useState(false);
-  const [items, setItems] = useState(defaultItems);
+
   const logout = async () => {
     messageApi.success("Successfully logged out");
-
     setTimeout(() => {
       logoutApi();
     }, 500);
@@ -89,10 +98,11 @@ const SideBarScreen = ({ children, role }) => {
   };
 
   useEffect(() => {
+    dispatch(fetchGetNotiUnread());
+
     const projectName = searchParams?.get("projectName");
     if (projectName) {
       const existingItem = items.find((item) => item.key === projectName);
-
       if (!existingItem) {
         const newItems = [
           ...defaultItems,
@@ -134,9 +144,11 @@ const SideBarScreen = ({ children, role }) => {
       setPushed(false);
     }
   }, [phase]);
+
   const newPhase = () => {
     setIsShow(true);
   };
+
   return (
     <div>
       {contextHolder}
@@ -166,7 +178,6 @@ const SideBarScreen = ({ children, role }) => {
             }
             items={pathName.includes("/project/detail") ? items : defaultItems}
             onClick={({ key }) => {
-              // console.log(key);
               if (key != "/project" && key != "/profile") {
                 dispatch(clearPhase());
                 const newPhase = key.replace("/", "");
@@ -217,19 +228,40 @@ const SideBarScreen = ({ children, role }) => {
               />
             </div>
             <div className="flex items-center">
-              <Select
-                className="mr-2 !w-20 sm:!w-28"
-                defaultValue={
-                  pathName.split("/")[1] === "en" ? "English" : "Tiếng Việt"
-                }
-                onChange={(value) => {
-                  router.push(`/${value}/${pathName.split("/")[2]}`);
+              <Badge count={numberNotification} size="small">
+                <Popover
+                  content={contentNoti}
+                  trigger="click"
+                  placement="bottomRight"
+                >
+                  <IoIosNotifications
+                    onClick={() => setClick(click + 1)}
+                    size={20}
+                    className="cursor-pointer mx-2"
+                  />
+                </Popover>
+              </Badge>
+              <Button
+                type="text"
+                className="text-lg mx-2 font-semibold"
+                onClick={() => {
+                  if (pathName.split("/")[1] === "en") {
+                    router.push(
+                      `/vi/${pathName.split("/")[2]}/${
+                        pathName.split("/")[3] ? pathName.split("/")[3] : ""
+                      }`
+                    );
+                  } else {
+                    router.push(
+                      `/en/${pathName.split("/")[2]}/${
+                        pathName.split("/")[3] ? pathName.split("/")[3] : ""
+                      }`
+                    );
+                  }
                 }}
-                options={[
-                  { value: "en", label: t("English") },
-                  { value: "vi", label: t("Vietnamese") },
-                ]}
-              />
+              >
+                {pathName.split("/")[1] === "en" ? "EN" : "VI"}
+              </Button>
               <Tooltip title={t("logout")}>
                 <Button
                   onClick={logout}
