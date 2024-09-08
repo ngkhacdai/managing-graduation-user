@@ -4,6 +4,7 @@ import ProjectDetailReducer from "./slices/ProjectDetailSlice";
 import HomeReducer from "./slices/HomeSlice";
 import SignUpReducer from "./slices/SignUpSlice";
 import NotiReducer from "./slices/NotiSlice";
+import RegistrationReducer from "./slices/RegistrationSlice";
 export const makeStore = () => {
   return configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const makeStore = () => {
       home: HomeReducer,
       signup: SignUpReducer,
       noti: NotiReducer,
+      registration: RegistrationReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

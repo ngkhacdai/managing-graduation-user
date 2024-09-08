@@ -105,7 +105,7 @@ const DetailProject = () => {
     [dispatch]
   );
   return (
-    <div className="w-full overflow-auto min-h-[40.2rem] bg-blue-500 shadow-inner">
+    <div className="w-full overflow-auto min-h-screen bg-blue-500 shadow-inner">
       <DndContext
         sensors={sensors}
         onDragStart={(event) => dispatch(handleDragStart({ event }))}

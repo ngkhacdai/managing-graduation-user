@@ -1,12 +1,15 @@
 "use client";
 import { Button, Table, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import ModalStudentProfile from "./ModalStudentProfile";
 import { TbListDetails } from "react-icons/tb";
+import Link from "next/link";
+import { BiSolidUserDetail } from "react-icons/bi";
 
 const TeacherContent = ({ projectData }) => {
+  const pathName = usePathname();
   const t = useTranslations("Project");
   const route = useRouter();
   const columns = [
@@ -61,7 +64,20 @@ const TeacherContent = ({ projectData }) => {
                 <TbListDetails />
               </Button>
             </Tooltip>
-            <ModalStudentProfile projectId={record.projectId} />
+            <Tooltip title={t("detailStudent")}>
+              <Link
+                href={`/${pathName.split("/")[1]}/project/student-detail/${
+                  record.projectId
+                }`}
+              >
+                <Button
+                  type="primary"
+                  className="bg-yellow-600 hover:!bg-yellow-500"
+                >
+                  <BiSolidUserDetail />
+                </Button>
+              </Link>
+            </Tooltip>
           </div>
         );
       },
@@ -69,8 +85,6 @@ const TeacherContent = ({ projectData }) => {
   ];
   const handleDetailProject = (record) => {
     const params = new URLSearchParams();
-    params.set("studentName", record.studentName);
-    params.set("teacherName", record.mentorName);
     params.set("projectName", record.projectName);
     params.set("projectId", record.projectId);
     route.push(`/project/detail?${params.toString()}`);

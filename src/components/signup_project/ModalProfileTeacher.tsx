@@ -1,8 +1,9 @@
 import { getTeacherProfileById } from "@/api/Teacher";
-import { Button, Col, Modal, Row } from "antd";
+import { Button, Col, Modal, Row, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
+import { BiDetail } from "react-icons/bi";
 
 const ModalProfileTeacher = ({ id }) => {
   const t = useTranslations("SignUp");
@@ -17,13 +18,15 @@ const ModalProfileTeacher = ({ id }) => {
   };
   return (
     <div>
-      <Button
-        className="bg-red-600 mx-2 hover:!bg-red-500"
-        type="primary"
-        onClick={openModal}
-      >
-        {t("detail")}
-      </Button>
+      <Tooltip title={t("detail")}>
+        <Button
+          className="bg-red-600 mx-2 hover:!bg-red-500"
+          type="primary"
+          onClick={openModal}
+        >
+          <BiDetail />
+        </Button>
+      </Tooltip>
       <Modal
         className="lg:!w-1/2 !w-3/4"
         title={t("mentorProfile")}

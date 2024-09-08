@@ -1,4 +1,4 @@
-import { Button, Form, Spin, Table } from "antd";
+import { Button, Form, Spin, Table, Tooltip } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import ModalSignUp from "./ModalSignUp";
 import { useTranslations } from "next-intl";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import debounce from "lodash.debounce";
 import { fetchDataTeacher } from "@/redux/slices/SignUpSlice";
+import { FaRegEdit } from "react-icons/fa";
 
 const TableTeacher = ({ listBranch }) => {
   const t = useTranslations("SignUp");
@@ -16,6 +17,8 @@ const TableTeacher = ({ listBranch }) => {
   const listTeacher = useSelector(
     (state: RootState) => state.signup.listTeacher
   );
+  console.log(listTeacher);
+
   const debounceFetchData = useCallback(
     debounce(() => {
       dispatch(fetchDataTeacher());
@@ -34,21 +37,9 @@ const TableTeacher = ({ listBranch }) => {
       },
     },
     {
-      title: t("Avatar"),
-      key: "avatar",
-      render: (record, text, index) => {
-        return <img alt="" src={record.avatar} />;
-      },
-    },
-    {
       title: t("TeacherName"),
       dataIndex: "fullName",
       key: "name",
-    },
-    {
-      title: "Email",
-      dataIndex: "teacherEmail",
-      key: "email",
     },
     {
       title: t("Branch"),
@@ -82,13 +73,15 @@ const TableTeacher = ({ listBranch }) => {
       render: (record) => {
         return (
           <div className="flex">
-            <Button
-              type="primary"
-              onClick={() => handleSignUp(record)}
-              disabled={record.studentSignUp >= 5 && true}
-            >
-              {t("signUp")}
-            </Button>
+            <Tooltip title={t("signUp")}>
+              <Button
+                type="primary"
+                onClick={() => handleSignUp(record)}
+                disabled={record.registered}
+              >
+                <FaRegEdit />
+              </Button>
+            </Tooltip>
             <ModalProfileTeacher id={record.id} />
           </div>
         );
@@ -104,7 +97,7 @@ const TableTeacher = ({ listBranch }) => {
     setIsShowModalSignUp(false);
   };
   if (!listTeacher) {
-    return <Spin fullscreen />;
+    // return <Spin fullscreen />;
   }
   return (
     <div>

@@ -16,12 +16,12 @@ const LoginScreen = () => {
     dispatch(logout());
   }, [dispatch]);
   return (
-    <div className="w-5/6 h-screen flex mx-auto items-center justify-center">
-      <div className="flex border-2 h-5/6  border-inherit rounded-xl shadow-lg">
-        <div className="w-full md:w-1/3 flex mx-auto items-center justify-center">
+    <div className="w-screen h-screen flex mx-auto items-center justify-center">
+      <div className="flex border-2 h-screen  border-inherit shadow-lg">
+        <div className="w-full relative md:w-1/3 flex mx-auto items-center justify-center">
           <div className="mx-auto">
             <div className="flex justify-center items-center">
-              <img alt="" className="w-16 h-16" src={logo.src} />
+              <img alt="" className="w-24 h-24" src={logo.src} />
             </div>
             {isLogin ? (
               <LoginForm changeForm={changeForm} />

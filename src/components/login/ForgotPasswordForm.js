@@ -3,6 +3,7 @@ import { Button, Checkbox, Form, Input } from "antd";
 import { useTranslations } from "next-intl";
 import useMessage from "antd/es/message/useMessage";
 import { resetPassword, sendCodeForgotPassword } from "@/api/Public";
+import { IoMdArrowBack } from "react-icons/io";
 
 const ForgotPasswordForm = ({ changeForm }) => {
   const [message, contextHolder] = useMessage();
@@ -18,6 +19,9 @@ const ForgotPasswordForm = ({ changeForm }) => {
     try {
       const response = await resetPassword(values);
       message.success(`Reset password successfully`);
+      setTimeout(() => {
+        changeForm();
+      }, 1000);
     } catch (error) {
       return message.error(error.message);
     }
@@ -48,7 +52,7 @@ const ForgotPasswordForm = ({ changeForm }) => {
     }
   };
   return (
-    <div className="text-center px-2">
+    <div className="text-center  px-2">
       {contextHolder}
       <p className="text-xl font-bold">{t("resetPassword")}</p>
       <div className="mx-auto xl:w-[21rem] lg:w-[17rem] md:w-[13rem] md:px-0 sm:w-[30rem] px-5">
@@ -58,6 +62,7 @@ const ForgotPasswordForm = ({ changeForm }) => {
         </div>
         <div className="flex mb-5">
           <Input
+            disabled={isShow}
             className="flex-grow"
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -66,6 +71,7 @@ const ForgotPasswordForm = ({ changeForm }) => {
             loading={loading}
             className="ml-2"
             type="primary"
+            disabled={isShow}
           >
             {t("sendCode")}
           </Button>
@@ -79,7 +85,7 @@ const ForgotPasswordForm = ({ changeForm }) => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
-            className="xl:w-[21rem] lg:w-[17rem] md:w-[13rem] md:px-0 px-5 sm:w-[30rem]"
+            className="xl:w-[21rem] mx-auto lg:w-[17rem] md:w-[13rem] md:px-0 px-5 sm:w-[30rem]"
           >
             <Form.Item
               rules={[
@@ -105,16 +111,32 @@ const ForgotPasswordForm = ({ changeForm }) => {
             >
               <Input />
             </Form.Item>
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: t("notFillComfPassword"),
+                },
+              ]}
+              name="comfNewPassword"
+              label={t("comfNewPass")}
+            >
+              <Input />
+            </Form.Item>
             <Button type="primary" className="w-full" htmlType="submit">
-              {t("resetPassword")}
+              {t("submit")}
             </Button>
           </Form>
           <p className="mt-1 select-none">{t("warn")}</p>
         </>
       )}
-      <p onClick={changeForm} className=" hover:text-blue-700 cursor-pointer">
-        {t("goToLoginPage")}
-      </p>
+      <div
+        onClick={changeForm}
+        className="flex absolute top-0 left-0 items-center p-2 bg-white rounded-md hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200 ease-in-out cursor-pointer space-x-2"
+      >
+        <IoMdArrowBack className="text-xl" />
+        <p className="font-medium ">{t("goToLoginPage")}</p>
+      </div>
     </div>
   );
 };

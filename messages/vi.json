@@ -16,7 +16,7 @@
     "filter": "Lọc",
     "branch": "Ngành học",
     "details": "Chi tiết đồ án",
-    "noProduct": "Chưa có đồ án nào",
+    "noProduct": "Không có đồ án nào",
     "madeBy": "Được làm bởi",
     "Branch": "Ngành học",
     "descriptionDetail": "Mô tả đồ án"
@@ -29,7 +29,7 @@
     "goToHomePage": "Trở Về Trang Chủ",
     "resetPassword": "Đặt Lại Mật Khẩu",
     "goToLoginPage": "Trở Về Trang Đăng Nhập",
-    "notiWrongPassword": "Đăng nhập thất bại, email hoặc mật khẩu không chính xác",
+    "notiWrongPassword": "Đăng nhập thất bại, tài khoản hoặc mật khẩu không chính xác",
     "notiLoginSuccess": "Đăng nhập thành công ❤❤",
     "notiNotFillAllInput": "Vui lòng nhập đầy đủ tài khoản và mật khẩu!!",
     "messageNotFillUsername": "Vui lòng nhập tên đăng nhập của bạn!",
@@ -41,7 +41,9 @@
     "warn": "Bạn có 15 phút để đổi mật khẩu!!",
     "notFillCode": "Vui lòng nhập mã otp!",
     "notFillPassword": "Vui lòng nhập mật khẩu mới!",
-    "notFillEmail": "Vui lòng nhập email!"
+    "notFillEmail": "Vui lòng nhập email!",
+    "submit": "Gửi biểu mẫu",
+    "comfNewPass": "Nhập lại mật khẩu mới"
   },
   "SideBar": {
     "newPhase": "Thêm giai đoạn",
@@ -107,7 +109,7 @@
     "Branch": "Ngành",
     "Degree": "Trình độ",
     "beginTeachingYear": "Năm bắt đầu dạy",
-    "numberStudentSingUp": "Học sinh đăng ký",
+    "numberStudentSingUp": "Giới hạn đăng ký",
     "Action": "Hành động",
     "signUp": "Đăng ký",
     "detail": "Chi tiết",

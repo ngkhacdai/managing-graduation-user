@@ -3,9 +3,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { IoLibrary } from "react-icons/io5";
 import { Badge, Button, Layout, Menu, message, Popover, Tooltip } from "antd";
-import { RiProfileLine } from "react-icons/ri";
+import { RiLockPasswordLine, RiProfileLine } from "react-icons/ri";
 import Link from "next/link";
-import { FaPlus, FaProjectDiagram } from "react-icons/fa";
+import { FaCheck, FaPlus, FaProjectDiagram } from "react-icons/fa";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import logo from "@/assets/logo.png";
 import { Footer } from "antd/es/layout/layout";
@@ -25,6 +25,8 @@ import { IoIosNotifications } from "react-icons/io";
 import ModalTurnIn from "./ModalTurnIn";
 import { fetchGetNotiUnread } from "@/redux/slices/NotiSlice";
 import ContentNotiScreen from "./noti/ContentNoti.screen";
+import { MdAppRegistration } from "react-icons/md";
+import moment from "moment";
 
 const { Sider, Content } = Layout;
 
@@ -51,16 +53,26 @@ const SideBarScreen = ({ children, role }) => {
       label: <Link href={"/project"}>{t("project")}</Link>,
     },
     {
+      key: "/registration",
+      icon: <MdAppRegistration />,
+      label: <Link href={"/registration"}>{t("registration")}</Link>,
+    },
+    {
       key: "/profile",
       icon: <RiProfileLine />,
       label: <Link href={"/profile"}>{t("profile")}</Link>,
+    },
+    {
+      key: "/changepassword",
+      icon: <RiLockPasswordLine />,
+      label: <Link href={"/changepassword"}>{t("changePassword")}</Link>,
     },
   ];
 
   const [items, setItems] = useState(defaultItems);
   const phase = useSelector((state) => state.projectDetail.phase);
 
-  const contentNoti = <ContentNotiScreen click={click} />;
+  const contentNoti = <ContentNotiScreen />;
 
   const dispatchDebounce = useCallback(
     debounce(() => {
@@ -114,7 +126,12 @@ const SideBarScreen = ({ children, role }) => {
               ...phase.map((item) => ({
                 key: `/${item.id}`,
                 icon: <IoLibrary />,
-                label: <p>{item.phaseName}</p>,
+                label: (
+                  <span className="flex gap-2 items-center">
+                    <p>{item.phaseName}</p>
+                    {item.completed && <FaCheck />}
+                  </span>
+                ),
               })),
             ],
           },
@@ -178,7 +195,12 @@ const SideBarScreen = ({ children, role }) => {
             }
             items={pathName.includes("/project/detail") ? items : defaultItems}
             onClick={({ key }) => {
-              if (key != "/project" && key != "/profile") {
+              if (
+                key != "/project" &&
+                key != "/profile" &&
+                key != "/registration" &&
+                key != "/changepassword"
+              ) {
                 dispatch(clearPhase());
                 const newPhase = key.replace("/", "");
                 const newUrl = new URL(window.location.href);
@@ -216,64 +238,68 @@ const SideBarScreen = ({ children, role }) => {
         </Sider>
 
         <Layout className="!overflow-y-auto !bg-white">
-          <div className="w-full p-2 flex justify-between items-center border-b-inherit border-b-2">
-            <div>
-              <Button
-                type="text"
-                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                onClick={() => setCollapsed(!collapsed)}
-                style={{
-                  fontSize: "16px",
-                }}
-              />
-            </div>
-            <div className="flex items-center">
-              <Badge count={numberNotification} size="small">
-                <Popover
-                  content={contentNoti}
-                  trigger="click"
-                  placement="bottomRight"
-                >
-                  <IoIosNotifications
-                    onClick={() => setClick(click + 1)}
-                    size={20}
-                    className="cursor-pointer mx-2"
-                  />
-                </Popover>
-              </Badge>
-              <Button
-                type="text"
-                className="text-lg mx-2 font-semibold"
-                onClick={() => {
-                  if (pathName.split("/")[1] === "en") {
-                    router.push(
-                      `/vi/${pathName.split("/")[2]}/${
-                        pathName.split("/")[3] ? pathName.split("/")[3] : ""
-                      }`
-                    );
-                  } else {
-                    router.push(
-                      `/en/${pathName.split("/")[2]}/${
-                        pathName.split("/")[3] ? pathName.split("/")[3] : ""
-                      }`
-                    );
-                  }
-                }}
-              >
-                {pathName.split("/")[1] === "en" ? "EN" : "VI"}
-              </Button>
-              <Tooltip title={t("logout")}>
+          <Content className="min-h-screen relative">
+            <div className="w-full p-2 flex flex-grow overflow-y-auto justify-between items-center border-b-inherit border-b-2">
+              <div>
                 <Button
-                  onClick={logout}
                   type="text"
-                  className="flex items-center justify-center"
+                  icon={
+                    collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                  }
+                  onClick={() => setCollapsed(!collapsed)}
+                  style={{
+                    fontSize: "16px",
+                  }}
+                />
+              </div>
+              <div className="flex items-center">
+                <Badge count={numberNotification} size="small">
+                  <Popover
+                    content={contentNoti}
+                    trigger="click"
+                    placement="bottomRight"
+                  >
+                    <IoIosNotifications
+                      onClick={() => setClick(click + 1)}
+                      size={20}
+                      className="cursor-pointer mx-2"
+                    />
+                  </Popover>
+                </Badge>
+                <Button
+                  type="text"
+                  className="text-lg mx-2 font-semibold"
+                  onClick={() => {
+                    if (pathName.split("/")[1] === "en") {
+                      router.push(
+                        `/vi/${pathName.split("/")[2]}/${
+                          pathName.split("/")[3] ? pathName.split("/")[3] : ""
+                        }`
+                      );
+                    } else {
+                      router.push(
+                        `/en/${pathName.split("/")[2]}/${
+                          pathName.split("/")[3] ? pathName.split("/")[3] : ""
+                        }`
+                      );
+                    }
+                  }}
                 >
-                  <BiLogOut size={16} />
+                  {pathName.split("/")[1] === "en" ? "EN" : "VI"}
                 </Button>
-              </Tooltip>
+                <Tooltip title={t("logout")}>
+                  <Button
+                    onClick={logout}
+                    type="text"
+                    className="flex items-center justify-center"
+                  >
+                    <BiLogOut size={16} />
+                  </Button>
+                </Tooltip>
+              </div>
             </div>
-          </div>
-          <Content>{children}</Content>
+            {children}
+          </Content>
         </Layout>
       </Layout>
       {isShow && <ModalAddNewPhase setIsShow={setIsShow} />}

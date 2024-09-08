@@ -17,7 +17,6 @@ const BodyHome = () => {
   const t = useTranslations("HomePage");
   const loading = useSelector((state) => state.home.loading);
   const listProduct = useSelector((state) => state.home.listProject);
-  console.log(listProduct);
 
   const dispatch = useDispatch();
   const debounceListProject = useCallback(

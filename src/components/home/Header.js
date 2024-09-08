@@ -31,9 +31,26 @@ const Header = ({ isScroll }) => {
           !isScroll && "border-2 shadow-lg rounded-xl"
         }`}
       >
-        <Link href="/">
-          <img alt="logo" className="w-16 h-16" src={logo.src} />
-        </Link>
+        <div className="flex items-center ">
+          <Link href="/">
+            <img alt="logo" className="w-16 h-16" src={logo.src} />
+          </Link>
+          <Link href={`/${currentLang}/`}>
+            <Button className="font-semibold text-lg" type="text">
+              Home
+            </Button>
+          </Link>
+          <Link href={`/${currentLang}/public/project`}>
+            <Button className="font-semibold text-lg" type="text">
+              Project
+            </Button>
+          </Link>
+          <Link href={`/${currentLang}/public/contact`}>
+            <Button className="font-semibold text-lg" type="text">
+              Contact
+            </Button>
+          </Link>
+        </div>
         <div className="flex items-center">
           {/* Language Toggle */}
           <Button

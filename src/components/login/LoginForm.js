@@ -4,11 +4,13 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { login } from "@/api/Access";
 import { useTranslations } from "next-intl";
+import { IoMdArrowBack } from "react-icons/io";
 
 const LoginForm = ({ changeForm }) => {
   const t = useTranslations("Login");
   const pathName = usePathname();
   const [messageApi, contextHolder] = message.useMessage();
+  const [messageText, setMessage] = useState("");
   const router = useRouter();
   const [loadingButton, setLoadingButton] = useState(false);
   const onFinish = async (values) => {
@@ -23,23 +25,27 @@ const LoginForm = ({ changeForm }) => {
     console.log(result);
 
     if (!result.success) {
-      messageApi.error(t("notiWrongPassword"));
+      // messageApi.error(t("notiWrongPassword"));
+      setMessage(t("notiWrongPassword"));
       setLoadingButton(false);
       return;
     }
+    setMessage("");
     messageApi.success(t("notiLoginSuccess"));
-    router.push("/project");
+    setTimeout(() => {
+      router.push("/project");
+    }, 1000);
     return;
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-    messageApi.error(t("notiNotFillAllInput"));
+    // messageApi.error(t("notiNotFillAllInput"));
   };
   return (
     <div className="w-full text-center">
-      {contextHolder}
+      {/* {contextHolder} */}
       <p className="text-xl font-bold">Login</p>
-
+      <p className="text-red-500 my-1">{messageText}</p>
       <Form
         name="basic"
         layout="vertical"
@@ -96,10 +102,11 @@ const LoginForm = ({ changeForm }) => {
         </Button>
       </Form>
       <Link
-        href={`${pathName.split("/")[1]}`}
-        className=" hover:text-blue-700 cursor-pointer mt-2"
+        href={`/${pathName.split("/")[1]}`}
+        className="absolute flex items-center top-0 left-0 p-2 bg-white rounded-md hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200 ease-in-out cursor-pointer space-x-2"
       >
-        {t("goToHomePage")}
+        <IoMdArrowBack className="text-xl" />
+        <p className="font-medium">{t("goToHomePage")}</p>
       </Link>
     </div>
   );

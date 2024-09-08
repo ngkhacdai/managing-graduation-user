@@ -91,24 +91,13 @@ const FormProfile = ({ dataProfile }) => {
   return (
     <div>
       {contexHolder}
-
-      <p className="font-semibold text-xl text-zinc-500 m-2">
-        {t("yourProfile")}
-      </p>
       <div className="lg:flex ">
-        <div className="lg:w-2/5 m-2 p-2 w-full">
-          <p className="text-center text-lg mb-5">{t("changePassword")}</p>
-          <FormChangePassword />
-        </div>
-        <div className="lg:w-3/5 w-full text-center">
+        <div className="w-full text-center">
           <p className="text-lg mb-5">{t("updateProfile")}</p>
-          <div className="flex justify-center items-center text-center">
+          <div className="">
             <Form
-              layout="horizontal"
-              className="md:w-3/5 w-full"
-              labelCol={{ span: 4 }}
+              layout="vertical"
               onFinish={handleOnFinish}
-              wrapperCol={{ span: 20 }}
               initialValues={{
                 beginYear: dataProfile?.beginTeachingYear,
                 degree: dataProfile?.degree,
@@ -156,7 +145,7 @@ const FormProfile = ({ dataProfile }) => {
                 />
               )}
               <Form.Item label={t("fullName")} name="fullName">
-                <Input disabled />
+                <Input className="!text-black" disabled />
               </Form.Item>
               <Form.Item
                 label="Email"
@@ -200,7 +189,7 @@ const FormProfile = ({ dataProfile }) => {
                 label={t("Degree")}
                 name="degree"
               >
-                <Input />
+                <Input className="!text-black" disabled />
               </Form.Item>
               <Form.Item
                 rules={[
@@ -215,7 +204,7 @@ const FormProfile = ({ dataProfile }) => {
                 <Input />
               </Form.Item>
               <Form.Item label={t("beginYear")} name="beginYear">
-                <Input disabled />
+                <Input className="!text-black" disabled />
               </Form.Item>
 
               <div className="text-center">

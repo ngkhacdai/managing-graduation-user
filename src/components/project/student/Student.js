@@ -6,11 +6,11 @@ import { redirect } from "next/navigation";
 const StudentComponent = async () => {
   let project = await getProjectDetail();
 
-  if (!project) {
-    return redirect("/project/signup");
-  } else {
-    return <ProjectScreen project={project} />;
-  }
+  return (
+    <div className="p-2">
+      <ProjectScreen project={project} />
+    </div>
+  );
 };
 
 export default StudentComponent;

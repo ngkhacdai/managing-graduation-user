@@ -1,19 +1,26 @@
 import { addProject } from "@/api/Student";
-import { Form, Input, Modal, Select } from "antd";
+import { signUpTeacher } from "@/redux/slices/SignUpSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Modal, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import useMessage from "antd/es/message/useMessage";
+import Upload from "antd/es/upload/Upload";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
-  const router = useRouter();
+  const fileList = [];
   const [messageAPI, contexHolder] = useMessage();
   const [isShow, setIsShow] = useState(false);
   const [form] = Form.useForm();
+  const dispatch = useDispatch<AppDispatch>();
+  const error = useSelector((state: RootState) => state.signup.error);
   const options = [
     { value: "", label: "Select Branch" },
     ...listBranch.map((item) => {
-      return { value: item.id.toString(), label: item.name };
+      return { value: item.name, label: item.name };
     }),
   ];
   useEffect(() => {
@@ -23,35 +30,50 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
     setIsShow(false);
     setTimeout(() => {
       handleCloseModalSignUp();
-    }, 700);
+    }, 300);
   };
   const handleOk = () => {
     form.submit();
   };
   const onFinish = async () => {
     const values = form.getFieldsValue();
-    const formData = {
-      branchId: parseInt(values.branchId),
-      mentorId: saveTeacher.id,
-      projectName: values.projectName,
-      projectDescription: values.projectDescription,
-    };
-    try {
-      console.log(formData);
-      const response = await addProject(formData);
-      messageAPI.success("Project added successfully!");
-      setTimeout(() => {
-        router.push("/project");
-      }, 1000);
-    } catch (error) {
-      console.log(error);
-      messageAPI.error(error.message);
+    const formData = new FormData();
+    formData.append("teacherId", saveTeacher.id);
+    formData.append("projectName", values.projectName);
+    formData.append("majorName", values.branchId);
+    formData.append("projectDescription", values.projectDescription);
+    formData.append("fileAttachment", values.file.fileList[0].originFileObj);
+    Array.from(formData.entries()).forEach(([key, value]) => {
+      console.log(`${key}:`, value);
+    });
+    dispatch(signUpTeacher({ formData, teacherId: saveTeacher.id }));
+    if (error) {
+      messageAPI.error(error);
+      return;
     }
+    messageAPI.success("Sign up project successfully!");
+    setTimeout(() => {
+      handleCancel();
+    }, 1000);
   };
   return (
     <div>
       {contexHolder}
-      <Modal onCancel={handleCancel} onOk={handleOk} open={isShow}>
+      <Modal
+        title="Sign up mentor"
+        onCancel={handleCancel}
+        footer={
+          <div>
+            <Button className="mx-2" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button type="primary" onClick={handleOk}>
+              Submit
+            </Button>
+          </div>
+        }
+        open={isShow}
+      >
         <Form
           form={form}
           onFinish={onFinish}
@@ -61,12 +83,23 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
           }}
           layout="vertical"
         >
+          <Form.Item label="Teacher Name" name={"teacherName"}>
+            <Input disabled={true} className="text-black" />
+          </Form.Item>
           <Form.Item
             label="Project Name"
             name={"projectName"}
             rules={[{ required: true, message: "Please input project name!" }]}
           >
             <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Major"
+            name={"branchId"}
+            rules={[{ required: true, message: "Please input major!" }]}
+          >
+            <Select options={options} />
           </Form.Item>
           <Form.Item
             label="Description"
@@ -76,16 +109,26 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
             <TextArea />
           </Form.Item>
           <Form.Item
-            label="Branch"
-            name={"branchId"}
-            rules={[{ required: true, message: "Please input branch!" }]}
+            label="File"
+            rules={[{ required: true, message: "Please input file" }]}
+            name="file"
           >
-            <Select options={options} />
-          </Form.Item>
-          <Form.Item label="Teacher Name" name={"teacherName"}>
-            <Input disabled={true} />
+            <Upload
+              beforeUpload={() => false}
+              listType="picture"
+              defaultFileList={fileList}
+              accept="application/pdf"
+              maxCount={1}
+            >
+              <Button type="primary" icon={<UploadOutlined />}>
+                Upload
+              </Button>
+            </Upload>
           </Form.Item>
         </Form>
+        <p className="text-right font-semibold">
+          {new Date().toLocaleDateString("en-GB")}
+        </p>
       </Modal>
     </div>
   );

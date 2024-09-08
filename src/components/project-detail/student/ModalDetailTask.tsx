@@ -264,17 +264,19 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
                             <GrFormView color="black" size={28} />
                           </a>
                         </Tooltip>
-                        <Tooltip
-                          title={
-                            <p className="text-center">{t("deleteFile")}</p>
-                          }
-                        >
-                          <MdDeleteForever
-                            onClick={() => deleteFile(index)}
-                            size={28}
-                            className="mr-5 cursor-pointer"
-                          />
-                        </Tooltip>
+                        {!isPhaseFinished && (
+                          <Tooltip
+                            title={
+                              <p className="text-center">{t("deleteFile")}</p>
+                            }
+                          >
+                            <MdDeleteForever
+                              onClick={() => deleteFile(index)}
+                              size={28}
+                              className="mr-5 cursor-pointer"
+                            />
+                          </Tooltip>
+                        )}
                       </div>
                     </div>
                   );
@@ -307,6 +309,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
           <div className="pl-2">
             <p className="text-slate-600 font-semibold text-lg ">Comment</p>
             <TextArea
+              disabled={isPhaseFinished}
               autoSize={true}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
@@ -320,7 +323,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
               className="sm:min-w-[34rem] container min-h-96"
             />
             <div className="flex justify-between items-center mt-2">
-              {!useIsPhaseFinished() && (
+              {!isPhaseFinished && (
                 <Button type="primary" onClick={onSaveComment}>
                   {t("Save")}
                 </Button>

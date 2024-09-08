@@ -34,6 +34,7 @@ const initialState = {
       },
     ],
   },
+  detailPhase: null,
   activeId: null,
   detailProject: null,
   loading: false,
@@ -421,8 +422,15 @@ const projectDetailSlice = createSlice({
       state.phase = action.payload;
     });
     builder.addCase(getBoard.fulfilled, (state, action) => {
-      console.log(action.payload.board);
-
+      const data = {
+        phaseName: action.payload.phaseName,
+        startTime: action.payload.startTime,
+        endTime: action.payload.endTime,
+        completed: action.payload.completed,
+        expectedEnd: action.payload.expectedEnd,
+        description: action.payload.description,
+      };
+      state.detailPhase = data;
       state.projectDetail = action.payload.board;
     });
     builder.addCase(createBoard.fulfilled, (state, action) => {

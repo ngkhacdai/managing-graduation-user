@@ -46,3 +46,55 @@ export const searchTeacher = async (form) => {
   }
   return response.json();
 };
+
+export const teacherGetListRegis = async () => {
+  const response = await GET("/teacher/getListRegis");
+  return response;
+};
+
+export const getDetailRegis = async (regisId: number) => {
+  const response = await GET(`/teacher/getDetailRegis/${regisId}`);
+  return response;
+};
+
+export const approveStudent = async (regisId: number) => {
+  const cookie = await getCookie();
+  const response = await fetch(
+    `${process.env.API_URL}/teacher/approveRegis/${regisId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookie.token}`,
+      },
+    }
+  );
+  const res = await response.json();
+  if (!response.ok) {
+    console.log(res);
+
+    throw new Error(`${res.message}`);
+  }
+  return res.message;
+};
+export const rejectStudent = async (form) => {
+  const cookie = await getCookie();
+  const response = await fetch(
+    `${process.env.API_URL}/teacher/rejectRegis/${form.regisId}?` +
+      new URLSearchParams(form),
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookie.token}`,
+      },
+    }
+  );
+  const res = await response.json();
+  if (!response.ok) {
+    console.log(res);
+
+    throw new Error(`${res.message}`);
+  }
+  return res.message;
+};

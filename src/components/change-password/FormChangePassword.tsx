@@ -1,8 +1,12 @@
+"use client";
 import { changePassword } from "@/api/Access";
+import MDEditor from "@uiw/react-md-editor";
 import { Button, Form, Input } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import useMessage from "antd/es/message/useMessage";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useState } from "react";
+import Markdown from "react-markdown";
 
 const FormChangePassword = () => {
   const t = useTranslations("Profile");
@@ -24,9 +28,17 @@ const FormChangePassword = () => {
   };
 
   return (
-    <div className="text-center">
+    <div className="text-center m-2">
       {contextHolder}
-      <Form onFinish={onFinish} layout="vertical">
+      <p className="text-left p-2 font-semibold text-zinc-500 text-lg mb-5">
+        {t("changePassword")}
+      </p>
+
+      <Form
+        onFinish={onFinish}
+        className="w-full md:w-1/2 mx-auto"
+        layout="vertical"
+      >
         <Form.Item
           rules={[
             {

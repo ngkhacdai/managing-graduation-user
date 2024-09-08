@@ -79,9 +79,9 @@ const Droppable = ({ items }) => {
             <Button type="text" className="py-0 px-2" {...listeners}>
               <MdOutlineDragIndicator />
             </Button>
-            <Button onClick={handleDeleteBoard} type="text">
+            {/* <Button onClick={handleDeleteBoard} type="text">
               <IoMdClose />
-            </Button>
+            </Button> */}
           </div>
         )}
       </div>

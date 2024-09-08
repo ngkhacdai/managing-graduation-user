@@ -14,8 +14,6 @@ export const useIsPhaseFinished = () => {
   useEffect(() => {
     if (pathName.includes("/project/detail")) {
       const params = new URLSearchParams();
-      params.set("studentName", searchParams.get("studentName") || "");
-      params.set("teacherName", searchParams.get("teacherName") || "");
       params.set("projectName", searchParams.get("projectName") || "");
 
       if (phase.length > 0) {

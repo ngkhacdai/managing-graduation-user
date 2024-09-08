@@ -1,5 +1,7 @@
+import { addProject } from "@/api/Student";
 import { getAllTeacher, searchTeacher } from "@/api/Teacher";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { error } from "console";
 
 const initialState = {
   listTeacher: [],
@@ -7,8 +9,12 @@ const initialState = {
     branch: [],
   },
   searchInput: "",
+  error: "",
 };
-
+interface SignUpPayload {
+  formData: any;
+  teacherId: any;
+}
 export const fetchDataTeacher = createAsyncThunk(
   "signUpSlice/fetchDataTeacher",
   async () => {
@@ -22,6 +28,14 @@ export const filterTeacher = createAsyncThunk(
   async (form: any) => {
     const response = await searchTeacher(form);
     return response;
+  }
+);
+
+export const signUpTeacher = createAsyncThunk(
+  "signUpSlice/signUpTeacher",
+  async ({ formData, teacherId }: SignUpPayload) => {
+    const response = await addProject(formData);
+    return teacherId;
   }
 );
 
@@ -47,6 +61,25 @@ const signUpSlice = createSlice({
     builder.addCase(filterTeacher.fulfilled, (state, action) => {
       state.listTeacher = action.payload;
     });
+    builder
+      .addCase(signUpTeacher.fulfilled, (state, action) => {
+        state.error = "";
+
+        const findTeacher = state.listTeacher.findIndex(
+          (item) => item.id === action.payload
+        );
+
+        if (findTeacher !== -1) {
+          console.log("data", state.listTeacher[findTeacher]);
+
+          state.listTeacher[findTeacher].registered = true;
+        } else {
+          console.log("Teacher not found");
+        }
+      })
+      .addCase(signUpTeacher.rejected, (state, action) => {
+        state.error = action.payload.toString();
+      });
   },
 });
 

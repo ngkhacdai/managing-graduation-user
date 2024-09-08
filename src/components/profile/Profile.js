@@ -3,8 +3,9 @@ import React from "react";
 import FormProfile from "./teacher/FormProfile";
 import FormStudent from "./student/FormStudent";
 import { getStudentProfile } from "@/api/Student";
-import { getAllBranch } from "@/api/Branch";
 import { getTeacherProfile } from "@/api/Teacher";
+import StudentProfile from "./student/StudentProfile";
+import TeacherProfile from "./teacher/TeacherProfile";
 
 const ProfileComponent = async () => {
   const role = headers().get("role");
@@ -25,9 +26,9 @@ const ProfileComponent = async () => {
   return (
     <div className="p-2">
       {role === "teacher" ? (
-        <FormProfile dataProfile={dataProfile} />
+        <TeacherProfile dataProfile={dataProfile} />
       ) : (
-        <FormStudent dataProfile={dataProfile} />
+        <StudentProfile dataProfile={dataProfile} />
       )}
     </div>
   );

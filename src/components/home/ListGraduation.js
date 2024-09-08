@@ -3,10 +3,14 @@ import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import CardItem from "./CardItem";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 const DrawerDetail = dynamic(() => import("./DrawerDetail"), { ssr: false });
 
 const ListGraduation = ({ listProduct }) => {
   const t = useTranslations("HomePage");
+  const pathName = usePathname();
+  const currentLanguage = pathName.split("/")[1];
   const [selectedItem, setSelectedItem] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -18,13 +22,16 @@ const ListGraduation = ({ listProduct }) => {
     setSelectedItem(item);
     setDrawerOpen(true);
   };
+  if (!listProduct || listProduct.length <= 0) {
+    return <p className="text-center text-gray-600">{t("noProduct")}</p>;
+  }
   return (
     <div className="w-full">
       <Row gutter={[16, 16]}>
-        {listProduct && listProduct.length > 0 ? (
+        {listProduct &&
+          listProduct.length > 0 &&
           listProduct.map((item, index) => (
             <Col
-              onClick={() => handleCardClick(item)}
               key={`graduation-${index}`}
               xs={24}
               sm={12}
@@ -32,22 +39,23 @@ const ListGraduation = ({ listProduct }) => {
               lg={8}
               xl={6}
             >
-              <CardItem item={item} />
+              <Link
+                href={`/${currentLanguage}/detail?projectId=${item.projectId}`}
+              >
+                <CardItem item={item} />
+              </Link>
             </Col>
-          ))
-        ) : (
-          <p className="text-center text-gray-600">{t("noProduct")}</p>
-        )}
+          ))}
       </Row>
       <div className="flex justify-center items-center mt-6">
         <Pagination
           responsive={true}
-          total={500}
+          total={listProduct.length}
           defaultPageSize={10}
           showSizeChanger={false}
         />
       </div>
-      <DrawerDetail open={drawerOpen} item={selectedItem} onClose={onClose} />
+      {/* <DrawerDetail open={drawerOpen} item={selectedItem} onClose={onClose} /> */}
     </div>
   );
 };

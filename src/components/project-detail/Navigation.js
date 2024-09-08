@@ -1,12 +1,14 @@
 "use client";
 import { finishingPhase, removePhase } from "@/redux/slices/ProjectDetailSlice";
-import { Button, Dropdown, Modal } from "antd";
+import { Dropdown, Modal } from "antd";
 import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SlOptionsVertical } from "react-icons/sl";
 import { useTranslations } from "next-intl";
 import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
+import DrawerComment from "./DrawerComment";
+import DrawerDetailPhase from "./DrawerDetailPhase";
 
 const Navigation = ({ role }) => {
   const t = useTranslations("ProjectDetail");
@@ -68,15 +70,19 @@ const Navigation = ({ role }) => {
         <p className="py-2 font-bold text-white text-lg">
           {t("project")}: {searchParams.get("projectName")}
         </p>
-        {!useIsPhaseFinished() && role == "student" && (
-          <div className="flex items-center">
-            <Dropdown menu={{ items }}>
-              <div className="hover:cursor-pointer">
-                <SlOptionsVertical size={18} color="white" />
-              </div>
-            </Dropdown>
-          </div>
-        )}
+        <div className="flex items-center gap-5">
+          <DrawerDetailPhase />
+          <DrawerComment />
+          {!useIsPhaseFinished() && role == "student" && (
+            <div className="flex items-center">
+              <Dropdown menu={{ items }}>
+                <div className="hover:cursor-pointer">
+                  <SlOptionsVertical size={18} color="white" />
+                </div>
+              </Dropdown>
+            </div>
+          )}
+        </div>
       </div>
       <Modal
         onCancel={onCancel}

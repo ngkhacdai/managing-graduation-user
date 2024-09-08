@@ -26,6 +26,7 @@ const FormChangePassword = () => {
   return (
     <div className="text-center">
       {contextHolder}
+      <p className="text-center text-lg mb-5">{t("changePassword")}</p>
       <Form onFinish={onFinish} layout="vertical">
         <Form.Item
           rules={[

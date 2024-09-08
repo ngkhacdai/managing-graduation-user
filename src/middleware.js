@@ -17,7 +17,14 @@ export default async function middleware(req) {
     if (!supportedLocales.includes(lang)) {
       return localeResponse;
     }
-    const isAuth = [`/${lang}/login`, `/${lang}`];
+
+    const isAuth = [
+      `/${lang}/login`,
+      `/${lang}`,
+      `/${lang}/detail`,
+      `/${lang}/public/project`,
+      `/${lang}/public/contact`,
+    ];
     const token = req.cookies.get("token")?.value;
     const role = req.cookies.get("role")?.value;
 
@@ -25,18 +32,9 @@ export default async function middleware(req) {
       return NextResponse.redirect(new URL(`/${lang}`, req.url));
     }
 
-    if (
-      [
-        `/${lang}/project/detail`,
-        `/${lang}/project/detail/classwork`,
-        `/${lang}/project/detail/classwork/[id]`,
-      ].includes(pathname)
-    ) {
+    if ([`/${lang}/project/detail`].includes(pathname)) {
       const searchParams = req.nextUrl.searchParams;
-      if (
-        !searchParams.get("studentName") ||
-        !searchParams.get("projectName")
-      ) {
+      if (!searchParams.get("projectName")) {
         return NextResponse.redirect(new URL(`/${lang}/project`, req.url));
       }
     }
@@ -62,7 +60,7 @@ export default async function middleware(req) {
     return localeResponse;
   } catch (err) {
     console.error("Error handling locale or token verification:", err);
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 }
 
