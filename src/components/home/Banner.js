@@ -1,5 +1,5 @@
 import React from "react";
-import banner from "@/assets/antoine-barres.jpg";
+import banner from "@/assets/banner.jpg";
 import clouds from "@/assets/clouds.png";
 import fogLow from "@/assets/fog-low.png";
 import { FaGithub } from "react-icons/fa";
@@ -17,7 +17,7 @@ const Banner = () => {
       <div className="absolute inset-0 bg-black opacity-40"></div>
 
       {/* clound */}
-      <div className="absolute h-[35rem] bottom-0 flex opacity-60">
+      {/* <div className="absolute h-[35rem] bottom-0 flex opacity-60">
         <img
           className="flex w-full h-full bg-cover bg-repeat-x animate-[cloudsMoveContinuous_75s_linear_infinite]"
           src={clouds.src}
@@ -28,17 +28,17 @@ const Banner = () => {
           src={clouds.src}
           alt="clouds"
         />
-      </div>
+      </div> */}
 
       {/* text project */}
       <div className="absolute inset-0 flex flex-col justify-center items-center">
         <p className="text-center absolute mb-20 text-white text-4xl md:text-[4rem] font-bold">
           Graduation Project
         </p>
-        <img alt="" src={fogLow.src} />
+        {/* <img alt="" src={fogLow.src} /> */}
       </div>
       {/* sign */}
-      <div className="absolute bottom-5 inset-0 flex justify-center items-end">
+      {/* <div className="absolute bottom-5 inset-0 flex justify-center items-end">
         <div className="flex items-center">
           <p className=" text-lg md:text-xl font-semibold text-white">
             {t("design")}
@@ -54,7 +54,7 @@ const Banner = () => {
             ngkhacdai
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

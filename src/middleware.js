@@ -21,7 +21,7 @@ export default async function middleware(req) {
     const isAuth = [
       `/${lang}/login`,
       `/${lang}`,
-      `/${lang}/detail`,
+      `/${lang}/public/project/detail/${pathname.split("/").pop()}`,
       `/${lang}/public/project`,
       `/${lang}/public/contact`,
     ];

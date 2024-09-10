@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { DatePicker, Form, Input, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import useMessage from "antd/es/message/useMessage";
+import moment from "moment";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,7 +52,10 @@ const ModalAddNewPhase = ({ setIsShow }) => {
       onCancel();
     }, 1000);
   };
-
+  const disabledDate = (current) => {
+    // Disable all dates before today
+    return current && current < moment().startOf("day");
+  };
   return (
     <>
       {contextHolder}
@@ -85,7 +89,7 @@ const ModalAddNewPhase = ({ setIsShow }) => {
             ]}
             label="Expected end"
           >
-            <DatePicker className="!w-full" />
+            <DatePicker className="!w-full" disabledDate={disabledDate} />
           </Form.Item>
           <Form.Item
             name="description"

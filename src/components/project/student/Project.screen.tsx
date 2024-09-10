@@ -42,7 +42,7 @@ const ProjectScreen = ({ project }) => {
         ) : (
           <div className="flex gap-2 ">
             <div className="w-1/3 flex flex-col gap-2">
-              <StudentInfor />
+              {/* <StudentInfor /> */}
               <TeacherInfor />
             </div>
             <div className="w-2/3">

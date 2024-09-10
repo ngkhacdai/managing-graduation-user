@@ -40,7 +40,7 @@ const ListGraduation = ({ listProduct }) => {
               xl={6}
             >
               <Link
-                href={`/${currentLanguage}/detail?projectId=${item.projectId}`}
+                href={`/${currentLanguage}/public/project/detail/${item.projectId}`}
               >
                 <CardItem item={item} />
               </Link>

@@ -21,9 +21,10 @@ const ProjectInfor = () => {
   };
   return (
     <div className="border-2 rounded-lg p-2">
-      <div className="text-right">
+      <div className="flex justify-between items-center">
+        <p className="text-lg font-semibold ">Project information</p>
         <Button type="primary" onClick={viewPhase} className="my-2">
-          View phase
+          View phases
         </Button>
       </div>
       <div className="flex flex-col gap-2">

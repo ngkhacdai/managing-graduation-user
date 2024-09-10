@@ -37,16 +37,7 @@ const ModalReject = ({ regisId }) => {
         onCancel={() => setIsShow(false)}
       >
         <Form form={form} onFinish={onFinish} layout="vertical">
-          <Form.Item
-            name="reasonReject"
-            rules={[
-              {
-                required: true,
-                message: "Please input reason for rejection!",
-              },
-            ]}
-            label="Reason for rejection"
-          >
+          <Form.Item name="reasonReject" label="Reason for rejection">
             <TextArea />
           </Form.Item>
         </Form>

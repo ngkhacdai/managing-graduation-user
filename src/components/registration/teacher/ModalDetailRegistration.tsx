@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Modal, Row } from "antd";
+import { Button, Col, Form, Input, Modal, Row, Tooltip } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useState } from "react";
 import ModalReject from "./ModalReject";
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { appoveStudentByTeacher } from "@/redux/slices/RegistrationSlice";
 import useMessage from "antd/es/message/useMessage";
+import { MdRemoveRedEye } from "react-icons/md";
 
 const ModalDetailRegistration = ({ regisId, status }) => {
   const [message, contentHolder] = useMessage();
@@ -61,20 +62,20 @@ const ModalDetailRegistration = ({ regisId, status }) => {
         >
           <div className="flex flex-col gap-2">
             <Row gutter={[10, 10]}>
-              <Col xs={24} sm={7}>
+              <Col className="flex items-center gap-2" xs={24} sm={7}>
                 Student:
+                <Tooltip title="View detail registration">
+                  <Link
+                    href={`/${pathName.split("/")[1]}/registration/${regisId}`}
+                  >
+                    <p className="text-blue-600 mx-2">
+                      <MdRemoveRedEye size={18} />
+                    </p>
+                  </Link>
+                </Tooltip>
               </Col>
               <Col>
                 <p>{detail?.studentProfileView?.fullName}</p>
-              </Col>
-              <Col>
-                <Link
-                  href={`/${pathName.split("/")[1]}/registration/${
-                    detail?.regisId
-                  }`}
-                >
-                  <p className="text-blue-600 underline">View detail</p>
-                </Link>
               </Col>
             </Row>
             <Row gutter={[10, 10]}>

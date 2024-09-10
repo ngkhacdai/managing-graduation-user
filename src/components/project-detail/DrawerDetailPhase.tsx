@@ -1,16 +1,17 @@
 import { RootState } from "@/redux/store";
-import { Col, Drawer, Row, Tooltip } from "antd";
+import { Button, Col, Drawer, Row, Tooltip } from "antd";
 import moment from "moment";
 import React, { useState } from "react";
 import { BiDetail } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import { CiEdit } from "react-icons/ci";
+import ModalEditPhase from "../sidebar/ModalEditPhase";
 
 const DrawerDetailPhase = () => {
   const [isShow, setIsShow] = useState(false);
   const phaseDetail = useSelector(
     (state: RootState) => state.projectDetail.detailPhase
   );
-  console.log(phaseDetail);
 
   return (
     <div>
@@ -26,7 +27,12 @@ const DrawerDetailPhase = () => {
         <Drawer
           open={isShow}
           onClose={() => setIsShow(false)}
-          title="Detail"
+          title={
+            <div className="flex items-center justify-between">
+              <p>Detail</p>
+              <ModalEditPhase />
+            </div>
+          }
           bodyStyle={{
             padding: 0,
             display: "flex",

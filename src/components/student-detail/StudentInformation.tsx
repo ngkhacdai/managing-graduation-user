@@ -5,7 +5,7 @@ const StudentInformation = ({ detail }) => {
   return (
     <div className="border-2 rounded-lg lg:w-2/3 w-full">
       <div className="text-center border-b-2">
-        <p className="text-xl my-2 font-bold">Student information</p>
+        <p className="text-xl my-2 font-bold">Author information</p>
       </div>
       <div className="flex  p-2 flex-col gap-2">
         <div className="mx-auto flex flex-col gap-2">

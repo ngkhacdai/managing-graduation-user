@@ -23,7 +23,7 @@ export const getPhaseInProject = async () => {
 
 export const addPhase = async (form) => {
   const cookie = await getCookie();
-  const response = await fetch(`http://26.79.227.10:8080/user/addPhase`, {
+  const response = await fetch(`${process.env.API_URL}/user/addPhase`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -46,22 +46,25 @@ export const deletePhase = async () => {
       Authorization: `Bearer ${cookie.token}`,
     },
   });
+  // const res = await response.json();
   if (!response.ok) {
     throw new Error("Failed to delete phase");
   }
   return response.json();
 };
 
-export const finishPhase = async () => {
+export const finishPhase = async (formData) => {
   const cookie = await getCookie();
-  const response = await fetch(`${process.env.API_URL}/student/updateDone`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${cookie.token}`,
-    },
-    body: JSON.stringify({ completed: true }),
-  });
+  const response = await fetch(
+    `${process.env.API_URL}/student/updateCompletePhase`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${cookie.token}`,
+      },
+      body: formData,
+    }
+  );
   if (!response.ok) {
     throw new Error("Failed to call api");
   }

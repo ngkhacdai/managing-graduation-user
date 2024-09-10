@@ -12,7 +12,6 @@ const CardItem = ({ item }) => {
       }
     >
       <div className="flex items-center">
-        <div className="w-10 h-10 rounded-full bg-red-500 flex-shrink-0 mr-4"></div>
         <div className="w-full">
           <div>
             <p className="font-medium text-gray-700 line-clamp-1">

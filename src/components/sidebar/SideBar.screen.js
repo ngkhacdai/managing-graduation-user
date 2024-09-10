@@ -201,7 +201,6 @@ const SideBarScreen = ({ children, role }) => {
                 key != "/registration" &&
                 key != "/changepassword"
               ) {
-                dispatch(clearPhase());
                 const newPhase = key.replace("/", "");
                 const newUrl = new URL(window.location.href);
                 newUrl.searchParams.set("phase", newPhase);

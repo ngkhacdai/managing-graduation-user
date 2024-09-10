@@ -57,8 +57,8 @@ export const removePhase = createAsyncThunk(
 
 export const finishingPhase = createAsyncThunk(
   "project-slice/finishPhase",
-  async () => {
-    return await finishPhase();
+  async (formData) => {
+    return await finishPhase(formData);
   }
 );
 
@@ -412,9 +412,14 @@ const projectDetailSlice = createSlice({
     builder.addCase(addPhaseThunk.fulfilled, (state, action) => {
       state.phase.push(action.payload);
     });
-    builder.addCase(removePhase.fulfilled, (state, action) => {
-      state.phase.pop();
-    });
+    builder
+      .addCase(removePhase.fulfilled, (state, action) => {
+        state.error = null;
+        state.phase.pop();
+      })
+      .addCase(removePhase.rejected, (state, action) => {
+        state.error = "Can not remove phase";
+      });
     builder.addCase(finishingPhase.fulfilled, (state, action) => {
       state.phase[state.phase.length - 1].completed = true;
     });

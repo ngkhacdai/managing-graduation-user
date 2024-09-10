@@ -272,7 +272,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
           </div>
         </div>
 
-        <div className="flex mt-3">
+        {/* <div className="flex mt-3">
           <FaCommentAlt size={18} color="#44546F" />
           <div className="pl-2">
             <p className="text-slate-600 font-semibold text-lg ">Comment</p>
@@ -318,7 +318,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </Modal>
     </div>
   );

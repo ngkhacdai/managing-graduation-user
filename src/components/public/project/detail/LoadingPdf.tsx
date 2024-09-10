@@ -1,14 +1,15 @@
-import { Viewer, Worker } from "@react-pdf-viewer/core";
 import React from "react";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/toolbar/lib/styles/index.css";
 import { toolbarPlugin, ToolbarSlot } from "@react-pdf-viewer/toolbar";
+import { Viewer, Worker } from "@react-pdf-viewer/core";
 
-const LoadingFile = ({ url }) => {
+const LoadingPdf = ({ filePdf }) => {
   const toolbarPluginInstance = toolbarPlugin();
   const { Toolbar } = toolbarPluginInstance;
+
   return (
-    <div className=" w-full h-screen relative">
+    <div className="w-full max-h-screen relative">
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         <div
           style={{
@@ -30,7 +31,6 @@ const LoadingFile = ({ url }) => {
                 ZoomIn,
                 ZoomOut,
                 CurrentPageInput,
-
                 GoToNextPage,
                 GoToPreviousPage,
                 NumberOfPages,
@@ -76,29 +76,30 @@ const LoadingFile = ({ url }) => {
           </Toolbar>
         </div>
         <div
+          className="overflow-auto"
           style={{
-            flex: 1,
-            overflow: "hidden",
+            height: "600px", // Limit height to 600px
           }}
         >
           <Viewer
-            fileUrl={url}
+            fileUrl={filePdf}
             httpHeaders={{ mode: "no-cors" }}
             plugins={[toolbarPluginInstance]}
+            defaultScale={1}
             renderError={(error) => (
               <div className="text-center p-4 bg-red-100 border border-red-400 rounded">
                 <h2 className="text-lg font-semibold mb-2">
-                  Error when load file
+                  Error when loading the file
                 </h2>
                 <p>{error.message}</p>
                 <p className="mt-2">
                   <a
-                    href={url}
+                    href={filePdf}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:underline"
                   >
-                    Click here to download file
+                    Click here to download the file
                   </a>
                 </p>
               </div>
@@ -110,4 +111,4 @@ const LoadingFile = ({ url }) => {
   );
 };
 
-export default LoadingFile;
+export default LoadingPdf;

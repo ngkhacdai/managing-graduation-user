@@ -5,7 +5,7 @@ const StudentInfor = () => {
   return (
     <div className="border-2 rounded-lg">
       <p className="text-center font-semibold text-lg border-b-2">
-        Student information
+        Author information
       </p>
       <div className="text-center mt-2 flex flex-col gap-2">
         <img

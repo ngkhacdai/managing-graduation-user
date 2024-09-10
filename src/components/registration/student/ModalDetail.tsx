@@ -16,6 +16,7 @@ const ModalDetail = ({ regisId, status }) => {
   const pathName = usePathname();
   const dispatch = useDispatch<AppDispatch>();
   const [detail, setDetail] = useState(null);
+  console.log(detail);
 
   const fetchDetail = async () => {
     const response = await getDetailRegis(regisId);

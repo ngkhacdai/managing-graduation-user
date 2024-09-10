@@ -8,7 +8,11 @@ import {
 } from "react-icons/fa";
 import { BiSolidDetail } from "react-icons/bi";
 import TextArea from "antd/es/input/TextArea";
-import { MdDeleteForever, MdOutlineFileDownload } from "react-icons/md";
+import {
+  MdDeleteForever,
+  MdOutlineFileDownload,
+  MdUpload,
+} from "react-icons/md";
 import { Button, Image, message, Modal, Popover, Tooltip, Upload } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -295,7 +299,9 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
                 {fileList.length < 1 && (
                   <Upload {...props}>
                     <Button shape="circle">
-                      <FaLink />
+                      <Tooltip title="Upload file attachment">
+                        <MdUpload className="text-2xl" />
+                      </Tooltip>
                     </Button>
                   </Upload>
                 )}
@@ -304,7 +310,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
           </div>
         </div>
 
-        <div className="flex mt-3">
+        {/* <div className="flex mt-3">
           <FaCommentAlt size={18} color="#44546F" />
           <div className="pl-2">
             <p className="text-slate-600 font-semibold text-lg ">Comment</p>
@@ -351,7 +357,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </Modal>
     </div>
   );
