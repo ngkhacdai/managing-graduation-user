@@ -103,8 +103,8 @@ const Navigation = ({ role }) => {
           </p>
         </Tooltip>
         <div className="flex items-center gap-5">
-          <DrawerDetailPhase />
-          <DrawerComment />
+          <DrawerDetailPhase role={role} />
+          <DrawerComment role={role} />
           {!useIsPhaseFinished() && role == "student" && (
             <div className="flex items-center">
               <Dropdown menu={{ items }}>

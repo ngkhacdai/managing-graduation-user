@@ -26,7 +26,7 @@ import ModalTurnIn from "./ModalTurnIn";
 import { fetchGetNotiUnread } from "@/redux/slices/NotiSlice";
 import ContentNotiScreen from "./noti/ContentNoti.screen";
 import { MdAppRegistration } from "react-icons/md";
-import moment from "moment";
+import ModalMarkAsDone from "./ModalMarkAsDone";
 
 const { Sider, Content } = Layout;
 
@@ -42,6 +42,7 @@ const SideBarScreen = ({ children, role }) => {
   const detailProject = useSelector(
     (state) => state.projectDetail.detailProject
   );
+
   const [messageApi, contextHolder] = message.useMessage();
   const [collapsed, setCollapsed] = useState(false);
   const numberNotification = useSelector((state) => state.noti.noUnread);
@@ -71,7 +72,7 @@ const SideBarScreen = ({ children, role }) => {
 
   const [items, setItems] = useState(defaultItems);
   const phase = useSelector((state) => state.projectDetail.phase);
-
+  console.log("detail project", phase);
   const contentNoti = <ContentNotiScreen />;
 
   const dispatchDebounce = useCallback(
@@ -127,10 +128,10 @@ const SideBarScreen = ({ children, role }) => {
                 key: `/${item.id}`,
                 icon: <IoLibrary />,
                 label: (
-                  <span className="flex gap-2 items-center">
+                  <div className="flex gap-2 items-center">
                     <p>{item.phaseName}</p>
-                    {item.completed && <FaCheck />}
-                  </span>
+                    <p>{item.completed && <FaCheck />}</p>
+                  </div>
                 ),
               })),
             ],
@@ -147,7 +148,12 @@ const SideBarScreen = ({ children, role }) => {
                 ...phase.map((item) => ({
                   key: `/${item.id}`,
                   icon: <IoLibrary />,
-                  label: <p>{item.phaseName}</p>,
+                  label: (
+                    <div className="flex gap-2 items-center">
+                      <p>{item.phaseName}</p>
+                      <p>{item.completed && <FaCheck />}</p>
+                    </div>
+                  ),
                 })),
               ],
             };
@@ -224,6 +230,12 @@ const SideBarScreen = ({ children, role }) => {
                     </Button>
                   </Tooltip>
                 )}
+              {/* {pathName.includes("/project/detail") &&
+                phase &&
+                phase.length > 0 &&
+                !phase.some((item) => item.completed == false) && (
+                  <ModalMarkAsDone collapsed={collapsed} />
+                )} */}
               {pathName.includes("/project/detail") &&
                 phase &&
                 phase.length > 0 &&

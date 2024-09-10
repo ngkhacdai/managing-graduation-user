@@ -24,6 +24,7 @@ const TeacherContent = ({ projectData }) => {
       title: t("projectName"),
       dataIndex: "projectName",
       key: "projectName",
+      width: "50%",
     },
     {
       title: t("studentName"),

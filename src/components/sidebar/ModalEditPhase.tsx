@@ -1,16 +1,32 @@
-import { RootState } from "@/redux/store";
+import { updatePhase } from "@/redux/slices/ProjectDetailSlice";
+import { AppDispatch, RootState } from "@/redux/store";
 import MDEditor from "@uiw/react-md-editor";
 import { Button, Form, Input, Modal, Tooltip } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ModalEditPhase = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const phaseDetail = useSelector(
     (state: RootState) => state.projectDetail.detailPhase
   );
+  const dispatch = useDispatch<AppDispatch>();
+  const [form] = Form.useForm();
+
+  const onFinish = (values) => {
+    dispatch(
+      updatePhase({
+        phaseName: values.phaseName,
+        description: values.description,
+      })
+    );
+    setIsShowModal(false);
+  };
+  const onOk = () => {
+    form.submit();
+  };
   return (
     <div>
       <Tooltip title="Edit phase">
@@ -19,11 +35,14 @@ const ModalEditPhase = () => {
         </Button>
       </Tooltip>
       <Modal
+        onOk={onOk}
         onCancel={() => setIsShowModal(false)}
         open={isShowModal}
         title="Edit phase"
       >
         <Form
+          form={form}
+          onFinish={onFinish}
           initialValues={{
             phaseName: phaseDetail?.phaseName,
             description: phaseDetail?.description,

@@ -32,6 +32,7 @@ const DetailProject = () => {
   const dispatch = useDispatch<AppDispatch>();
   const searchParams = useSearchParams();
   const phase = useSelector((state: RootState) => state.projectDetail.phase);
+
   const dispatchBoard = useCallback(
     debounce((id) => {
       dispatch(getBoard(id));

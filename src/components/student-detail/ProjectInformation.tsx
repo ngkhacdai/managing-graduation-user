@@ -22,9 +22,19 @@ const ProjectInformation = ({ detail }) => {
             Major:
           </Col>
           <Col xs={24} sm={18}>
-            {detail.major}
+            {detail.branch}
           </Col>
         </Row>
+        {detail.point && (
+          <Row gutter={[10, 10]}>
+            <Col xs={24} sm={6}>
+              Point:
+            </Col>
+            <Col xs={24} sm={18}>
+              {detail.point}
+            </Col>
+          </Row>
+        )}
         <Row gutter={[10, 10]}>
           <Col xs={24} sm={6}>
             Project started date:
@@ -33,6 +43,17 @@ const ProjectInformation = ({ detail }) => {
             {detail.projectStartDate}
           </Col>
         </Row>
+        {detail.projectEndDate && (
+          <Row gutter={[10, 10]}>
+            <Col xs={24} sm={6}>
+              Project ended date:
+            </Col>
+            <Col xs={24} sm={18}>
+              {detail.projectEndDate}
+            </Col>
+          </Row>
+        )}
+
         <Row gutter={[10, 10]}>
           <Col xs={24} sm={6}>
             Project description:

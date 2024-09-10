@@ -15,6 +15,7 @@ export const useIsPhaseFinished = () => {
     if (pathName.includes("/project/detail")) {
       const params = new URLSearchParams();
       params.set("projectName", searchParams.get("projectName") || "");
+      params.set("projectId", searchParams.get("projectId") || "");
 
       if (phase.length > 0) {
         const phaseId = `${phase[0].id}`;

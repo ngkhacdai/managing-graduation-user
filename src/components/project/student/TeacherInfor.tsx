@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 import React from "react";
 
-const TeacherInfor = () => {
+const TeacherInfor = ({ project }) => {
   return (
     <div className="border-2 rounded-lg">
       <p className="text-center font-semibold text-lg border-b-2">
@@ -10,10 +10,12 @@ const TeacherInfor = () => {
       <div className="text-center mt-2 flex flex-col gap-2">
         <img
           alt=""
-          src=""
+          src={project.avatar}
           className="rounded-full mx-auto border-2 w-24 h-24"
         />
-        <p className="text-lg font-semibold">teacherName</p>
+        <p className="text-lg font-semibold break-words">
+          {project.mentorName}
+        </p>
       </div>
       <div className="mt-2 p-2 flex flex-col gap-2">
         <Row gutter={[10, 10]}>
@@ -21,7 +23,9 @@ const TeacherInfor = () => {
             <p>Email:</p>
           </Col>
           <Col>
-            <p>email</p>
+            <p className="break-all">
+              {!project.email ? "not update" : project.email}
+            </p>
           </Col>
         </Row>
         <Row gutter={[10, 10]}>
@@ -29,7 +33,7 @@ const TeacherInfor = () => {
             <p>Phone number:</p>
           </Col>
           <Col>
-            <p>phoneNumber</p>
+            <p>{!project.phoneNumber ? "not update" : project.phoneNumber}</p>
           </Col>
         </Row>
         <Row gutter={[10, 10]}>
@@ -37,15 +41,15 @@ const TeacherInfor = () => {
             <p>Degree:</p>
           </Col>
           <Col>
-            <p>degree</p>
+            <p>{project.degree}</p>
           </Col>
         </Row>
         <Row gutter={[10, 10]}>
           <Col span={6}>
-            <p>Department:</p>
+            <p>Major:</p>
           </Col>
           <Col>
-            <p>department</p>
+            <p>{project.major}</p>
           </Col>
         </Row>
         <Row gutter={[10, 10]}>
@@ -53,7 +57,7 @@ const TeacherInfor = () => {
             <p>Begin year:</p>
           </Col>
           <Col>
-            <p>Begin year</p>
+            <p>{project.beginTeachingYear}</p>
           </Col>
         </Row>
       </div>

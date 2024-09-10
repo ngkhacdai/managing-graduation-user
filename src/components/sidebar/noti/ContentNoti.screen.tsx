@@ -71,19 +71,17 @@ const ContentNotiScreen = () => {
           dataSource={listNoti}
           renderItem={(item) => (
             <List.Item
-              className="hover:bg-slate-50 cursor-pointer"
+              className={`hover:bg-slate-50 cursor-pointer ${
+                !item.read && "bg-blue-50"
+              }`}
               onClick={() => handleItemClick(item)}
             >
               <List.Item.Meta
                 title={<p>{item.title}</p>}
                 description={
-                  <div
-                    className={`flex  items-center justify-between ${
-                      !item.read && "bg-blue-200"
-                    }`}
-                  >
+                  <div className={`flex  items-center justify-between `}>
                     <div className="w-full">
-                      <p className="break-all line-clamp-3">{item.content}</p>
+                      <p className="break-words line-clamp-2">{item.content}</p>
                       <p className="text-right text-xs text-gray-500">
                         {new Date(item.time).toLocaleDateString("en-GB")}
                       </p>

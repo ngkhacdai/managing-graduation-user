@@ -216,6 +216,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
             <TextArea
               autoSize={true}
               value={detail}
+              disabled={isPhaseFinished}
               onChange={(e) => setDetail(e.target.value)}
               style={{ width: "100%", minHeight: 150 }}
               placeholder={t("plhTaskDetail")}

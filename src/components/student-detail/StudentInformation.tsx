@@ -16,7 +16,7 @@ const StudentInformation = ({ detail }) => {
           />
           <div>
             <p className="font-semibold text-zinc-500 text-lg">
-              {detail.fullName} - {detail.studentId}
+              {detail.studentName} - {detail.studentId}
             </p>
           </div>
         </div>
@@ -34,7 +34,7 @@ const StudentInformation = ({ detail }) => {
               Begin year:
             </Col>
             <Col xs={24} sm={18}>
-              {detail.beginYear}
+              {detail.studentBeginYear}
             </Col>
           </Row>
           <Row gutter={[10, 10]}>
@@ -42,7 +42,7 @@ const StudentInformation = ({ detail }) => {
               Phone number:
             </Col>
             <Col xs={24} sm={18}>
-              {detail.phoneNumber}
+              {detail.phone}
             </Col>
           </Row>
           <Row gutter={[10, 10]}>

@@ -9,15 +9,15 @@ import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { FaFileAlt, FaLink } from "react-icons/fa";
 import { GrFormView } from "react-icons/gr";
-import { IoMdReturnLeft } from "react-icons/io";
 import {
   MdDeleteForever,
   MdOutlineFileDownload,
   MdUpload,
 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { GiCheckMark } from "react-icons/gi";
 
-const ModalTurnIn = ({ collapsed }) => {
+const ModalMarkAsDone = ({ collapsed }) => {
   const t = useTranslations("SideBar");
   const [fileList, setFileList] = useState([]);
   const [messageAPI, contextHolder] = useMessage();
@@ -30,7 +30,7 @@ const ModalTurnIn = ({ collapsed }) => {
     if (fileList.length > 0) {
       const formData = new FormData();
       formData.append("file", fileList[0].originFileObj);
-      // dispatch(finishProject(formData));
+      dispatch(finishProject(formData));
     } else {
       messageAPI.error("You must upload a file to finish the project!");
     }
@@ -68,18 +68,19 @@ const ModalTurnIn = ({ collapsed }) => {
   return (
     <>
       {contextHolder}
-      <Tooltip title={t("finish")}>
+      <Tooltip title={"Mark as done"}>
         <Button
           className="flex w-full items-center my-2 justify-start"
           onClick={() => setIsShowModal(true)}
         >
-          <IoMdReturnLeft />
-          {!collapsed && <p>{t("finish")}</p>}
+          <GiCheckMark />
+
+          {!collapsed && <p>Mark as done</p>}
         </Button>
       </Tooltip>
       <Modal
         onOk={handleOk}
-        title={"Turn in"}
+        title={"Mark as done"}
         onCancel={onCancel}
         open={isShowModal}
       >
@@ -151,4 +152,4 @@ const ModalTurnIn = ({ collapsed }) => {
   );
 };
 
-export default ModalTurnIn;
+export default ModalMarkAsDone;

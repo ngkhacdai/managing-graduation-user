@@ -14,6 +14,7 @@ import {
   getTaskById,
   getPhaseByTeacher,
   updateCompleteProject,
+  fetchUpdatePhase,
 } from "@/api/Project";
 import { arrayMove } from "@dnd-kit/sortable";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -40,6 +41,14 @@ const initialState = {
   loading: false,
   error: null,
 };
+
+export const updatePhase = createAsyncThunk(
+  "project-slice/updatePhase",
+  async (form: { phaseName: string; description: string }) => {
+    await fetchUpdatePhase(form);
+    return form;
+  }
+);
 
 export const addPhaseThunk = createAsyncThunk(
   "project-slice/addPhase",
@@ -427,6 +436,8 @@ const projectDetailSlice = createSlice({
       state.phase = action.payload;
     });
     builder.addCase(getBoard.fulfilled, (state, action) => {
+      console.log(action.payload);
+
       const data = {
         phaseName: action.payload.phaseName,
         startTime: action.payload.startTime,
@@ -434,6 +445,7 @@ const projectDetailSlice = createSlice({
         completed: action.payload.completed,
         expectedEnd: action.payload.expectedEnd,
         description: action.payload.description,
+        filePdf: action.payload.filePdf,
       };
       state.detailPhase = data;
       state.projectDetail = action.payload.board;
@@ -507,6 +519,11 @@ const projectDetailSlice = createSlice({
     });
     builder.addCase(getProject.fulfilled, (state, action) => {
       state.detailProject = action.payload;
+    });
+    builder.addCase(updatePhase.fulfilled, (state, action) => {
+      state.detailPhase.phaseName = action.payload.phaseName;
+      state.detailPhase.description = action.payload.description;
+      state.phase[state.phase.length - 1].phaseName = action.payload.phaseName;
     });
   },
 });

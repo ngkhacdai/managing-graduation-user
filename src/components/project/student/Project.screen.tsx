@@ -11,10 +11,7 @@ import ProjectInfor from "./ProjectInfor";
 
 const ProjectScreen = ({ project }) => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const pathName = usePathname();
-  console.log(project);
-
   useEffect(() => {
     if (project) {
       dispatch(setInforProject(project));
@@ -40,13 +37,13 @@ const ProjectScreen = ({ project }) => {
             </Link>
           </div>
         ) : (
-          <div className="flex gap-2 ">
-            <div className="w-1/3 flex flex-col gap-2">
+          <div className="flex lg:flex-row flex-col gap-2 ">
+            <div className="w-full lg:w-1/3 flex flex-col gap-2">
               {/* <StudentInfor /> */}
-              <TeacherInfor />
+              <TeacherInfor project={project} />
             </div>
-            <div className="w-2/3">
-              <ProjectInfor />
+            <div className="w-full ld:w-2/3">
+              <ProjectInfor projectInfor={project} />
             </div>
           </div>
         )}

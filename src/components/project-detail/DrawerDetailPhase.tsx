@@ -6,13 +6,20 @@ import { BiDetail } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { CiEdit } from "react-icons/ci";
 import ModalEditPhase from "../sidebar/ModalEditPhase";
+import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
 
-const DrawerDetailPhase = () => {
+const DrawerDetailPhase = ({ role }) => {
   const [isShow, setIsShow] = useState(false);
   const phaseDetail = useSelector(
     (state: RootState) => state.projectDetail.detailPhase
   );
-
+  console.log(phaseDetail);
+  const changeUrlToSearchParams = (url: string) => {
+    // Use encodeURIComponent to safely encode the URL
+    const encodedUrl = encodeURIComponent(url);
+    // Replace any existing '/' with '_'
+    return `/preview/${encodedUrl.replace(/\//g, "_")}`;
+  };
   return (
     <div>
       <Tooltip title="View phase detail">
@@ -30,7 +37,9 @@ const DrawerDetailPhase = () => {
           title={
             <div className="flex items-center justify-between">
               <p>Detail</p>
-              <ModalEditPhase />
+              {!phaseDetail.completed && role == "student" && (
+                <ModalEditPhase />
+              )}
             </div>
           }
           bodyStyle={{
@@ -73,6 +82,22 @@ const DrawerDetailPhase = () => {
                 </p>
               </Col>
             </Row>
+            {phaseDetail.completed && (
+              <Row gutter={[10, 10]}>
+                <Col span={7}>
+                  <p>File:</p>
+                </Col>
+                <Col>
+                  <a
+                    target="_blank"
+                    href={changeUrlToSearchParams(phaseDetail.filePdf)}
+                    className="line-clamp-1"
+                  >
+                    {phaseDetail.filePdf}
+                  </a>
+                </Col>
+              </Row>
+            )}
             <Row gutter={[10, 10]}>
               <Col span={7}>
                 <p>Phase description:</p>

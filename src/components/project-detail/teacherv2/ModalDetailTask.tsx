@@ -135,26 +135,6 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
     setOpen(newOpen);
   };
 
-  const deleteImageByUrl = (url) => {
-    dispatch(deleteImage({ url, containerId, taskId: detailTask.taskId }));
-  };
-
-  const onSaveComment = () => {
-    if (comment.length > 0) {
-      dispatch(
-        createComment({
-          containerId,
-          taskId: detailTask.taskId.split("task-")[1],
-          content: comment,
-          role: "Teacher",
-        })
-      );
-      clearFormComment();
-      messageApi.success(t("saveComment"));
-    } else {
-      messageApi.error(t("commentEmty"));
-    }
-  };
   const changeUrlToSearchParams = (url: string) => {
     const encodedUrl = encodeURIComponent(url);
     return `/preview/${encodedUrl.replace(/\//g, "_")}`;
@@ -213,10 +193,11 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
             <TextArea
               autoSize={true}
               value={detail}
+              disabled={isPhaseFinished}
               onChange={(e) => setDetail(e.target.value)}
               style={{ width: "100%", minHeight: 150 }}
               placeholder={t("plhTaskDetail")}
-              className="sm:min-w-[34rem] container min-h-96"
+              className="sm:min-w-[34rem] container min-h-96 !text-black"
             />
             <div className="my-2">
               {fileList.length > 0 &&

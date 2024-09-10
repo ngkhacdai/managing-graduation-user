@@ -1,20 +1,44 @@
+import { getComment } from "@/api/Comment";
+import { createCommentThunk, fetchComments } from "@/redux/slices/CommentSlice";
+import { AppDispatch, RootState } from "@/redux/store";
 import { Button, Drawer, Form, Tooltip } from "antd";
+import FormItem from "antd/es/form/FormItem";
 import TextArea from "antd/es/input/TextArea";
+import moment from "moment";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { FaRegCommentDots } from "react-icons/fa";
+import { FaChalkboardTeacher, FaRegCommentDots } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { PiStudent } from "react-icons/pi";
+import { useDispatch, useSelector } from "react-redux";
 
 const DrawerComment = () => {
   const [isShow, setIsShow] = useState(false);
-  const [dataComment, setDataComment] = useState(null);
+  const searchParams = useSearchParams();
+  const dispatch = useDispatch<AppDispatch>();
+  const dataComment = useSelector(
+    (state: RootState) => state.comment.commentData
+  );
+  console.log(dataComment);
+
+  const [form] = Form.useForm();
 
   useEffect(() => {
-    if (!dataComment) {
-      setDataComment([{ data: "f" }]);
-    }
+    dispatch(fetchComments(searchParams.get("projectId")));
   }, []);
-
+  const sendComment = () => {
+    form.submit();
+  };
+  const finishForm = (value) => {
+    if (value.comment) {
+      const formComment = {
+        projectId: Number(searchParams.get("projectId")),
+        content: value.comment,
+      };
+      dispatch(createCommentThunk(formComment));
+      form.resetFields();
+    }
+  };
   return (
     <div>
       <Tooltip title="Comment">
@@ -36,28 +60,49 @@ const DrawerComment = () => {
           height: "100%",
         }}
       >
-        {dataComment && (
-          <>
-            <div className="flex-grow overflow-auto p-4">
-              <div className="flex items-center gap-5 mb-2">
-                <PiStudent className="p-1 border-2 rounded-full" size={28} />
-                <p>studentName</p>
-              </div>
-              <p className="text-zinc-400 text-right my-1">date</p>
-              <p>Comment</p>
-            </div>
-            <div className="flex items-center gap-2 p-4 border-t">
-              <TextArea
-                rows={1}
-                className="!resize-none	max-h-28"
-                placeholder="Add a comment..."
-              />
-              <Button type="primary">
-                <IoMdSend />
-              </Button>
-            </div>
-          </>
-        )}
+        <>
+          <div className="flex-grow overflow-auto p-4">
+            {dataComment &&
+              dataComment.map((item, index) => {
+                return (
+                  <div className="border-b-2 p-2" key={`comment-${index}`}>
+                    <div className="flex items-center gap-5 mb-2">
+                      {item.authorRole == "STUDENT" ? (
+                        <PiStudent
+                          className="p-1 border-2 rounded-full"
+                          size={28}
+                        />
+                      ) : (
+                        <FaChalkboardTeacher
+                          className="p-1 border-2 rounded-full"
+                          size={28}
+                        />
+                      )}
+                    </div>
+                    <p className="text-zinc-400 text-right my-1">
+                      {moment(item.createdAt).format("DD-MM-YYYY, hh:mm")}
+                    </p>
+                    <p className="break-words">{item.content}</p>
+                  </div>
+                );
+              })}
+          </div>
+
+          <div className="flex  gap-2 p-2 border-t">
+            <Form form={form} onFinish={finishForm} className="w-full">
+              <FormItem name="comment">
+                <TextArea
+                  rows={1}
+                  className="!resize-none	w-full"
+                  placeholder="Add a comment..."
+                />
+              </FormItem>
+            </Form>
+            <Button onClick={sendComment} type="primary">
+              <IoMdSend />
+            </Button>
+          </div>
+        </>
       </Drawer>
     </div>
   );

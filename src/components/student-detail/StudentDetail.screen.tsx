@@ -21,8 +21,12 @@ const StudentDetailScreen = ({ detail }) => {
           <div className="flex  md:w-11/12 xl:w-2/3 w-full mx-auto items-center gap-2 flex-col">
             <StudentInformation detail={detail} />
             <ProjectInformation detail={detail} />
-            {/* <p className="text-xl font-bold">File detail</p>
-            <LoadingFile url={detail.attachmentFile} /> */}
+            {detail.attachmentFile && (
+              <div>
+                <p className="text-xl font-bold">File detail</p>
+                <LoadingFile url={detail.attachmentFile} />
+              </div>
+            )}
           </div>
         )}
       </div>

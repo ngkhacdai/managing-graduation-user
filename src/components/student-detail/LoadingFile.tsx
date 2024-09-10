@@ -29,6 +29,11 @@ const LoadingFile = ({ url }) => {
                 Zoom,
                 ZoomIn,
                 ZoomOut,
+                CurrentPageInput,
+
+                GoToNextPage,
+                GoToPreviousPage,
+                NumberOfPages,
               } = props;
               return (
                 <>
@@ -43,6 +48,18 @@ const LoadingFile = ({ url }) => {
                   </div>
                   <div style={{ padding: "0px 2px" }}>
                     <ZoomIn />
+                  </div>
+                  <div style={{ padding: "0px 2px", marginLeft: "auto" }}>
+                    <GoToPreviousPage />
+                  </div>
+                  <div style={{ padding: "0px 2px", width: "4rem" }}>
+                    <CurrentPageInput />
+                  </div>
+                  <div style={{ padding: "0px 2px" }}>
+                    / <NumberOfPages />
+                  </div>
+                  <div style={{ padding: "0px 2px" }}>
+                    <GoToNextPage />
                   </div>
                   <div style={{ padding: "0px 2px", marginLeft: "auto" }}>
                     <EnterFullScreen />
@@ -87,35 +104,6 @@ const LoadingFile = ({ url }) => {
               </div>
             )}
           />
-        </div>
-        <div className="absolute bottom-0 inset-x-0 mx-auto">
-          <Toolbar>
-            {(props: ToolbarSlot) => {
-              const {
-                CurrentPageInput,
-
-                GoToNextPage,
-                GoToPreviousPage,
-                NumberOfPages,
-              } = props;
-              return (
-                <div className="flex items-center">
-                  <div style={{ padding: "0px 2px", marginLeft: "auto" }}>
-                    <GoToPreviousPage />
-                  </div>
-                  <div style={{ padding: "0px 2px", width: "4rem" }}>
-                    <CurrentPageInput />
-                  </div>
-                  <div style={{ padding: "0px 2px" }}>
-                    / <NumberOfPages />
-                  </div>
-                  <div style={{ padding: "0px 2px" }}>
-                    <GoToNextPage />
-                  </div>
-                </div>
-              );
-            }}
-          </Toolbar>
         </div>
       </Worker>
     </div>

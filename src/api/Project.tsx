@@ -232,3 +232,20 @@ export const updateCompleteProject = async (formData) => {
   }
   return response.json();
 };
+
+export const fetchUpdatePhase = async (form) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/student/updatePhase`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: JSON.stringify(form),
+  });
+  const res = await response.json();
+  if (!response.ok) {
+    throw new Error(res.message);
+  }
+  return res;
+};
