@@ -24,7 +24,7 @@ const ProjectScreen = ({ project }) => {
         {!project ? (
           <div className="flex flex-col gap-4 items-center justify-center bg-white p-6 rounded-lg shadow-md text-center max-w-md mx-auto">
             <p className="text-gray-700 text-lg font-semibold">
-              You haven't registered for a project yet, or your registration is
+              You have not registered for a project yet, or your registration is
               still pending approval from your mentor.
             </p>
             <p className="text-gray-600 text-sm">
