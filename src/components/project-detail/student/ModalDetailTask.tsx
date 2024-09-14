@@ -34,6 +34,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
   const dispatch = useDispatch<AppDispatch>();
   const isPhaseFinished = useIsPhaseFinished();
   const [messageApi, contextHolder] = message.useMessage();
+  const [loading, setLoading] = useState(false);
   const [detail, setDetail] = useState("");
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -107,6 +108,7 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
 
   const onSaveDetail = async () => {
     try {
+      setLoading(true);
       const formData = new FormData();
       if (fileList.length > 0 && fileList[0].originFileObj) {
         formData.append("file", fileList[0].originFileObj);
@@ -115,9 +117,11 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
       const id = taskId.split("task-")[1];
 
       await updateDescriptionTaskById(formData, id);
+      setLoading(false);
       return messageApi.success(t("saveDescription"));
     } catch (error) {
       console.log(error);
+      setLoading(false);
       return messageApi.error(t(error));
     }
   };
@@ -214,13 +218,13 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
               {t("Detail")}
             </p>
             <TextArea
-              autoSize={true}
               value={detail}
               disabled={isPhaseFinished}
               onChange={(e) => setDetail(e.target.value)}
               style={{ width: "100%", minHeight: 150 }}
               placeholder={t("plhTaskDetail")}
-              className="sm:min-w-[34rem] container min-h-96"
+              autoSize={{ minRows: 3 }}
+              className="sm:min-w-[34rem] container min-h-96 !text-black"
             />
             <div className="my-2">
               {fileList.length > 0 &&
@@ -290,7 +294,11 @@ const ModalDetailTask = ({ taskId, setIsShowModal, containerId }) => {
             {!isPhaseFinished && (
               <div className="flex justify-between items-center mt-2">
                 <div>
-                  <Button type="primary" onClick={onSaveDetail}>
+                  <Button
+                    type="primary"
+                    loading={loading}
+                    onClick={onSaveDetail}
+                  >
                     {t("Save")}
                   </Button>
                   <Button className="mx-2" onClick={clearFormDetail}>

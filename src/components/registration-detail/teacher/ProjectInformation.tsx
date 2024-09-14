@@ -3,7 +3,7 @@ import React from "react";
 
 const ProjectInformation = ({ detail }) => {
   return (
-    <div className="border-2 rounded-lg md:w-2/3 w-full">
+    <div className="border-2 rounded-lg">
       <div className="text-center border-b-2">
         <p className="text-xl my-2 font-bold">Project information</p>
       </div>
@@ -37,7 +37,7 @@ const ProjectInformation = ({ detail }) => {
           <Col xs={24} sm={6}>
             Project description:
           </Col>
-          <Col xs={24} sm={18} className="break-all">
+          <Col xs={24} sm={18} className="break-words whitespace-pre-wrap">
             {detail.projectDescription}
           </Col>
         </Row>

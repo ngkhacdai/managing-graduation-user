@@ -11,6 +11,17 @@ export const getPublicProject = async () => {
   return response.json();
 };
 
+export const getProject = async (form) => {
+  const response = await fetch(
+    `${process.env.API_URL}/searchProjectPublic?` + new URLSearchParams(form)
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch public project: ${response.status}`);
+  }
+  return response.json();
+};
+
 export const getPublicProjectByProjectId = async (projectId: string) => {
   const response = await fetch(
     `${process.env.API_URL}/public/getPublicProject/${projectId}`

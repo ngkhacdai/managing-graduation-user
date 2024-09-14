@@ -58,7 +58,7 @@ const TableRegistration = ({ data }) => {
     <div>
       <Table
         rowKey={"id"}
-        scroll={{ x: 600 }}
+        scroll={{ x: 800 }}
         columns={columns}
         dataSource={data}
       />

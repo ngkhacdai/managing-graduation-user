@@ -43,14 +43,31 @@ const ModalDetail = ({ regisId, status }) => {
         </Button>
       </Tooltip>
       <Modal
-        title="Registration"
+        title={
+          <div className="flex items-center gap-2">
+            <p>Registration</p>
+            <Tag
+              className="text-base"
+              color={
+                status == "pending"
+                  ? "yellow"
+                  : status == "approved"
+                  ? "green"
+                  : "red"
+              }
+            >
+              {status}
+            </Tag>
+          </div>
+        }
         open={isShow}
         onCancel={() => {
           setIsShow(false);
         }}
+        className="!w-full md:!w-2/3 lg:!w-1/2"
         footer={
           status == "pending" ? (
-            <div>
+            <div className="flex items-center gap-2 justify-end">
               <Button
                 onClick={() => {
                   setIsShow(false);
@@ -58,6 +75,11 @@ const ModalDetail = ({ regisId, status }) => {
               >
                 Cancel
               </Button>
+              <Link href={`/${pathName.split("/")[1]}/registration/${regisId}`}>
+                <Button type="primary">
+                  <p>View file upload</p>
+                </Button>
+              </Link>
               <Button
                 onClick={handelRevoke}
                 type="primary"
@@ -67,7 +89,11 @@ const ModalDetail = ({ regisId, status }) => {
               </Button>
             </div>
           ) : (
-            false
+            <Link href={`/${pathName.split("/")[1]}/registration/${regisId}`}>
+              <Button type="primary">
+                <p>View file upload</p>
+              </Button>
+            </Link>
           )
         }
       >
@@ -77,17 +103,6 @@ const ModalDetail = ({ regisId, status }) => {
               <Row gutter={[10, 10]}>
                 <Col className="flex items-center" xs={24} sm={7}>
                   <p>Project name:</p>
-                  <Tooltip title="View detail registration">
-                    <Link
-                      href={`/${
-                        pathName.split("/")[1]
-                      }/registration/${regisId}`}
-                    >
-                      <p className="text-blue-600 mx-2">
-                        <MdRemoveRedEye size={18} />
-                      </p>
-                    </Link>
-                  </Tooltip>
                 </Col>
                 <Col>{detail.projectName}</Col>
                 <Col></Col>
@@ -103,24 +118,32 @@ const ModalDetail = ({ regisId, status }) => {
 
               <Row gutter={[10, 10]}>
                 <Col xs={24} sm={7}>
-                  Major:
+                  Industry Focus:
                 </Col>
                 <Col xs={24} sm={17}>
                   {detail.major}
                 </Col>
               </Row>
-              <Row gutter={[10, 10]}>
-                <Col xs={24} sm={7}>
-                  Project description:
-                </Col>
-                <Col xs={24} sm={17}>
+              <div>
+                <p>Project description:</p>
+                <p className="whitespace-pre-wrap break-words">
                   {detail.projectDescription}
-                </Col>
-              </Row>
+                </p>
+              </div>
+              {detail?.rejectReason && (
+                <Row gutter={[10, 10]}>
+                  <Col xs={24} sm={7}>
+                    Reasion rejected:
+                  </Col>
+                  <Col xs={24} sm={17}>
+                    {detail.rejectReason}
+                  </Col>
+                </Row>
+              )}
             </div>
 
             <div className="mt-2">
-              <div className="flex items-center justify-end">
+              {/* <div className="flex items-center justify-end">
                 <p className="mr-2">Status: </p>
                 <Tag
                   color={
@@ -133,7 +156,7 @@ const ModalDetail = ({ regisId, status }) => {
                 >
                   {status}
                 </Tag>
-              </div>
+              </div> */}
               <div className="flex mt-2 justify-end">
                 <p className="mr-2">Create at: </p>
                 <p>{detail.regisDate}</p>

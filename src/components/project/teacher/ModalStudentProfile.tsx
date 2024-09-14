@@ -52,7 +52,9 @@ const ModalStudentProfile = ({ projectId }) => {
               <p className="text-lg font-semibold">{detail?.projectName}</p>
               <p>{detail?.projectStartDate}</p>
             </div>
-            <p>{detail?.projectDescription}</p>
+            <p className="whitespace-pre-wrap break-words">
+              {detail?.projectDescription}
+            </p>
           </div>
         </div>
       </Modal>

@@ -9,6 +9,8 @@ import Link from "next/link";
 import { BiSolidUserDetail } from "react-icons/bi";
 
 const TeacherContent = ({ projectData }) => {
+  console.log(projectData);
+
   const pathName = usePathname();
   const t = useTranslations("Project");
   const route = useRouter();
@@ -24,7 +26,7 @@ const TeacherContent = ({ projectData }) => {
       title: t("projectName"),
       dataIndex: "projectName",
       key: "projectName",
-      width: "50%",
+      width: "30%",
     },
     {
       title: t("studentName"),
@@ -36,9 +38,20 @@ const TeacherContent = ({ projectData }) => {
       key: "status",
       render: (record) => {
         return (
-          <p>{record.completed === false ? t("processing") : t("finished")}</p>
+          <p>
+            {record.completed === false
+              ? t("processing")
+              : !record.mark
+              ? t("notScored")
+              : t("finished")}
+          </p>
         );
       },
+    },
+    {
+      title: t("point"),
+      dataIndex: "mark",
+      key: "mark",
     },
     {
       title: t("dateStart"),
@@ -47,6 +60,13 @@ const TeacherContent = ({ projectData }) => {
         return (
           <p>{new Date(record.implementation).toLocaleDateString("en-GB")}</p>
         );
+      },
+    },
+    {
+      title: t("deadline"),
+      key: "deadline",
+      render: (record) => {
+        return <p>{new Date(record.timeLimit).toLocaleDateString("en-GB")}</p>;
       },
     },
     {
@@ -101,7 +121,7 @@ const TeacherContent = ({ projectData }) => {
         dataSource={projectData}
         rowKey={"projectId"}
         columns={columns}
-        scroll={{ x: 600 }}
+        scroll={{ x: 900 }}
       />
     </div>
   );

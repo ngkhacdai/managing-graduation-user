@@ -18,12 +18,12 @@ const ForgotPasswordForm = ({ changeForm }) => {
   const onFinish = async (values) => {
     try {
       const response = await resetPassword(values);
-      message.success(`Reset password successfully`);
+      message.success(`${t("resetPasswordSuccess")}`);
       setTimeout(() => {
         changeForm();
       }, 1000);
     } catch (error) {
-      return message.error(error.message);
+      return message.error(`${t("canNotFindEmail")}`);
     }
   };
   const onFinishFailed = (errorInfo) => {

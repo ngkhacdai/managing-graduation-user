@@ -1,10 +1,11 @@
+import { getSession } from "@/api/Session";
 import { addProject } from "@/api/Student";
 import { getAllTeacher, searchTeacher } from "@/api/Teacher";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { error } from "console";
 
 const initialState = {
   listTeacher: [],
+  listSession: [],
   filter: {
     branch: [],
   },
@@ -19,6 +20,13 @@ export const fetchDataTeacher = createAsyncThunk(
   "signUpSlice/fetchDataTeacher",
   async () => {
     const response = await getAllTeacher();
+    return response;
+  }
+);
+export const fetchListSession = createAsyncThunk(
+  "signUpSlice/fetchListSession",
+  async () => {
+    const response = await getSession();
     return response;
   }
 );
@@ -80,6 +88,9 @@ const signUpSlice = createSlice({
       .addCase(signUpTeacher.rejected, (state, action) => {
         state.error = action.payload.toString();
       });
+    builder.addCase(fetchListSession.fulfilled, (state, action) => {
+      state.listSession = action.payload;
+    });
   },
 });
 

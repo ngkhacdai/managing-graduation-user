@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { CiEdit } from "react-icons/ci";
 import ModalEditPhase from "../sidebar/ModalEditPhase";
 import { useIsPhaseFinished } from "@/utils/checkPhaseFinished";
+import ModalMark from "./ModalMark";
+import { useSearchParams } from "next/navigation";
 
 const DrawerDetailPhase = ({ role }) => {
   const [isShow, setIsShow] = useState(false);
@@ -14,6 +16,7 @@ const DrawerDetailPhase = ({ role }) => {
     (state: RootState) => state.projectDetail.detailPhase
   );
   console.log(phaseDetail);
+
   const changeUrlToSearchParams = (url: string) => {
     // Use encodeURIComponent to safely encode the URL
     const encodedUrl = encodeURIComponent(url);
@@ -70,6 +73,16 @@ const DrawerDetailPhase = ({ role }) => {
             </Row>
             <Row gutter={[10, 10]}>
               <Col span={7}>
+                <p>Expected end:</p>
+              </Col>
+              <Col>
+                <p>
+                  {moment(phaseDetail.expectedEnd).format("DD/MM/YYYY, hh:mm")}
+                </p>
+              </Col>
+            </Row>
+            <Row gutter={[10, 10]}>
+              <Col span={7}>
                 <p>End time:</p>
               </Col>
               <Col>
@@ -93,7 +106,7 @@ const DrawerDetailPhase = ({ role }) => {
                     href={changeUrlToSearchParams(phaseDetail.filePdf)}
                     className="line-clamp-1"
                   >
-                    {phaseDetail.filePdf}
+                    fileSubmit.pdf
                   </a>
                 </Col>
               </Row>
@@ -103,7 +116,9 @@ const DrawerDetailPhase = ({ role }) => {
                 <p>Phase description:</p>
               </Col>
               <Col>
-                <p>{phaseDetail.description}</p>
+                <p className="break-words whitespace-pre-wrap">
+                  {phaseDetail.description}
+                </p>
               </Col>
             </Row>
           </div>

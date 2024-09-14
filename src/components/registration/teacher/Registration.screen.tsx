@@ -15,7 +15,11 @@ const RegistrationScreen = () => {
     dispatch(fetchDataRegistration());
   }, []);
   if (data && data.length <= 0) {
-    return;
+    return (
+      <div className="text-center">
+        <p>No registration</p>
+      </div>
+    );
   }
   return (
     <div>

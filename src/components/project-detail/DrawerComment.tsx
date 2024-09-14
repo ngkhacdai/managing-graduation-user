@@ -19,7 +19,6 @@ const DrawerComment = () => {
   const dataComment = useSelector(
     (state: RootState) => state.comment.commentData
   );
-  console.log(dataComment);
 
   const [form] = Form.useForm();
 
@@ -92,7 +91,7 @@ const DrawerComment = () => {
             <Form form={form} onFinish={finishForm} className="w-full">
               <FormItem name="comment">
                 <TextArea
-                  rows={1}
+                  autoSize={{ minRows: 1 }}
                   className="!resize-none	w-full"
                   placeholder="Add a comment..."
                 />

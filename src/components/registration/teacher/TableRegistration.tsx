@@ -53,9 +53,10 @@ const TableRegistration = ({ data }) => {
   return (
     <div>
       <Table
-        scroll={{ x: 600 }}
+        scroll={{ x: 800 }}
         columns={columns}
         // dataSource={[{ status: "a" }]}
+        rowKey={"regisId"}
         dataSource={data}
         pagination={{
           onChange(page, pageSize) {

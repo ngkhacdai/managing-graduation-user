@@ -1,3 +1,4 @@
+import FooterHome from "@/components/home/Footer";
 import Menu from "@/components/public/Menu";
 
 export default function UserLayout({ children }) {
@@ -5,6 +6,7 @@ export default function UserLayout({ children }) {
     <div>
       <Menu />
       {children}
+      <FooterHome />
     </div>
   );
 }

@@ -6,18 +6,14 @@ const ProjectInformation = ({ data }) => {
     <div className="flex flex-col gap-2">
       <p className="text-xl font-bold break-words">{data.projectName}</p>
       <div className=" text-zinc-500">
-        <Row>
-          <Col className="text-right" span={18}>
-            Start Date:
-          </Col>
-          <Col>{data.startDate}</Col>
-        </Row>
-        <Row>
-          <Col className="text-right" span={18}>
-            End Date:
-          </Col>
-          <Col>{data.endDate}</Col>
-        </Row>
+        <div className=" flex items-center gap-2 justify-end">
+          <p className="">Start Date:</p>
+          <p>{data.startDate}</p>
+        </div>
+        <div className=" flex items-center gap-2 justify-end">
+          <p>End Date:</p>
+          <p>{data.endDate}</p>
+        </div>
       </div>
       <Row gutter={[10, 10]}>
         <Col span={6}>Author: </Col>
@@ -28,15 +24,15 @@ const ProjectInformation = ({ data }) => {
         <Col>{data.authorEmail}</Col>
       </Row>
       <Row gutter={[10, 10]}>
-        <Col span={6}>Mentor email: </Col>
+        <Col span={6}>Mentor: </Col>
         <Col>{data.mentorName}</Col>
       </Row>
       <Row gutter={[10, 10]}>
-        <Col span={6}>Mentor: </Col>
+        <Col span={6}>Mentor email: </Col>
         <Col>{data.mentorEmail}</Col>
       </Row>
       <Row gutter={[10, 10]}>
-        <Col span={6}>Major: </Col>
+        <Col span={6}>Industry focus: </Col>
         <Col>{data.branch}</Col>
       </Row>
       <Row gutter={[10, 10]}>
@@ -46,7 +42,9 @@ const ProjectInformation = ({ data }) => {
       <div className="bg-zinc-50">
         <p className="">Project description: </p>
       </div>
-      <p>{data.projectDescription}</p>
+      <p className="whitespace-pre-wrap break-words">
+        {data.projectDescription}
+      </p>
     </div>
   );
 };

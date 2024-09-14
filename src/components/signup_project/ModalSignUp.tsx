@@ -6,6 +6,7 @@ import { Button, Form, Input, Modal, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import useMessage from "antd/es/message/useMessage";
 import Upload from "antd/es/upload/Upload";
+import moment from "moment";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,11 +17,24 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
   const [isShow, setIsShow] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch<AppDispatch>();
+  const listSession = useSelector(
+    (state: RootState) => state.signup.listSession
+  );
   const error = useSelector((state: RootState) => state.signup.error);
   const options = [
-    { value: "", label: "Select Branch" },
+    { value: "", label: "Select major" },
     ...listBranch.map((item) => {
       return { value: item.name, label: item.name };
+    }),
+  ];
+  const optionsSession = [
+    { value: "", label: "Select session" },
+    ...listSession.map((item) => {
+      return {
+        value: item.id,
+        label:
+          item.session + " - " + moment(item.limitTime).format("YYYY-MM-DD"),
+      };
     }),
   ];
   useEffect(() => {
@@ -41,6 +55,7 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
     formData.append("teacherId", saveTeacher.id);
     formData.append("projectName", values.projectName);
     formData.append("majorName", values.branchId);
+    formData.append("sessionId ", values.sessionId);
     formData.append("projectDescription", values.projectDescription);
     formData.append("fileAttachment", values.file.fileList[0].originFileObj);
     Array.from(formData.entries()).forEach(([key, value]) => {
@@ -62,6 +77,7 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
       <Modal
         title="Sign up mentor"
         onCancel={handleCancel}
+        className="!w-1/2"
         footer={
           <div>
             <Button className="mx-2" onClick={handleCancel}>
@@ -80,6 +96,7 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
           initialValues={{
             teacherName: saveTeacher.fullName,
             branchId: "",
+            sessionId: "",
           }}
           layout="vertical"
         >
@@ -95,21 +112,28 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
           </Form.Item>
 
           <Form.Item
-            label="Major"
+            label="Industry Focus"
             name={"branchId"}
             rules={[{ required: true, message: "Please input major!" }]}
           >
             <Select options={options} />
           </Form.Item>
           <Form.Item
+            label="Session"
+            name={"sessionId"}
+            rules={[{ required: true, message: "Please input session!" }]}
+          >
+            <Select options={optionsSession} />
+          </Form.Item>
+          <Form.Item
             label="Description"
             name={"projectDescription"}
             rules={[{ required: true, message: "Please input description!" }]}
           >
-            <TextArea />
+            <TextArea autoSize={{ minRows: 3 }} />
           </Form.Item>
           <Form.Item
-            label="File"
+            label="File attachment"
             rules={[{ required: true, message: "Please input file" }]}
             name="file"
           >

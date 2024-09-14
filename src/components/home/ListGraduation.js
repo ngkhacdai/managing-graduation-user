@@ -2,26 +2,13 @@ import { Col, Pagination, Row } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import CardItem from "./CardItem";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-const DrawerDetail = dynamic(() => import("./DrawerDetail"), { ssr: false });
 
 const ListGraduation = ({ listProduct }) => {
   const t = useTranslations("HomePage");
   const pathName = usePathname();
   const currentLanguage = pathName.split("/")[1];
-  const [selectedItem, setSelectedItem] = useState([]);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const onClose = () => {
-    setDrawerOpen(false);
-  };
-
-  const handleCardClick = (item) => {
-    setSelectedItem(item);
-    setDrawerOpen(true);
-  };
   if (!listProduct || listProduct.length <= 0) {
     return <p className="text-center text-gray-600">{t("noProduct")}</p>;
   }
@@ -55,7 +42,6 @@ const ListGraduation = ({ listProduct }) => {
           showSizeChanger={false}
         />
       </div>
-      {/* <DrawerDetail open={drawerOpen} item={selectedItem} onClose={onClose} /> */}
     </div>
   );
 };

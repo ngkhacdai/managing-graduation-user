@@ -16,7 +16,7 @@ const DetailScreen = ({ detail }) => {
         <IoMdArrowBack size={24} />
       </Link>
       {detail && (
-        <div className="flex  md:w-2/3 w-full mx-auto items-center gap-2 flex-col">
+        <div className="flex lg:w-2/3 w-full mx-auto items-center gap-2 flex-col">
           <StudentInformation detail={detail.studentProfileView} />
           <ProjectInformation detail={detail} />
           <p className="text-xl font-bold">File detail</p>

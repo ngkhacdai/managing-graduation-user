@@ -52,8 +52,10 @@ const ModalBranch = ({ listBranch, searchText, setFilter, filter }) => {
                 {listBranch &&
                   listBranch.length > 0 &&
                   listBranch.map((item) => (
-                    <Col className="m-1" key={item.id}>
-                      <Checkbox value={item.id}>{item.name}</Checkbox>
+                    <Col span={8} className="" key={item.id}>
+                      <Checkbox value={item.id}>
+                        <p>{item.name}</p>
+                      </Checkbox>
                     </Col>
                   ))}
               </Row>

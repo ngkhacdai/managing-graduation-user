@@ -226,7 +226,6 @@ export const updateCompleteProject = async (formData) => {
     },
     body: formData,
   });
-
   if (!response.ok) {
     throw new Error("Failed to call api");
   }
@@ -236,6 +235,60 @@ export const updateCompleteProject = async (formData) => {
 export const fetchUpdatePhase = async (form) => {
   const cookie = await getCookie();
   const response = await fetch(`${process.env.API_URL}/student/updatePhase`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: JSON.stringify(form),
+  });
+  const res = await response.json();
+  if (!response.ok) {
+    throw new Error(res.message);
+  }
+  return res;
+};
+
+export const recallSubmission = async () => {
+  const cookie = await getCookie();
+  const response = await fetch(
+    `${process.env.API_URL}/student/recallSubmission`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookie.token}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    console.log(response);
+
+    throw new Error("Failed to turn in");
+  }
+  return response.json();
+};
+
+export const updatePointProject = async (form) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/admin/updatePoint`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookie.token}`,
+    },
+    body: JSON.stringify(form),
+  });
+  const res = await response.json();
+  if (!response.ok) {
+    throw new Error(res.message);
+  }
+  return res;
+};
+
+export const updateProject = async (form) => {
+  const cookie = await getCookie();
+  const response = await fetch(`${process.env.API_URL}/student/updateProject`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

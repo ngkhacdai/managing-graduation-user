@@ -15,7 +15,6 @@ import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
 import ModalAddNewPhase from "./ModalAddNewPhase";
 import {
-  clearPhase,
   getPhase,
   getPhaseById,
   getProject,
@@ -27,6 +26,9 @@ import { fetchGetNotiUnread } from "@/redux/slices/NotiSlice";
 import ContentNotiScreen from "./noti/ContentNoti.screen";
 import { MdAppRegistration } from "react-icons/md";
 import ModalMarkAsDone from "./ModalMarkAsDone";
+import moment from "moment";
+import ModalRecall from "./ModalRecall";
+import ModalMark from "../project-detail/ModalMark";
 
 const { Sider, Content } = Layout;
 
@@ -42,6 +44,7 @@ const SideBarScreen = ({ children, role }) => {
   const detailProject = useSelector(
     (state) => state.projectDetail.detailProject
   );
+  const deadline = useSelector((state) => state.projectDetail.deadline);
 
   const [messageApi, contextHolder] = message.useMessage();
   const [collapsed, setCollapsed] = useState(false);
@@ -72,7 +75,6 @@ const SideBarScreen = ({ children, role }) => {
 
   const [items, setItems] = useState(defaultItems);
   const phase = useSelector((state) => state.projectDetail.phase);
-  console.log("detail project", phase);
   const contentNoti = <ContentNotiScreen />;
 
   const dispatchDebounce = useCallback(
@@ -171,7 +173,6 @@ const SideBarScreen = ({ children, role }) => {
   const newPhase = () => {
     setIsShow(true);
   };
-
   return (
     <div>
       {contextHolder}
@@ -214,7 +215,54 @@ const SideBarScreen = ({ children, role }) => {
               }
             }}
           />
-          {detailProject && !detailProject.completed && role != "teacher" ? (
+          <Footer className="bg-white px-5">
+            {pathName.includes("/project/detail") &&
+              phase &&
+              deadline &&
+              role != "teacher" && (
+                <div>
+                  {detailProject &&
+                    !detailProject.completed &&
+                    (phase.length == 0 ||
+                      !phase.some((item) => item.completed == false)) && (
+                      <div>
+                        <Tooltip title={t("newPhase")}>
+                          <Button
+                            className="flex w-full items-center justify-start"
+                            onClick={newPhase}
+                          >
+                            <FaPlus />
+                            {!collapsed && <p>{t("newPhase")}</p>}
+                          </Button>
+                        </Tooltip>
+                        <ModalTurnIn collapsed={collapsed} />
+                      </div>
+                    )}
+                  {phase.length > 0 &&
+                    deadline.projectComplete &&
+                    (moment().isAfter(
+                      moment(deadline.sessionTimeLimit),
+                      "day"
+                    ) ? (
+                      <ModalTurnIn collapsed={collapsed} />
+                    ) : (
+                      <ModalRecall />
+                    ))}
+                </div>
+              )}
+            {role == "teacher" &&
+              deadline &&
+              phase &&
+              phase.length > 0 &&
+              !deadline.point &&
+              deadline.projectComplete && (
+                <div className="p-2 w-full">
+                  <ModalMark />
+                </div>
+              )}
+          </Footer>
+
+          {/* {role != "teacher" && detailProject && !detailProject.completed ? (
             <Footer className="bg-white px-5">
               {pathName.includes("/project/detail") &&
                 phase &&
@@ -230,22 +278,22 @@ const SideBarScreen = ({ children, role }) => {
                     </Button>
                   </Tooltip>
                 )}
-              {/* {pathName.includes("/project/detail") &&
-                phase &&
-                phase.length > 0 &&
-                !phase.some((item) => item.completed == false) && (
-                  <ModalMarkAsDone collapsed={collapsed} />
-                )} */}
               {pathName.includes("/project/detail") &&
                 phase &&
                 phase.length > 0 &&
-                !phase.some((item) => item.completed == false) && (
+                (phase.every((item) => item.completed) ? (
+                  new Date(deadline.sessionTimeLimit) <= Date.now() ? (
+                    <p>Session time limit has been reached.</p>
+                  ) : (
+                    <ModalTurnIn collapsed={collapsed} />
+                  )
+                ) : (
                   <ModalTurnIn collapsed={collapsed} />
-                )}
+                ))}
             </Footer>
           ) : (
             <></>
-          )}
+          )} */}
         </Sider>
 
         <Layout className="!overflow-y-auto !bg-white">

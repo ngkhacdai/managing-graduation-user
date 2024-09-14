@@ -25,7 +25,7 @@ const LoginForm = ({ changeForm }) => {
     console.log(result);
 
     if (!result.success) {
-      // messageApi.error(t("notiWrongPassword"));
+      messageApi.error(t("notiWrongPassword"));
       setMessage(t("notiWrongPassword"));
       setLoadingButton(false);
       return;
@@ -43,9 +43,11 @@ const LoginForm = ({ changeForm }) => {
   };
   return (
     <div className="w-full text-center">
-      {/* {contextHolder} */}
-      <p className="text-xl font-bold">Login</p>
-      <p className="text-red-500 my-1">{messageText}</p>
+      {contextHolder}
+      <p className="text-xl font-bold">{t("login")}</p>
+      <p className="text-red-500 my-1 xl:w-[21rem] lg:w-[17rem] md:w-[13rem] md:px-0 px-5 sm:w-[30rem] w-80">
+        {messageText}
+      </p>
       <Form
         name="basic"
         layout="vertical"

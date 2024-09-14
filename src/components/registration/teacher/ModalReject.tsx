@@ -25,7 +25,7 @@ const ModalReject = ({ regisId }) => {
     <div>
       <Button
         onClick={() => setIsShow(true)}
-        className="mx-2 bg-red-500 hover:!bg-red-400"
+        className=" bg-red-500 hover:!bg-red-400"
         type="primary"
       >
         Reject

@@ -68,6 +68,8 @@ const FormProfile = ({ dataProfile }) => {
       </div>
     </button>
   );
+  console.log(dataProfile);
+
   const handleOnFinish = async (values) => {
     setLoadingButton(true);
     const formData = new FormData();
@@ -104,7 +106,7 @@ const FormProfile = ({ dataProfile }) => {
                 phone: dataProfile?.phoneNumber,
                 email: dataProfile?.email,
                 fullName: dataProfile?.fullName,
-                department: dataProfile?.department,
+                branch: dataProfile?.branch,
               }}
             >
               <Form.Item
@@ -191,17 +193,8 @@ const FormProfile = ({ dataProfile }) => {
               >
                 <Input className="!text-black" disabled />
               </Form.Item>
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: t("notFillDepartment"),
-                  },
-                ]}
-                label={t("Department")}
-                name="department"
-              >
-                <Input />
+              <Form.Item label={t("Major")} name="branch">
+                <Select className="!text-black" disabled />
               </Form.Item>
               <Form.Item label={t("beginYear")} name="beginYear">
                 <Input className="!text-black" disabled />

@@ -19,7 +19,13 @@
     "noProduct": "Không có đồ án nào",
     "madeBy": "Được làm bởi",
     "Branch": "Ngành học",
-    "descriptionDetail": "Mô tả đồ án"
+    "descriptionDetail": "Mô tả đồ án",
+    "selectTimeZone": "Sắp xếp thời gian theo thời gian",
+    "newlyUpdated": "Dự án mới cập nhật",
+    "oldestUpdated": "Dự án cũ nhất",
+    "selectPoint": "Sắp xếp theo điểm",
+    "highestPoint": "Điểm cao nhất",
+    "lowestPoint": "Điểm thấp nhất"
   },
   "Login": {
     "login": "Đăng Nhập",
@@ -53,7 +59,9 @@
     "profile": "Hồ Sơ",
     "logout": "Đăng Xuất",
     "English": "Tiếng Anh",
-    "Vietnamese": "Tiếng Việt"
+    "Vietnamese": "Tiếng Việt",
+    "registration": "Đơn đăng ký",
+    "changePassword": "Đổi mật khẩu"
   },
   "Project": {
     "yourProject": "Dự Án Của Bạn",
@@ -70,7 +78,10 @@
     "dateStart": "Ngày bắt đàu làm",
     "projectComplete": "Đồ án đã hoàn thành",
     "projectProcessing": "Đồ án đang làm",
-    "projectPassed": "Đồ án đã qua"
+    "projectPassed": "Đồ án đã qua",
+    "point": "Điểm",
+    "deadline": "Hạn nộp",
+    "notScored": "Chưa chấm điểm"
   },
   "Profile": {
     "yourProfile": "Hồ sơ của tôi",

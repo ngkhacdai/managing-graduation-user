@@ -35,7 +35,7 @@ const Header = ({ isScroll }) => {
           <Link href="/">
             <img alt="logo" className="w-16 h-16" src={logo.src} />
           </Link>
-          <Link href={`/${currentLang}/`}>
+          {/* <Link href={`/${currentLang}/`}>
             <Button className="font-semibold text-lg" type="text">
               Home
             </Button>
@@ -49,7 +49,7 @@ const Header = ({ isScroll }) => {
             <Button className="font-semibold text-lg" type="text">
               Contact
             </Button>
-          </Link>
+          </Link> */}
         </div>
         <div className="flex items-center">
           {/* Language Toggle */}

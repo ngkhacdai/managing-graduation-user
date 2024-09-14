@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Modal, Row, Tooltip } from "antd";
+import { Button, Col, Form, Input, Modal, Row, Tag, Tooltip } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useState } from "react";
 import ModalReject from "./ModalReject";
@@ -44,19 +44,61 @@ const ModalDetailRegistration = ({ regisId, status }) => {
       {detail && (
         <Modal
           open={showModal}
-          title="Registration"
+          title={
+            <div className="flex items-center gap-2">
+              <p>Registration</p>
+              <Tag
+                className="text-base"
+                color={
+                  status == "pending"
+                    ? "yellow"
+                    : status == "approved"
+                    ? "green"
+                    : "red"
+                }
+              >
+                {status}
+              </Tag>
+            </div>
+          }
+          className="!w-full md:!w-2/3 lg:!w-1/2"
           footer={
-            status == "pending" ? (
-              <div className="flex justify-end">
-                <Button onClick={approveStudent} type="primary">
-                  Approve
-                </Button>
-                <ModalReject regisId={regisId} />
-                <Button onClick={() => setShowModal(false)}>Cancel</Button>
-              </div>
-            ) : (
-              false
-            )
+            <div>
+              {status == "pending" ? (
+                <div className="flex justify-end items-center gap-2">
+                  <Button
+                    type="primary"
+                    className="!bg-gray-200 !text-gray-600 !border-gray-300 hover:!bg-gray-300"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Link
+                    href={`/${pathName.split("/")[1]}/registration/${regisId}`}
+                  >
+                    <Button type="primary">
+                      <p>View file upload</p>
+                    </Button>
+                  </Link>
+                  <ModalReject regisId={regisId} />
+                  <Button
+                    onClick={approveStudent}
+                    className="!bg-green-500 text-white hover:!bg-green-400"
+                    type="primary"
+                  >
+                    Approve
+                  </Button>
+                </div>
+              ) : (
+                <Link
+                  href={`/${pathName.split("/")[1]}/registration/${regisId}`}
+                >
+                  <Button type="primary">
+                    <p>View file upload</p>
+                  </Button>
+                </Link>
+              )}
+            </div>
           }
           onCancel={() => setShowModal(false)}
         >
@@ -64,15 +106,6 @@ const ModalDetailRegistration = ({ regisId, status }) => {
             <Row gutter={[10, 10]}>
               <Col className="flex items-center gap-2" xs={24} sm={7}>
                 Student:
-                <Tooltip title="View detail registration">
-                  <Link
-                    href={`/${pathName.split("/")[1]}/registration/${regisId}`}
-                  >
-                    <p className="text-blue-600 mx-2">
-                      <MdRemoveRedEye size={18} />
-                    </p>
-                  </Link>
-                </Tooltip>
               </Col>
               <Col>
                 <p>{detail?.studentProfileView?.fullName}</p>
@@ -94,14 +127,22 @@ const ModalDetailRegistration = ({ regisId, status }) => {
                 {detail.major}
               </Col>
             </Row>
-            <Row gutter={[10, 10]}>
-              <Col xs={24} sm={7}>
-                Project Description:
-              </Col>
-              <Col xs={24} sm={17}>
+            <div>
+              <p>Project description:</p>
+              <p className="whitespace-pre-wrap break-words">
                 {detail.projectDescription}
-              </Col>
-            </Row>
+              </p>
+            </div>
+            {detail?.rejectReason && (
+              <Row gutter={[10, 10]}>
+                <Col xs={24} sm={7}>
+                  Reasion rejected:
+                </Col>
+                <Col xs={24} sm={17}>
+                  {detail.rejectReason}
+                </Col>
+              </Row>
+            )}
             <Row justify={"end"} gutter={[10, 10]}>
               <Col>
                 <p>Create at:</p>

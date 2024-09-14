@@ -91,7 +91,9 @@ const DrawerDetail = ({ open, onClose, item }) => {
           </div>
           <div className="flex">
             <p className="min-w-24 font-medium">{t("descriptionDetail")}:</p>
-            <p className="break-all">{projectDetail?.projectDescription}</p>
+            <p className="break-words whitespace-pre-wrap">
+              {projectDetail?.projectDescription}
+            </p>
           </div>
         </div>
       </Drawer>

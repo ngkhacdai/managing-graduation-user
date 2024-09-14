@@ -101,7 +101,7 @@ const ModalAddNewPhase = ({ setIsShow }) => {
             ]}
             label="Description"
           >
-            <TextArea />
+            <TextArea autoSize={{ minRows: 3 }} />
           </Form.Item>
         </Form>
       </Modal>

@@ -1,12 +1,8 @@
-import React, { useCallback, useEffect } from "react";
-import NavFillter from "./NavFillter";
+import React from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import ModalFilter from "./ModalFilter";
-import { useDispatch, useSelector } from "react-redux";
-import { Spin } from "antd";
-import { getListProject } from "@/redux/slices/HomeSlice";
-import debounce from "lodash.debounce";
+import { useSelector } from "react-redux";
 
 const ListGraduation = dynamic(() => import("./ListGraduation"), {
   ssr: false,
@@ -15,29 +11,24 @@ const ListGraduation = dynamic(() => import("./ListGraduation"), {
 
 const BodyHome = () => {
   const t = useTranslations("HomePage");
-  const loading = useSelector((state) => state.home.loading);
   const listProduct = useSelector((state) => state.home.listProject);
 
-  const dispatch = useDispatch();
-  const debounceListProject = useCallback(
-    debounce(() => {
-      dispatch(getListProject());
-    }, 300),
-    []
-  );
-  useEffect(() => {
-    debounceListProject();
-  }, []);
   return (
-    <div className="flex flex-wrap w-full justify-center overflow-x-hidden">
+    <div className="flex flex-wrap w-full justify-center overflow-x-hidden bg-gray-50">
       <div className="w-full md:w-5/6 pt-2">
-        <div className="w-full p-2 bg-gray-50 rounded-lg shadow-md">
+        {/* <div className="w-full p-2  rounded-lg shadow-md my-2 bg-white">
+          <ListProjectHightPoint />
+        </div> */}
+        <div className="w-full p-2  rounded-lg shadow-md bg-white mt-5 mb-2">
           <div className="flex justify-between">
             <p className="text-2xl font-bold text-gray-800 mb-4">
               {t("titleListProduct")}
             </p>
             <ModalFilter />
           </div>
+          {/* <div>
+            <p className="my-2 font-bold text-xl">Newly updated project</p>
+          </div> */}
           <ListGraduation listProduct={listProduct} />
         </div>
       </div>

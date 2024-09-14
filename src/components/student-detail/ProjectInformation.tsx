@@ -58,7 +58,7 @@ const ProjectInformation = ({ detail }) => {
           <Col xs={24} sm={6}>
             Project description:
           </Col>
-          <Col xs={24} sm={18} className="break-all">
+          <Col xs={24} sm={18} className="break-words whitespace-pre-wrap">
             {detail.projectDescription}
           </Col>
         </Row>

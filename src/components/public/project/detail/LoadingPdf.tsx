@@ -9,7 +9,7 @@ const LoadingPdf = ({ filePdf }) => {
   const { Toolbar } = toolbarPluginInstance;
 
   return (
-    <div className="w-full max-h-screen relative">
+    <div className="w-full min-h-screen max-h-screen relative">
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         <div
           style={{

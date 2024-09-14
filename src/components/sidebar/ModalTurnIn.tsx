@@ -22,6 +22,9 @@ const ModalTurnIn = ({ collapsed }) => {
   const [fileList, setFileList] = useState([]);
   const [messageAPI, contextHolder] = useMessage();
   const [isShowModal, setIsShowModal] = useState(false);
+  const loading = useSelector(
+    (state: RootState) => state.projectDetail.loading
+  );
   const dispatch = useDispatch<AppDispatch>();
   const onCancel = () => {
     setIsShowModal(false);
@@ -30,7 +33,7 @@ const ModalTurnIn = ({ collapsed }) => {
     if (fileList.length > 0) {
       const formData = new FormData();
       formData.append("file", fileList[0].originFileObj);
-      // dispatch(finishProject(formData));
+      dispatch(finishProject(formData));
     } else {
       messageAPI.error("You must upload a file to finish the project!");
     }
@@ -82,6 +85,14 @@ const ModalTurnIn = ({ collapsed }) => {
         title={"Turn in"}
         onCancel={onCancel}
         open={isShowModal}
+        footer={
+          <div className="flex items-center justify-end gap-2">
+            <Button onClick={onCancel}>Cancel</Button>
+            <Button loading={loading} onClick={handleOk}>
+              Ok
+            </Button>
+          </div>
+        }
       >
         {fileList.length <= 0 && (
           <Upload {...props}>
@@ -93,7 +104,6 @@ const ModalTurnIn = ({ collapsed }) => {
         )}
         {fileList.length > 0 &&
           fileList.map((item, index) => {
-            console.log(item);
             return (
               <div
                 key={`file-${index}`}

@@ -34,8 +34,6 @@ const commentSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
-        console.log(action.payload);
-
         if (action.payload) {
           state.commentData = action.payload;
         } else {

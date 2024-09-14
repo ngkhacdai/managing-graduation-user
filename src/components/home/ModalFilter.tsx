@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Form, Modal, Row } from "antd";
+import { Button, Checkbox, Col, Form, Modal, Row, Select } from "antd";
 import Search from "antd/es/input/Search";
 import { useTranslations } from "next-intl";
 import React, { useCallback, useEffect, useState } from "react";
@@ -7,6 +7,8 @@ import { AppDispatch, RootState } from "@/redux/store";
 import {
   filterProject,
   getListBranch,
+  getListProject,
+  getListProjectFilter,
   saveFilter,
   saveSearch,
 } from "@/redux/slices/HomeSlice";
@@ -18,9 +20,42 @@ const ModalFilter = () => {
   const [form] = Form.useForm();
   const [isShow, setIsShow] = useState(false);
   const listBranch = useSelector((state: RootState) => state.home.branch) || [];
-  const keyword = useSelector((state: RootState) => state.home.searchInput);
+  const listProject = useSelector((state: RootState) => state.home.listProject);
   const [selectedBranches, setSelectedBranches] = useState({ branch: [] });
   const [searchText, setSearchText] = useState("");
+  const [time, setTime] = useState("");
+  const [point, setPoint] = useState("");
+  const error = useSelector((state: RootState) => state.home.error);
+
+  const debounceProject = useCallback(
+    debounce((formData) => {
+      dispatch(getListProjectFilter(formData));
+    }, 300),
+    []
+  );
+
+  useEffect(() => {
+    const formData = {
+      keyword: searchText,
+      branch: selectedBranches.branch || [],
+      latest: time === "" ? false : time,
+      highestScore: point === "" ? false : point,
+    };
+
+    debounceProject(formData);
+  }, [time, point]);
+
+  const debounceListProject = useCallback(
+    debounce(() => {
+      dispatch(getListProject());
+    }, 300),
+    []
+  );
+
+  useEffect(() => {
+    debounceListProject();
+  }, []);
+
   const debouncegetListBranch = useCallback(
     debounce(() => {
       dispatch(getListBranch());
@@ -29,14 +64,13 @@ const ModalFilter = () => {
   );
 
   useEffect(() => {
-    if (listBranch.length <= 0) {
-      debouncegetListBranch();
-    }
-  }, [listBranch]);
+    debouncegetListBranch();
+  }, []);
 
   const onOk = () => {
-    setSelectedBranches(form.getFieldsValue());
-    dispatch(saveFilter(form.getFieldValue("branch")));
+    const newSelectedBranches = form.getFieldValue("branch");
+    dispatch(saveFilter(newSelectedBranches));
+    setSelectedBranches({ branch: newSelectedBranches });
     form.submit();
   };
 
@@ -45,25 +79,81 @@ const ModalFilter = () => {
   };
 
   const onSearch = (value) => {
-    dispatch(saveSearch(value));
-    const form1 = {
-      keyword: value,
-      branch: selectedBranches.branch,
-    };
-    dispatch(filterProject(form1));
-  };
-  const submitForm = (e) => {
-    const form1 = {
+    const formData = {
       keyword: searchText,
-      branch: selectedBranches.branch,
+      branch: selectedBranches.branch || [],
+      latest: time === "" ? false : time,
+      highestScore: point === "" ? false : point,
     };
-    dispatch(filterProject(form1));
+
+    debounceProject(formData);
+  };
+
+  const submitForm = (e) => {
+    const formData = {
+      keyword: searchText,
+      branch: selectedBranches.branch || [],
+      latest: time === "" ? false : time,
+      highestScore: point === "" ? false : point,
+    };
+
+    debounceProject(formData);
     setIsShow(false);
   };
 
+  const timeOptions = [
+    {
+      label: `${t("selectTimeZone")}`,
+      value: "",
+    },
+    {
+      label: `${t("newlyUpdated")}`,
+      value: false,
+    },
+    {
+      label: `${t("oldestUpdated")}`,
+      value: true,
+    },
+  ];
+
+  const pointOptions = [
+    {
+      label: `${t("selectPoint")}`,
+      value: "",
+    },
+    {
+      label: `${t("highestPoint")}`,
+      value: true,
+    },
+    {
+      label: `${t("lowestPoint")}`,
+      value: false,
+    },
+  ];
+
   return (
     <>
-      <div className="flex items-center">
+      <div className="flex items-center gap-2">
+        <Select
+          className="min-w-52"
+          options={timeOptions}
+          value={time}
+          onChange={(value) => {
+            setTime(value);
+            setPoint("");
+          }}
+          placeholder="Select Time"
+        />
+        <Select
+          className="min-w-36"
+          options={pointOptions}
+          value={point}
+          onChange={(value) => {
+            setPoint(value);
+            setTime("");
+          }}
+          placeholder="Select Point"
+        />
         <Search
           className="mr-2"
           placeholder={`${t("search input")}`}
@@ -72,8 +162,10 @@ const ModalFilter = () => {
           onChange={(e) => setSearchText(e.target.value)}
         />
         <Button
+          type="primary"
           onClick={() => {
             setIsShow(true);
+            form.setFieldsValue({ branch: selectedBranches.branch });
           }}
         >
           {t("filter")}
@@ -101,7 +193,11 @@ const ModalFilter = () => {
                 {listBranch &&
                   listBranch.length > 0 &&
                   listBranch.map((item) => (
-                    <Col className="m-1" key={item.id}>
+                    <Col
+                      span={4}
+                      className="m-1 line-clamp-1 truncate"
+                      key={item.id}
+                    >
                       <Checkbox value={item.id}>{item.name}</Checkbox>
                     </Col>
                   ))}

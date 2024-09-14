@@ -15,6 +15,9 @@ import {
   getPhaseByTeacher,
   updateCompleteProject,
   fetchUpdatePhase,
+  recallSubmission,
+  updatePointProject,
+  updateProject,
 } from "@/api/Project";
 import { arrayMove } from "@dnd-kit/sortable";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -35,6 +38,7 @@ const initialState = {
       },
     ],
   },
+  deadline: null,
   detailPhase: null,
   activeId: null,
   detailProject: null,
@@ -144,6 +148,29 @@ export const getDetailTask = createAsyncThunk(
   "project-slice/getDetailTask",
   async (id: string) => {
     return await getTaskById(id);
+  }
+);
+
+export const updateDescription = createAsyncThunk(
+  "project-slice/updateDescription",
+  async (form: any) => {
+    await updateProject(form);
+    return form;
+  }
+);
+
+export const unSubmitFile = createAsyncThunk(
+  "project-slice/unSubmitFile",
+  async () => {
+    return await recallSubmission();
+  }
+);
+
+export const updatePoint = createAsyncThunk(
+  "project-slice/updatePoint",
+  async (form: { projectId: string; point: number }) => {
+    await updatePointProject(form);
+    return form;
   }
 );
 
@@ -433,11 +460,22 @@ const projectDetailSlice = createSlice({
       state.phase[state.phase.length - 1].completed = true;
     });
     builder.addCase(getPhase.fulfilled, (state, action) => {
-      state.phase = action.payload;
+      const {
+        listPhase,
+        nameSession,
+        sessionTimeLimit,
+        projectComplete,
+        point,
+      } = action.payload;
+      state.phase = listPhase;
+      state.deadline = {
+        nameSession,
+        sessionTimeLimit,
+        projectComplete,
+        point,
+      };
     });
     builder.addCase(getBoard.fulfilled, (state, action) => {
-      console.log(action.payload);
-
       const data = {
         phaseName: action.payload.phaseName,
         startTime: action.payload.startTime,
@@ -511,12 +549,31 @@ const projectDetailSlice = createSlice({
       state.detailTask = action.payload;
     });
     builder.addCase(getPhaseById.fulfilled, (state, action) => {
-      state.phase = action.payload;
+      const {
+        listPhase,
+        nameSession,
+        sessionTimeLimit,
+        projectComplete,
+        point,
+      } = action.payload;
+      state.phase = listPhase;
+      state.deadline = {
+        nameSession,
+        sessionTimeLimit,
+        projectComplete,
+        point,
+      };
     });
-    builder.addCase(finishProject.fulfilled, (state, action) => {
-      state.detailProject.completed = true;
-      state.phase.push(action.payload);
-    });
+    builder
+      .addCase(finishProject.fulfilled, (state, action) => {
+        state.loading = false;
+        state.detailProject.completed = true;
+        state.deadline.projectComplete = true;
+        state.phase.push(action.payload);
+      })
+      .addCase(finishProject.pending, (state, action) => {
+        state.loading = true;
+      });
     builder.addCase(getProject.fulfilled, (state, action) => {
       state.detailProject = action.payload;
     });
@@ -524,6 +581,21 @@ const projectDetailSlice = createSlice({
       state.detailPhase.phaseName = action.payload.phaseName;
       state.detailPhase.description = action.payload.description;
       state.phase[state.phase.length - 1].phaseName = action.payload.phaseName;
+    });
+    builder.addCase(unSubmitFile.fulfilled, (state, action) => {
+      state.detailProject.completed = false;
+      state.deadline.projectComplete = false;
+      if (state.phase.length > 0) {
+        state.phase.pop();
+      } else {
+        state.phase = [];
+      }
+    });
+    builder.addCase(updatePoint.fulfilled, (state, action) => {
+      state.deadline.point = action.payload.point;
+    });
+    builder.addCase(updateDescription.fulfilled, (state, action) => {
+      state.detailProject.description = action.payload.description;
     });
   },
 });

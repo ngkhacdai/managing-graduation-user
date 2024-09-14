@@ -3,8 +3,8 @@
     "Login": "Login",
     "search input": "Search input",
     "description": "The graduation project is a website where you can view projects published by students and complete tasks assigned by teachers, provided you are eligible for your own graduation project.",
-    "teacher": "Teacher",
-    "major": "Major",
+    "teacher": "Mentor",
+    "major": "Industry Focus",
     "year": "Year",
     "all": "All",
     "mark": "Mark",
@@ -12,14 +12,20 @@
     "English": "English",
     "Vietnamese": "Vietnamese",
     "design": "DESIGNED AND CODED BY",
-    "made": "© 2024, made with ❤ by ngkhacdai",
+    "made": "© 2024, made by ngkhacdai",
     "filter": "Filter",
     "branch": "Branches",
     "details": "Details Project",
-    "noProduct": "No Product",
+    "noProduct": "No project",
     "madeBy": "Author",
     "Branch": "Major",
-    "descriptionDetail": "Description"
+    "descriptionDetail": "Description",
+    "selectTimeZone": "Sort by time",
+    "newlyUpdated": "Newly updated project",
+    "oldestUpdated": "Oldest updated project",
+    "selectPoint": "Sort by point",
+    "highestPoint": "Highest point",
+    "lowestPoint": "Lowest point"
   },
   "Login": {
     "login": "Login",
@@ -43,10 +49,12 @@
     "notFillPassword": "Please input your new password!",
     "notFillEmail": "Please input your email!",
     "submit": "Submit",
-    "comfNewPass": "Comfirm new password"
+    "comfNewPass": "Comfirm new password",
+    "resetPasswordSuccess": "Reset password successfully",
+    "canNotFindEmail": "Email not found"
   },
   "SideBar": {
-    "newPhase": "Add new phase",
+    "newPhase": "Create a new phase",
     "finish": "Turn in",
     "project": "Projects",
     "library": "Library",
@@ -55,7 +63,10 @@
     "English": "English",
     "Vietnamese": "Vietnamese",
     "registration": "Registration",
-    "changePassword": "Change password"
+    "changePassword": "Change password",
+    "download": "Download",
+    "view": "View",
+    "deleteFile": "Delete"
   },
   "Project": {
     "yourProject": "Your Project",
@@ -63,8 +74,8 @@
     "projectName": "Project Name",
     "studentName": "Student Name",
     "status": "Status",
-    "detailProject": "Detail project",
-    "detailStudent": "Detail student",
+    "detailProject": "Overview",
+    "detailStudent": "Project information",
     "action": "Actions",
     "signUp": "Sign up Project",
     "processing": "Processing",
@@ -72,7 +83,10 @@
     "dateStart": "Date Start",
     "projectComplete": "Project completed",
     "projectProcessing": "Project processing",
-    "projectPassed": "Project passed"
+    "projectPassed": "Project passed",
+    "point": "Point",
+    "deadline": "Deadline",
+    "notScored": "Not scored yet"
   },
   "Profile": {
     "yourProfile": "Your Profile",
@@ -114,7 +128,7 @@
     "numberStudentSingUp": "Limit signUp",
     "Action": "Assign a mentor",
     "signUp": "Sign up",
-    "detail": "View detail",
+    "detail": "Mentor information",
     "fullName": "Full Name",
     "phone": "Phone",
     "viewProject": "View project",
