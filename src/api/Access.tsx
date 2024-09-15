@@ -25,14 +25,14 @@ export const login = async (form) => {
 
     await cookie.set("token", data.token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "strict",
       path: "/",
     });
 
     await cookie.set("role", data.role.toLowerCase(), {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "strict",
       path: "/",
     });
