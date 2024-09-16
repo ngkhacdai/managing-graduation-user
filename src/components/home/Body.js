@@ -20,7 +20,7 @@ const BodyHome = () => {
           <ListProjectHightPoint />
         </div> */}
         <div className="w-full p-2  rounded-lg shadow-md bg-white mt-5 mb-2">
-          <div className="flex justify-between">
+          <div className="flex mb-2 lg:flex-row flex-col justify-between">
             <p className="text-2xl font-bold text-gray-800 mb-4">
               {t("titleListProduct")}
             </p>
