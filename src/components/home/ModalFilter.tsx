@@ -5,12 +5,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
-  filterProject,
   getListBranch,
   getListProject,
   getListProjectFilter,
   saveFilter,
-  saveSearch,
 } from "@/redux/slices/HomeSlice";
 import debounce from "lodash.debounce";
 
@@ -23,8 +21,8 @@ const ModalFilter = () => {
   const listProject = useSelector((state: RootState) => state.home.listProject);
   const [selectedBranches, setSelectedBranches] = useState({ branch: [] });
   const [searchText, setSearchText] = useState("");
-  const [time, setTime] = useState("");
-  const [point, setPoint] = useState("");
+  const [time, setTime] = useState(0);
+  const [point, setPoint] = useState(0);
   const error = useSelector((state: RootState) => state.home.error);
 
   const debounceProject = useCallback(
@@ -35,13 +33,36 @@ const ModalFilter = () => {
   );
 
   useEffect(() => {
-    const formData = {
+    const formData: any = {
       keyword: searchText,
       branch: selectedBranches.branch || [],
-      latest: time === "" ? false : time,
-      highestScore: point === "" ? false : point,
     };
-
+    switch (point) {
+      case 0:
+        formData.highestScore = false;
+        break;
+      case 1:
+        formData.highestScore = true;
+        break;
+      case 2:
+        formData.lowestScore = true;
+        break;
+      default:
+        break;
+    }
+    switch (time) {
+      case 0:
+        formData.oldest = false;
+        break;
+      case 1:
+        formData.oldest = true;
+        break;
+      case 2:
+        formData.latest = true;
+        break;
+      default:
+        break;
+    }
     debounceProject(formData);
   }, [time, point]);
 
@@ -79,23 +100,70 @@ const ModalFilter = () => {
   };
 
   const onSearch = (value) => {
-    const formData = {
+    const formData: any = {
       keyword: searchText,
       branch: selectedBranches.branch || [],
-      latest: time === "" ? false : time,
-      highestScore: point === "" ? false : point,
     };
-
+    switch (point) {
+      case 0:
+        formData.highestScore = false;
+        break;
+      case 1:
+        formData.highestScore = true;
+        break;
+      case 2:
+        formData.lowestScore = true;
+        break;
+      default:
+        break;
+    }
+    switch (time) {
+      case 0:
+        formData.oldest = false;
+        break;
+      case 1:
+        formData.oldest = true;
+        break;
+      case 2:
+        formData.latest = true;
+        break;
+      default:
+        break;
+    }
     debounceProject(formData);
   };
 
   const submitForm = (e) => {
-    const formData = {
+    const formData: any = {
       keyword: searchText,
       branch: selectedBranches.branch || [],
-      latest: time === "" ? false : time,
-      highestScore: point === "" ? false : point,
     };
+    switch (point) {
+      case 0:
+        formData.highestScore = false;
+        break;
+      case 1:
+        formData.highestScore = true;
+        break;
+      case 2:
+        formData.lowestScore = true;
+        break;
+      default:
+        break;
+    }
+    switch (time) {
+      case 0:
+        formData.oldest = false;
+        break;
+      case 1:
+        formData.oldest = true;
+        break;
+      case 2:
+        formData.latest = true;
+        break;
+      default:
+        break;
+    }
 
     debounceProject(formData);
     setIsShow(false);
@@ -104,30 +172,30 @@ const ModalFilter = () => {
   const timeOptions = [
     {
       label: `${t("selectTimeZone")}`,
-      value: "",
+      value: 0,
     },
     {
       label: `${t("newlyUpdated")}`,
-      value: false,
+      value: 1,
     },
     {
       label: `${t("oldestUpdated")}`,
-      value: true,
+      value: 2,
     },
   ];
 
   const pointOptions = [
     {
       label: `${t("selectPoint")}`,
-      value: "",
+      value: 0,
     },
     {
       label: `${t("highestPoint")}`,
-      value: true,
+      value: 1,
     },
     {
       label: `${t("lowestPoint")}`,
-      value: false,
+      value: 2,
     },
   ];
 
@@ -140,7 +208,7 @@ const ModalFilter = () => {
           value={time}
           onChange={(value) => {
             setTime(value);
-            setPoint("");
+            setPoint(0);
           }}
           placeholder="Select Time"
         />
@@ -150,7 +218,7 @@ const ModalFilter = () => {
           value={point}
           onChange={(value) => {
             setPoint(value);
-            setTime("");
+            setTime(0);
           }}
           placeholder="Select Point"
         />
