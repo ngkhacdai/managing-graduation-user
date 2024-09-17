@@ -283,6 +283,7 @@ export const updatePointProject = async (form) => {
   if (!response.ok) {
     throw new Error(res.message);
   }
+  revalidatePath("/project");
   return res;
 };
 

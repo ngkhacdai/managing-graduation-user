@@ -50,11 +50,13 @@ const ModalMark = () => {
                 style={{ width: "100%" }}
               />
             </Form.Item>
-            <Form.Item className="flex gap-2">
-              <Button className="mr-2" type="primary" htmlType="submit">
-                Submit
-              </Button>
-              <Button onClick={() => setShowForm(false)}>Cancel</Button>
+            <Form.Item>
+              <div className="flex gap-2">
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+                <Button onClick={() => setShowForm(false)}>Cancel</Button>
+              </div>
             </Form.Item>
           </Form>
         </div>

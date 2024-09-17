@@ -1,6 +1,7 @@
 import { unSubmitFile } from "@/redux/slices/ProjectDetailSlice";
 import { AppDispatch } from "@/redux/store";
 import { Button, Modal } from "antd";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { PiHandWithdraw } from "react-icons/pi";
 import { useDispatch } from "react-redux";
@@ -8,11 +9,19 @@ import { useDispatch } from "react-redux";
 const ModalRecall = ({ collapsed }) => {
   const [isShow, setIsShow] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const showModal = () => {
     setIsShow(true);
   };
   const handleOk = () => {
     dispatch(unSubmitFile());
+    router.push(
+      `/${pathName.split("/")[1]}/project/detail?projectName=${searchParams.get(
+        "projectName"
+      )}&projectId=${searchParams.get("projectId")}`
+    );
     setIsShow(false);
   };
   const handleCancel = () => {

@@ -583,6 +583,7 @@ const projectDetailSlice = createSlice({
       state.phase[state.phase.length - 1].phaseName = action.payload.phaseName;
     });
     builder.addCase(unSubmitFile.fulfilled, (state, action) => {
+      state.projectDetail = [];
       state.detailProject.completed = false;
       state.deadline.projectComplete = false;
       if (state.phase.length > 0) {
