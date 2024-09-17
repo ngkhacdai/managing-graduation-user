@@ -96,7 +96,7 @@ const TableTeacher = ({ listBranch }) => {
     setSaveTeacher([]);
     setIsShowModalSignUp(false);
   };
-  if (!loading) {
+  if (loading) {
     return (
       <Flex align="center" gap="middle">
         <Spin />
