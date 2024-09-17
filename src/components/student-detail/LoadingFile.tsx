@@ -8,7 +8,7 @@ const LoadingFile = ({ url }) => {
   const toolbarPluginInstance = toolbarPlugin();
   const { Toolbar } = toolbarPluginInstance;
   return (
-    <div className=" w-full h-screen relative">
+    <div className="w-full h-full relative">
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         <div
           style={{
@@ -75,12 +75,7 @@ const LoadingFile = ({ url }) => {
             }}
           </Toolbar>
         </div>
-        <div
-          style={{
-            flex: 1,
-            overflow: "hidden",
-          }}
-        >
+        <div className="overflow-auto min-h-screen max-h-screen">
           <Viewer
             fileUrl={url}
             httpHeaders={{ mode: "no-cors" }}

@@ -76,7 +76,7 @@ export const registrationSlice = createSlice({
         );
 
         if (findRegistration !== -1) {
-          state.data[findRegistration].status = "approve";
+          state.data[findRegistration].status = "approved";
         }
       })
       .addCase(appoveStudentByTeacher.rejected, (state, action) => {
@@ -91,7 +91,7 @@ export const registrationSlice = createSlice({
       );
 
       if (findRegistration !== -1) {
-        state.data[findRegistration].status = "reject";
+        state.data[findRegistration].status = "rejected";
       }
     });
     builder.addCase(getListRegisForstudent.fulfilled, (state, action) => {

@@ -18,13 +18,15 @@ const StudentDetailScreen = ({ detail }) => {
           <IoMdArrowBack size={24} />
         </Link>
         {detail && (
-          <div className="flex  md:w-11/12 xl:w-2/3 w-full mx-auto items-center gap-2 flex-col">
+          <div className="flex lg:w-2/3 md:w-11/12 w-full mx-auto items-center gap-2 flex-col">
             <StudentInformation detail={detail} />
             <ProjectInformation detail={detail} />
-            {detail.attachmentFile && (
-              <div>
-                <p className="text-xl font-bold">File detail</p>
-                <LoadingFile url={detail.attachmentFile} />
+            {detail.filePdf && (
+              <div className="w-full rounded-t-lg border-2">
+                <p className="text-xl text-center p-2  font-bold">
+                  File detail
+                </p>
+                <LoadingFile url={detail.filePdf} />
               </div>
             )}
           </div>
