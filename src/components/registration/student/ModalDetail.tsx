@@ -124,6 +124,22 @@ const ModalDetail = ({ regisId, status }) => {
                   {detail.major}
                 </Col>
               </Row>
+              <Row gutter={[10, 10]}>
+                <Col xs={24} sm={7}>
+                  Session:
+                </Col>
+                <Col xs={24} sm={17}>
+                  {detail.session}
+                </Col>
+              </Row>
+              <Row gutter={[10, 10]}>
+                <Col xs={24} sm={7}>
+                  Deadline:
+                </Col>
+                <Col xs={24} sm={17}>
+                  {detail.timeLimit}
+                </Col>
+              </Row>
               <div>
                 <p>Project description:</p>
                 <p className="whitespace-pre-wrap break-words">

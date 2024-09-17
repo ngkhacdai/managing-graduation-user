@@ -1,4 +1,4 @@
-import { Button, Form, Spin, Table, Tooltip } from "antd";
+import { Button, Flex, Form, Spin, Table, Tooltip } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import ModalSignUp from "./ModalSignUp";
 import { useTranslations } from "next-intl";
@@ -17,8 +17,8 @@ const TableTeacher = ({ listBranch }) => {
   const listTeacher = useSelector(
     (state: RootState) => state.signup.listTeacher
   );
+  const loading = useSelector((state: RootState) => state.signup.loading);
   console.log(listTeacher);
-
   const debounceFetchData = useCallback(
     debounce(() => {
       dispatch(fetchDataTeacher());
@@ -96,8 +96,12 @@ const TableTeacher = ({ listBranch }) => {
     setSaveTeacher([]);
     setIsShowModalSignUp(false);
   };
-  if (!listTeacher) {
-    // return <Spin fullscreen />;
+  if (!loading) {
+    return (
+      <Flex align="center" gap="middle">
+        <Spin />
+      </Flex>
+    );
   }
   return (
     <div>

@@ -154,11 +154,10 @@ const SideBarScreen = ({ children, role }) => {
             children: [
               ...phase.map((item) => ({
                 key: `/${item.id}`,
-                icon: <IoLibrary />,
+                icon: <div>{item.completed && <FaCheck />}</div>,
                 label: (
                   <div className="flex gap-2 items-center">
                     <p>{item.phaseName}</p>
-                    <p>{item.completed && <FaCheck />}</p>
                   </div>
                 ),
               })),
@@ -175,11 +174,10 @@ const SideBarScreen = ({ children, role }) => {
               children: [
                 ...phase.map((item) => ({
                   key: `/${item.id}`,
-                  icon: <IoLibrary />,
+                  icon: <div>{item.completed && <FaCheck />}</div>,
                   label: (
                     <div className="flex gap-2 items-center">
                       <p>{item.phaseName}</p>
-                      <p>{item.completed && <FaCheck />}</p>
                     </div>
                   ),
                 })),
@@ -373,7 +371,7 @@ const SideBarScreen = ({ children, role }) => {
                   {pathName.split("/")[1] === "en" ? "EN" : "VI"}
                 </Button>
                 <Dropdown
-                  className="cursor-pointer"
+                  className="cursor-pointer mx-2"
                   menu={{
                     items: [
                       {

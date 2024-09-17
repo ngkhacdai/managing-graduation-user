@@ -1,4 +1,4 @@
-import { Button, Table, Tooltip } from "antd";
+import { Button, Table, Tag, Tooltip } from "antd";
 import React from "react";
 import ModalDetail from "./ModalDetail";
 import moment from "moment";
@@ -42,7 +42,21 @@ const TableRegistration = ({ data }) => {
     {
       key: "approval_Status",
       title: "Status",
-      dataIndex: "approval_Status",
+      render: (record) => {
+        return (
+          <Tag
+            color={
+              record.approval_Status == "pending"
+                ? "yellow"
+                : record.approval_Status == "approved"
+                ? "green"
+                : "red"
+            }
+          >
+            {record.approval_Status}
+          </Tag>
+        );
+      },
     },
     {
       key: "action",
