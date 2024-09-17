@@ -53,15 +53,26 @@ const ProjectInformation = ({ detail }) => {
             </Col>
           </Row>
         )}
-
         <Row gutter={[10, 10]}>
           <Col xs={24} sm={6}>
-            Project description:
+            Session:
           </Col>
-          <Col xs={24} sm={18} className="break-words whitespace-pre-wrap">
-            {detail.projectDescription}
+          <Col xs={24} sm={18}>
+            {detail.session}
           </Col>
         </Row>
+        <Row gutter={[10, 10]}>
+          <Col xs={24} sm={6}>
+            Deadline:
+          </Col>
+          <Col xs={24} sm={18}>
+            {detail.timeLimit}
+          </Col>
+        </Row>
+        <p>Project description:</p>
+        <p className="break-words whitespace-pre-wrap">
+          {detail.projectDescription}
+        </p>
       </div>
     </div>
   );
