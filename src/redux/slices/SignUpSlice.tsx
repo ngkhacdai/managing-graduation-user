@@ -73,7 +73,7 @@ const signUpSlice = createSlice({
         state.loading = false;
         state.listTeacher = [];
       })
-      .addCase(signUpTeacher.pending, (state, action) => {
+      .addCase(fetchDataTeacher.pending, (state, action) => {
         state.loading = true;
       });
     builder.addCase(filterTeacher.fulfilled, (state, action) => {
