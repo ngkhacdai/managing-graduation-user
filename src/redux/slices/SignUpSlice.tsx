@@ -1,7 +1,11 @@
 import { getSession } from "@/api/Session";
 import { addProject } from "@/api/Student";
 import { getAllTeacher, searchTeacher } from "@/api/Teacher";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
 
 const initialState = {
   listTeacher: [],
@@ -10,7 +14,8 @@ const initialState = {
     branch: [],
   },
   searchInput: "",
-  error: "",
+  error: null,
+  loading: false,
 };
 interface SignUpPayload {
   formData: any;
@@ -61,10 +66,15 @@ const signUpSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchDataTeacher.fulfilled, (state, action) => {
+        state.loading = false;
         state.listTeacher = action.payload;
       })
       .addCase(fetchDataTeacher.rejected, (state, action) => {
+        state.loading = false;
         state.listTeacher = [];
+      })
+      .addCase(signUpTeacher.pending, (state, action) => {
+        state.loading = true;
       });
     builder.addCase(filterTeacher.fulfilled, (state, action) => {
       state.listTeacher = action.payload;
@@ -86,7 +96,7 @@ const signUpSlice = createSlice({
         }
       })
       .addCase(signUpTeacher.rejected, (state, action) => {
-        state.error = action.payload.toString();
+        console.error("Signup failed:", action.error);
       });
     builder.addCase(fetchListSession.fulfilled, (state, action) => {
       state.listSession = action.payload;

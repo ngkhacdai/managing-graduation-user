@@ -6,6 +6,7 @@ import SignUpReducer from "./slices/SignUpSlice";
 import NotiReducer from "./slices/NotiSlice";
 import RegistrationReducer from "./slices/RegistrationSlice";
 import CommentReducer from "./slices/CommentSlice";
+import UserInforReducer from "./slices/UserInforSlice";
 export const makeStore = () => {
   return configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export const makeStore = () => {
       noti: NotiReducer,
       registration: RegistrationReducer,
       comment: CommentReducer,
+      userInfor: UserInforReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

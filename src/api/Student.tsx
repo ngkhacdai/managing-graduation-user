@@ -21,13 +21,11 @@ export const addProject = async (formData) => {
     body: formData,
   });
   if (!response.ok) {
-    // console.log(response);
-
     const errorBody = await response.json();
-    // console.log(errorBody);
 
     throw new Error(errorBody.message);
   }
+
   return response.json();
 };
 

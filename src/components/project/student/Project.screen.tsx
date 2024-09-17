@@ -30,7 +30,7 @@ const ProjectScreen = ({ project }) => {
             <p className="text-gray-600 text-sm">
               Please click the button below to register project with a mentor.
             </p>
-            <Link href={`/${pathName.split("/")[1]}/project/signup`}>
+            <Link href={`/${pathName.split("/")[1]}/registration`}>
               <Button type="primary" size="large" className="mt-4 w-full">
                 Sign up for a project
               </Button>

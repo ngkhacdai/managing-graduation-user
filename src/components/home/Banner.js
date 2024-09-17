@@ -33,7 +33,7 @@ const Banner = () => {
       {/* text project */}
       <div className="absolute inset-0 flex flex-col justify-center items-center">
         <p className="text-center absolute mb-20 text-white text-4xl md:text-[4rem] font-bold">
-          Graduation Project
+          Graduation Projects
         </p>
         {/* <img alt="" src={fogLow.src} /> */}
       </div>

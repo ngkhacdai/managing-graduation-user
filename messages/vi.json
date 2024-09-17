@@ -54,14 +54,15 @@
   "SideBar": {
     "newPhase": "Thêm giai đoạn",
     "finish": "Nộp bài",
-    "project": "Dự Án",
+    "project": "Đồ Án",
     "library": "Thư Viện",
     "profile": "Hồ Sơ",
     "logout": "Đăng Xuất",
     "English": "Tiếng Anh",
     "Vietnamese": "Tiếng Việt",
     "registration": "Đơn đăng ký",
-    "changePassword": "Đổi mật khẩu"
+    "changePassword": "Đổi mật khẩu",
+    "projectStudent": "Đồ Án"
   },
   "Project": {
     "yourProject": "Dự Án Của Bạn",

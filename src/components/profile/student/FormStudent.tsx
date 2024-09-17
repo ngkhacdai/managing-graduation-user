@@ -164,7 +164,7 @@ const FormStudent = ({ dataProfile }) => {
                 />
               )}
               <Form.Item label={t("studenCode")} name="id">
-                <Input className="!text-black" disabled />
+                <Input disabled />
               </Form.Item>
               <Form.Item
                 label="Email"
@@ -183,7 +183,7 @@ const FormStudent = ({ dataProfile }) => {
                 <Input />
               </Form.Item>
               <Form.Item label={t("fullName")} name="fullName">
-                <Input className="!text-black" disabled />
+                <Input disabled />
               </Form.Item>
               <Form.Item
                 label={t("Phone")}
@@ -205,7 +205,7 @@ const FormStudent = ({ dataProfile }) => {
                 />
               </Form.Item>
               <Form.Item label={t("Major")} name="branch">
-                <Select className="!text-black" disabled />
+                <Select disabled />
               </Form.Item>
               <div className="text-center">
                 <Button

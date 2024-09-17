@@ -2,10 +2,24 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { IoLibrary } from "react-icons/io5";
-import { Badge, Button, Layout, Menu, message, Popover, Tooltip } from "antd";
+import {
+  Badge,
+  Button,
+  Dropdown,
+  Layout,
+  Menu,
+  message,
+  Popover,
+  Tooltip,
+} from "antd";
 import { RiLockPasswordLine, RiProfileLine } from "react-icons/ri";
 import Link from "next/link";
-import { FaCheck, FaPlus, FaProjectDiagram } from "react-icons/fa";
+import {
+  FaChalkboardTeacher,
+  FaCheck,
+  FaPlus,
+  FaProjectDiagram,
+} from "react-icons/fa";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import logo from "@/assets/logo.png";
 import { Footer } from "antd/es/layout/layout";
@@ -29,6 +43,8 @@ import ModalMarkAsDone from "./ModalMarkAsDone";
 import moment from "moment";
 import ModalRecall from "./ModalRecall";
 import ModalMark from "../project-detail/ModalMark";
+import { clearUserInfor, getInforUser } from "@/redux/slices/UserInforSlice";
+import { PiStudent } from "react-icons/pi";
 
 const { Sider, Content } = Layout;
 
@@ -39,6 +55,7 @@ const SideBarScreen = ({ children, role }) => {
   const [pushed, setPushed] = useState(false);
 
   const t = useTranslations("SideBar");
+  const userInfor = useSelector((state) => state.userInfor.userInfor);
   const pathName = usePathname();
   const dispatch = useDispatch();
   const detailProject = useSelector(
@@ -54,7 +71,11 @@ const SideBarScreen = ({ children, role }) => {
     {
       key: "/project",
       icon: <FaProjectDiagram />,
-      label: <Link href={"/project"}>{t("project")}</Link>,
+      label: (
+        <Link href={"/project"}>
+          {role == "teacher" ? t("project") : t("projectStudent")}
+        </Link>
+      ),
     },
     {
       key: "/registration",
@@ -72,7 +93,11 @@ const SideBarScreen = ({ children, role }) => {
       label: <Link href={"/changepassword"}>{t("changePassword")}</Link>,
     },
   ];
-
+  useEffect(() => {
+    if (role && !userInfor) {
+      dispatch(getInforUser());
+    }
+  }, []);
   const [items, setItems] = useState(defaultItems);
   const phase = useSelector((state) => state.projectDetail.phase);
   const contentNoti = <ContentNotiScreen />;
@@ -104,6 +129,7 @@ const SideBarScreen = ({ children, role }) => {
   const logout = async () => {
     messageApi.success("Successfully logged out");
     setTimeout(() => {
+      dispatch(clearUserInfor());
       logoutApi();
     }, 500);
   };
@@ -346,15 +372,35 @@ const SideBarScreen = ({ children, role }) => {
                 >
                   {pathName.split("/")[1] === "en" ? "EN" : "VI"}
                 </Button>
-                <Tooltip title={t("logout")}>
-                  <Button
-                    onClick={logout}
-                    type="text"
-                    className="flex items-center justify-center"
-                  >
-                    <BiLogOut size={16} />
-                  </Button>
-                </Tooltip>
+                <Dropdown
+                  className="cursor-pointer"
+                  menu={{
+                    items: [
+                      {
+                        key: "1",
+                        label: (
+                          <div
+                            onClick={logout}
+                            type="text"
+                            className="flex gap-2 items-center justify-center"
+                          >
+                            <BiLogOut size={16} />
+                            <p>{t("logout")}</p>
+                          </div>
+                        ),
+                      },
+                    ],
+                  }}
+                >
+                  <div className="gap-2 flex items-center">
+                    {role === "teacher" ? (
+                      <FaChalkboardTeacher />
+                    ) : (
+                      <PiStudent size={18} />
+                    )}
+                    <p>{userInfor}</p>
+                  </div>
+                </Dropdown>
               </div>
             </div>
             {children}

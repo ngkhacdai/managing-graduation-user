@@ -191,13 +191,13 @@ const FormProfile = ({ dataProfile }) => {
                 label={t("Degree")}
                 name="degree"
               >
-                <Input className="!text-black" disabled />
+                <Input disabled />
               </Form.Item>
               <Form.Item label={t("Major")} name="branch">
-                <Select className="!text-black" disabled />
+                <Select disabled />
               </Form.Item>
               <Form.Item label={t("beginYear")} name="beginYear">
-                <Input className="!text-black" disabled />
+                <Input disabled />
               </Form.Item>
 
               <div className="text-center">

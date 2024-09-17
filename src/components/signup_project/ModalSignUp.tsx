@@ -61,10 +61,12 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
     Array.from(formData.entries()).forEach(([key, value]) => {
       console.log(`${key}:`, value);
     });
-    dispatch(signUpTeacher({ formData, teacherId: saveTeacher.id }));
-    if (error) {
-      messageAPI.error(error);
-      return;
+    const resultAction = await dispatch(
+      signUpTeacher({ formData, teacherId: saveTeacher.id })
+    );
+
+    if (signUpTeacher.rejected.match(resultAction)) {
+      return messageAPI.error(resultAction.error.message || "Sign up failed");
     }
     messageAPI.success("Sign up project successfully!");
     setTimeout(() => {

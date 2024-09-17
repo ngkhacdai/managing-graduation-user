@@ -9,7 +9,7 @@ const LoadingPdf = ({ filePdf }) => {
   const { Toolbar } = toolbarPluginInstance;
 
   return (
-    <div className="w-full min-h-screen max-h-screen relative">
+    <div className="w-full h-full relative">
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         <div
           style={{
@@ -75,12 +75,7 @@ const LoadingPdf = ({ filePdf }) => {
             }}
           </Toolbar>
         </div>
-        <div
-          className="overflow-auto"
-          style={{
-            height: "600px", // Limit height to 600px
-          }}
-        >
+        <div className="overflow-auto min-h-screen max-h-screen">
           <Viewer
             fileUrl={filePdf}
             httpHeaders={{ mode: "no-cors" }}

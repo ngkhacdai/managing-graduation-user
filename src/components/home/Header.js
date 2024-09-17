@@ -1,15 +1,16 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "@/assets/logo.png";
 import { useTranslations } from "next-intl";
 import { Button } from "antd";
 import { usePathname, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { getInforUser } from "@/redux/slices/UserInforSlice";
 
-const Header = ({ isScroll }) => {
+const Header = ({ isScroll, userInfor }) => {
   const router = useRouter();
   const t = useTranslations("HomePage");
   const pathName = usePathname();
-
   // Determine the current language
   const currentLang = pathName.split("/")[1];
   const isEnglish = currentLang === "en";
@@ -35,7 +36,7 @@ const Header = ({ isScroll }) => {
           <Link href="/">
             <img alt="logo" className="w-16 h-16" src={logo.src} />
           </Link>
-          {/* <Link href={`/${currentLang}/`}>
+          <Link href={`/${currentLang}/`}>
             <Button className="font-semibold text-lg" type="text">
               Home
             </Button>
@@ -49,10 +50,9 @@ const Header = ({ isScroll }) => {
             <Button className="font-semibold text-lg" type="text">
               Contact
             </Button>
-          </Link> */}
+          </Link>
         </div>
         <div className="flex items-center">
-          {/* Language Toggle */}
           <Button
             type="text"
             className={`mx-2 font-semibold text-lg `}
@@ -60,15 +60,25 @@ const Header = ({ isScroll }) => {
           >
             {isEnglish ? "EN" : "VI"}
           </Button>
-
-          <Link href={`/${currentLang}/login`}>
-            <Button
-              type="text"
-              className={`font-semibold mx-2 text-lg hover:text-black `}
-            >
-              {t("Login")}
-            </Button>
-          </Link>
+          {!userInfor ? (
+            <Link href={`/${currentLang}/login`}>
+              <Button
+                type="text"
+                className={`font-semibold mx-2 text-lg hover:text-black `}
+              >
+                {t("Login")}
+              </Button>
+            </Link>
+          ) : (
+            <Link href={`/${currentLang}/project`}>
+              <Button
+                type="text"
+                className={`font-semibold mx-2 text-lg hover:text-black `}
+              >
+                {userInfor}
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

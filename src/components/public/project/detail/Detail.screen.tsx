@@ -13,7 +13,7 @@ const DetailScreen = ({ data }) => {
       <div className="p-2 border-2 h-full rounded-lg w-full">
         <ProjectInformation data={data} />
       </div>
-      <div className="w-full  border-2 max-h-screen">
+      <div className="w-full  border-2">
         <LoadingPdf filePdf={data.filePdf} />
       </div>
     </div>

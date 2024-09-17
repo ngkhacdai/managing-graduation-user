@@ -62,11 +62,12 @@
     "logout": "Logout",
     "English": "English",
     "Vietnamese": "Vietnamese",
-    "registration": "Registration",
+    "registration": "Registrations",
     "changePassword": "Change password",
     "download": "Download",
     "view": "View",
-    "deleteFile": "Delete"
+    "deleteFile": "Delete",
+    "projectStudent": "Project"
   },
   "Project": {
     "yourProject": "Your Project",
@@ -117,7 +118,7 @@
     "changePassword": "Change password"
   },
   "SignUp": {
-    "title": "Project Registration",
+    "title": "Project Registrations",
     "slBranch": "Select major",
     "findTeacher": "Find by mentor",
     "Avatar": "Avatar",

@@ -2,7 +2,7 @@
 import { fail } from "assert";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getCookie } from "./customFetch";
+import { GET, getCookie } from "./customFetch";
 
 export const login = async (form) => {
   const cookie = cookies();
@@ -75,4 +75,9 @@ export const changePassword = async (form) => {
     throw new Error(`Failed to change password`);
   }
   return response.json();
+};
+
+export const checkLogin = async () => {
+  const response = await GET(`/checkLogin`);
+  return response;
 };

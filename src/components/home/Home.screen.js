@@ -4,11 +4,17 @@ import Header from "./Header";
 import Banner from "./Banner";
 import BodyHome from "./Body";
 import FooterHome from "./Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { getInforUser } from "@/redux/slices/UserInforSlice";
 
-const HomeScreen = () => {
+const HomeScreen = ({ role }) => {
   const [isScroll, setIsscroll] = useState(false);
-
+  const userInfor = useSelector((state) => state.userInfor.userInfor);
+  const dispatch = useDispatch();
   useEffect(() => {
+    if (role && !userInfor) {
+      dispatch(getInforUser());
+    }
     const handleScroll = () => {
       if (window.scrollY > 100) {
         setIsscroll(true);
@@ -25,9 +31,9 @@ const HomeScreen = () => {
   }, []);
   return (
     <div>
-      <Header isScroll={isScroll} />
+      <Header userInfor={userInfor} isScroll={isScroll} />
       <Banner />
-      <BodyHome />
+      <BodyHome s />
       <FooterHome />
     </div>
   );
