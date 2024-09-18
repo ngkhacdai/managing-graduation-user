@@ -43,7 +43,7 @@ const ModalDetailRegistration = ({ regisId, status }) => {
           <p>View detail</p>
         </Button>
       </Link>
-      {detail && (
+      {/* {detail && (
         <Modal
           open={showModal}
           title={
@@ -173,7 +173,7 @@ const ModalDetailRegistration = ({ regisId, status }) => {
             </Row>
           </div>
         </Modal>
-      )}
+      )} */}
     </div>
   );
 };
