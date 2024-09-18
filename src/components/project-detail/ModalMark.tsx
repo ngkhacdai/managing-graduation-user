@@ -2,11 +2,13 @@ import { updatePoint } from "@/redux/slices/ProjectDetailSlice";
 import { AppDispatch } from "@/redux/store";
 import { Button, Form, InputNumber } from "antd";
 import useMessage from "antd/es/message/useMessage";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 const ModalMark = () => {
+  const router = useRouter();
+  const pathName = usePathname();
   const [message, contextHolder] = useMessage();
   const [showForm, setShowForm] = useState(false);
   const searchParams = useSearchParams();
@@ -16,8 +18,11 @@ const ModalMark = () => {
       projectId: searchParams.get("projectId"),
       point: values.point,
     };
-    message.success("Mark point successfully");
     dispatch(updatePoint(form));
+    message.success("Mark point successfully");
+    setTimeout(() => {
+      router.push(`/${pathName.split("/")[1]}/project`);
+    }, 300);
   };
   return (
     <div>

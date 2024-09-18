@@ -38,9 +38,11 @@ const ModalDetailRegistration = ({ regisId, status }) => {
   return (
     <div>
       {contentHolder}
-      <Button type="primary" onClick={() => setShowModal(true)}>
-        Detail
-      </Button>
+      <Link href={`/${pathName.split("/")[1]}/registration/${regisId}`}>
+        <Button type="primary">
+          <p>View detail</p>
+        </Button>
+      </Link>
       {detail && (
         <Modal
           open={showModal}

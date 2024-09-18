@@ -75,12 +75,7 @@ const LoadingFile = ({ url }) => {
             }}
           </Toolbar>
         </div>
-        <div
-          style={{
-            flex: 1,
-            overflow: "hidden",
-          }}
-        >
+        <div className="overflow-auto min-h-screen max-h-screen">
           <Viewer
             fileUrl={url}
             httpHeaders={{ mode: "no-cors" }}

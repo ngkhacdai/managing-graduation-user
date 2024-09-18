@@ -16,6 +16,7 @@ const initialState = {
   searchInput: "",
   error: null,
   loading: false,
+  loadingButton: false,
 };
 interface SignUpPayload {
   formData: any;
@@ -82,7 +83,7 @@ const signUpSlice = createSlice({
     builder
       .addCase(signUpTeacher.fulfilled, (state, action) => {
         state.error = "";
-
+        state.loadingButton = false;
         const findTeacher = state.listTeacher.findIndex(
           (item) => item.id === action.payload
         );
@@ -96,7 +97,11 @@ const signUpSlice = createSlice({
         }
       })
       .addCase(signUpTeacher.rejected, (state, action) => {
+        state.loadingButton = false;
         console.error("Signup failed:", action.error);
+      })
+      .addCase(signUpTeacher.pending, (state, action) => {
+        state.loadingButton = true;
       });
     builder.addCase(fetchListSession.fulfilled, (state, action) => {
       state.listSession = action.payload;

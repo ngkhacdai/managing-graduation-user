@@ -3,7 +3,7 @@ import React from "react";
 
 const RegisInformation = ({ detail }) => {
   return (
-    <div className="border-2 rounded-lg">
+    <div className="border-2 rounded-lg w-full">
       <div className="flex items-center gap-2 justify-center border-b-2">
         <p className="text-xl my-2 font-bold">Registration Information</p>
         <Tag

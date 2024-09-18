@@ -16,10 +16,12 @@ const DetailScreen = ({ detail }) => {
         <IoMdArrowBack size={24} />
       </Link>
       {detail && (
-        <div className="flex lg:w-2/3 w-full mx-auto items-center gap-2 flex-col">
+        <div className="flex mb-2 lg:w-2/3 w-full mx-auto items-center gap-2 flex-col">
           <RegisInformation detail={detail} />
-          <p className="text-xl font-bold">File detail</p>
-          <LoadingFile url={detail.file_attachment} />
+          <div className="border-2 rounded-t-lg">
+            <p className="text-xl font-bold">File detail</p>
+            <LoadingFile url={detail.file_attachment} />
+          </div>
         </div>
       )}
     </div>

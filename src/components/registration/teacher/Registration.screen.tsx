@@ -27,7 +27,7 @@ const RegistrationScreen = () => {
         Submitted Registrations
       </p>
       <TableRegistration data={data} />
-      <p className="absolute text-white font-semibold bottom-0 p-3 m-2 rounded-lg right-0 border-2 bg-blue-500">
+      <p className="fixed text-white font-semibold bottom-0 p-3 m-2 rounded-lg right-5 border-2 bg-blue-500">
         Mentees limit: {menteeLimit}
       </p>
     </div>

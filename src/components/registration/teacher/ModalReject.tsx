@@ -2,10 +2,12 @@ import { rejectStudentByTeacher } from "@/redux/slices/RegistrationSlice";
 import { AppDispatch } from "@/redux/store";
 import { Button, Form, Input, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import useMessage from "antd/es/message/useMessage";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const ModalReject = ({ regisId }) => {
+const ModalReject = ({ regisId, click }) => {
+  const [message, contextHoler] = useMessage();
   const [isShow, setIsShow] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const [form] = Form.useForm();
@@ -17,12 +19,20 @@ const ModalReject = ({ regisId }) => {
       regisId,
       reasonReject: form.getFieldValue("reasonReject"),
     };
-    await dispatch(rejectStudentByTeacher(formData));
-    setIsShow(false);
-    form.resetFields();
+    const result = await dispatch(rejectStudentByTeacher(formData));
+    if (rejectStudentByTeacher.rejected.match(result)) {
+      message.error(result.error.message || "Rejected failed");
+    }
+    message.success("Rejected successfully!");
+    setTimeout(() => {
+      setIsShow(false);
+      click(true);
+      form.resetFields();
+    }, 300);
   };
   return (
     <div>
+      {contextHoler}
       <Button
         onClick={() => setIsShow(true)}
         className=" bg-red-500 hover:!bg-red-400"

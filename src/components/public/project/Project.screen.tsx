@@ -1,16 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Banner from "./Banner";
-import BodyHome from "./Body";
-import FooterHome from "./Footer";
-import { useDispatch, useSelector } from "react-redux";
 import { getInforUser } from "@/redux/slices/UserInforSlice";
-import Header from "../public/Header";
+import { AppDispatch, RootState } from "@/redux/store";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Header from "../Header";
+import FooterHome from "../Footer";
 
-const HomeScreen = ({ role }) => {
+const ProjectScreen = ({ role }) => {
   const [isScroll, setIsscroll] = useState(false);
-  const userInfor = useSelector((state) => state.userInfor.userInfor);
-  const dispatch = useDispatch();
+  const userInfor = useSelector(
+    (state: RootState) => state.userInfor.userInfor
+  );
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     if (role && !userInfor) {
       dispatch(getInforUser());
@@ -31,12 +32,13 @@ const HomeScreen = ({ role }) => {
   }, []);
   return (
     <div>
-      <Header userInfor={userInfor} isScroll={isScroll} />
-      <Banner />
-      <BodyHome />
-      <FooterHome />
+      <div className="min-h-screen flex flex-col">
+        <Header isScroll={isScroll} userInfor={userInfor} />
+        <div className="flex-grow"></div>
+        <FooterHome />
+      </div>
     </div>
   );
 };
 
-export default HomeScreen;
+export default ProjectScreen;

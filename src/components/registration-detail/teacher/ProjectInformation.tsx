@@ -3,7 +3,7 @@ import React from "react";
 
 const ProjectInformation = ({ detail }) => {
   return (
-    <div className="border-2 rounded-lg">
+    <div className="border-2 rounded-lg w-full">
       <div className="text-center border-b-2">
         <p className="text-xl my-2 font-bold">Project information</p>
       </div>

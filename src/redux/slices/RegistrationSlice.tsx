@@ -23,7 +23,7 @@ export const fetchDataRegistration = createAsyncThunk(
 
 export const appoveStudentByTeacher = createAsyncThunk(
   "registration/appoveStudent",
-  async (regisId: number) => {
+  async (regisId: any) => {
     const response = await approveStudent(regisId);
     return regisId;
   }
@@ -83,17 +83,26 @@ export const registrationSlice = createSlice({
         state.error = action.payload
           ? action.payload.toString()
           : "Error occurred";
+        console.error(
+          action.payload ? action.payload.toString() : "Error occurred"
+        );
       });
-    builder.addCase(rejectStudentByTeacher.fulfilled, (state, action) => {
-      state.error = "";
-      const findRegistration = state.data.findIndex(
-        (item) => item.regisId === action.payload
-      );
+    builder
+      .addCase(rejectStudentByTeacher.fulfilled, (state, action) => {
+        state.error = "";
+        const findRegistration = state.data.findIndex(
+          (item) => item.regisId === action.payload
+        );
 
-      if (findRegistration !== -1) {
-        state.data[findRegistration].status = "rejected";
-      }
-    });
+        if (findRegistration !== -1) {
+          state.data[findRegistration].status = "rejected";
+        }
+      })
+      .addCase(rejectStudentByTeacher.rejected, (state, action) => {
+        console.error(
+          action.payload ? action.payload.toString() : "Error occurred"
+        );
+      });
     builder.addCase(getListRegisForstudent.fulfilled, (state, action) => {
       state.studentData = action.payload;
     });

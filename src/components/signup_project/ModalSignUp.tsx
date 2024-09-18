@@ -20,7 +20,9 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
   const listSession = useSelector(
     (state: RootState) => state.signup.listSession
   );
-  const error = useSelector((state: RootState) => state.signup.error);
+  const loadingBtnSignUp = useSelector(
+    (state: RootState) => state.signup.loadingButton
+  );
   const options = [
     { value: "", label: "Select major" },
     ...listBranch.map((item) => {
@@ -85,7 +87,11 @@ const ModalSignUp = ({ handleCloseModalSignUp, saveTeacher, listBranch }) => {
             <Button className="mx-2" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button type="primary" onClick={handleOk}>
+            <Button
+              loading={loadingBtnSignUp}
+              type="primary"
+              onClick={handleOk}
+            >
               Submit
             </Button>
           </div>

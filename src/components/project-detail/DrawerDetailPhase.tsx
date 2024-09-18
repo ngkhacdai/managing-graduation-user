@@ -104,7 +104,7 @@ const DrawerDetailPhase = ({ role }) => {
                   <a
                     target="_blank"
                     href={changeUrlToSearchParams(phaseDetail.filePdf)}
-                    className="line-clamp-1"
+                    className="line-clamp-1 text-blue-500 hover:text-blue-400 underline"
                   >
                     fileSubmit.pdf
                   </a>

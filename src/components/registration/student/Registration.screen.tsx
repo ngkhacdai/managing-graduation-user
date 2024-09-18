@@ -7,8 +7,9 @@ import { getListRegisForstudent } from "@/redux/slices/RegistrationSlice";
 import { Button } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { setInforProject } from "@/redux/slices/ProjectDetailSlice";
 
-const RegistrationScreenStudent = () => {
+const RegistrationScreenStudent = ({ project }) => {
   const dispatch = useDispatch<AppDispatch>();
   const pathName = usePathname();
   const data = useSelector(
@@ -17,16 +18,22 @@ const RegistrationScreenStudent = () => {
   useEffect(() => {
     dispatch(getListRegisForstudent());
   }, []);
-
+  useEffect(() => {
+    if (project) {
+      dispatch(setInforProject(project));
+    }
+  }, []);
   return (
     <div>
       <div className="flex items-center justify-between">
         <p className="text-xl my-2 text-zinc-400 font-semibold">
           Submitted Registrations
         </p>
-        <Link href={`/${pathName.split("/")[1]}/registration/signup`}>
-          <Button>Sign up project</Button>
-        </Link>
+        {!project && (
+          <Link href={`/${pathName.split("/")[1]}/registration/signup`}>
+            <Button>Sign up project</Button>
+          </Link>
+        )}
       </div>
       <TableRegistration data={data} />
     </div>

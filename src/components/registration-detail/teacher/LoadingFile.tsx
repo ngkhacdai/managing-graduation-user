@@ -8,7 +8,7 @@ const LoadingFile = ({ url }) => {
   const toolbarPluginInstance = toolbarPlugin();
   const { Toolbar } = toolbarPluginInstance;
   return (
-    <div className=" w-full h-screen relative">
+    <div className=" w-full relative">
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         <div
           style={{
@@ -29,6 +29,11 @@ const LoadingFile = ({ url }) => {
                 Zoom,
                 ZoomIn,
                 ZoomOut,
+                CurrentPageInput,
+
+                GoToNextPage,
+                GoToPreviousPage,
+                NumberOfPages,
               } = props;
               return (
                 <>
@@ -45,6 +50,18 @@ const LoadingFile = ({ url }) => {
                     <ZoomIn />
                   </div>
                   <div style={{ padding: "0px 2px", marginLeft: "auto" }}>
+                    <GoToPreviousPage />
+                  </div>
+                  <div style={{ padding: "0px 2px", width: "4rem" }}>
+                    <CurrentPageInput />
+                  </div>
+                  <div style={{ padding: "0px 2px" }}>
+                    / <NumberOfPages />
+                  </div>
+                  <div style={{ padding: "0px 2px" }}>
+                    <GoToNextPage />
+                  </div>
+                  <div style={{ padding: "0px 2px", marginLeft: "auto" }}>
                     <EnterFullScreen />
                   </div>
                   <div style={{ padding: "0px 2px" }}>
@@ -58,12 +75,7 @@ const LoadingFile = ({ url }) => {
             }}
           </Toolbar>
         </div>
-        <div
-          style={{
-            flex: 1,
-            overflow: "hidden",
-          }}
-        >
+        <div className="overflow-auto min-h-screen max-h-screen">
           <Viewer
             fileUrl={url}
             httpHeaders={{ mode: "no-cors" }}
@@ -87,35 +99,6 @@ const LoadingFile = ({ url }) => {
               </div>
             )}
           />
-        </div>
-        <div className="absolute bottom-0 inset-x-0 mx-auto">
-          <Toolbar>
-            {(props: ToolbarSlot) => {
-              const {
-                CurrentPageInput,
-
-                GoToNextPage,
-                GoToPreviousPage,
-                NumberOfPages,
-              } = props;
-              return (
-                <div className="flex items-center">
-                  <div style={{ padding: "0px 2px", marginLeft: "auto" }}>
-                    <GoToPreviousPage />
-                  </div>
-                  <div style={{ padding: "0px 2px", width: "4rem" }}>
-                    <CurrentPageInput />
-                  </div>
-                  <div style={{ padding: "0px 2px" }}>
-                    / <NumberOfPages />
-                  </div>
-                  <div style={{ padding: "0px 2px" }}>
-                    <GoToNextPage />
-                  </div>
-                </div>
-              );
-            }}
-          </Toolbar>
         </div>
       </Worker>
     </div>

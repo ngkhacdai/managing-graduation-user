@@ -3,7 +3,7 @@ import React from "react";
 
 const StudentInformation = ({ detail }) => {
   return (
-    <div className="border-2 rounded-lg md:w-2/3 w-full">
+    <div className="border-2 rounded-lg w-full">
       <div className="text-center border-b-2">
         <p className="text-xl my-2 font-bold">Student information</p>
       </div>

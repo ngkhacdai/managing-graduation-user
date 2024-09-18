@@ -1,12 +1,3 @@
-import FooterHome from "@/components/home/Footer";
-import Menu from "@/components/public/Menu";
-
 export default function UserLayout({ children }) {
-  return (
-    <div>
-      <Menu />
-      {children}
-      <FooterHome />
-    </div>
-  );
+  return <div className="min-h-screen flex flex-col">{children}</div>;
 }
