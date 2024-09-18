@@ -18,7 +18,7 @@ const DetailScreen = ({ detail }) => {
       {detail && (
         <div className="flex mb-2 lg:w-2/3 w-full mx-auto items-center gap-2 flex-col">
           <RegisInformation detail={detail} />
-          <div className="border-2 rounded-t-lg">
+          <div className="border-2 py-2 text-center w-full rounded-t-lg">
             <p className="text-xl font-bold">File detail</p>
             <LoadingFile url={detail.file_attachment} />
           </div>

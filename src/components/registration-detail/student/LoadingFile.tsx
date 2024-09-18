@@ -8,7 +8,7 @@ const LoadingFile = ({ url }) => {
   const toolbarPluginInstance = toolbarPlugin();
   const { Toolbar } = toolbarPluginInstance;
   return (
-    <div className=" w-full h-screen relative">
+    <div className=" w-full relative">
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         <div
           style={{
